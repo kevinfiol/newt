@@ -1,0 +1,22 @@
+{
+	"name": "newt",
+	"type": "module",
+	"description": "firefox new tab for nerds",
+	"repository": "https://github.com/kevinfiol/newt",
+	"author": "kevinfiol <me@kevinfiol.com>",
+	"license": "GPLv3",
+	"engines": {
+		"node": "14.16.x"
+	},
+	"scripts": {
+		"dev": "watchlist src --eager -- npm run build",
+		"build": "node ./scripts/build.js"
+	},
+	"dependencies": {
+		"hyperapp": "^2.0.19"
+	},
+	"devDependencies": {
+		"esbuild": "0.12.x",
+		"watchlist": "^0.3.1"
+	}
+}
