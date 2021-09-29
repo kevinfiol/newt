@@ -3,14 +3,12 @@ lockfileVersion: 5.3
 specifiers:
   esbuild: 0.12.x
   hyperapp: ^2.0.19
-  watchlist: ^0.3.1
 
 dependencies:
   hyperapp: 2.0.19
 
 devDependencies:
   esbuild: 0.12.29
-  watchlist: 0.3.1
 
 packages:
 
@@ -23,16 +21,3 @@ packages:
   /hyperapp/2.0.19:
     resolution: {integrity: sha512-PdagpWI3gCo8R1oVpoCv/f1Jtleg57Kw5MIcTKrW8cIDKsws4JD8bH4RdopqELQHsrpGMqbmkcBAtbrUq1Vjtg==}
     dev: false
-
-  /mri/1.2.0:
-    resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
-    engines: {node: '>=4'}
-    dev: true
-
-  /watchlist/0.3.1:
-    resolution: {integrity: sha512-m5r4bzxJ9eg07TT/O0Q49imFPD45ZTuQ3kaHwSpUJj1QwVd3pzit4UYOmySdmAP5Egkz6mB6hcAPuPfhIbNo0g==}
-    engines: {node: '>=8'}
-    hasBin: true
-    dependencies:
-      mri: 1.2.0
-    dev: true

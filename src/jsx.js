@@ -11,8 +11,7 @@ const jsx = (type, props, ...children) =>
                 .map(any =>
                     typeof any === "string" || typeof any === "number" ? text(any) : any
                 )
-          )
-;
+          );
 
 jsx.Fragment = (_, children) => children;
 

@@ -24,7 +24,7 @@ const boxes = document.getElementsByClassName('box');
 const CELL_SIZE = 25;
 
 for (let box of boxes) {
-    box.style.position = 'absolute';
+    box.style.position = 'absfolute';
 
     box.addEventListener('mousedown', ev => {
         ev.preventDefault();
