@@ -20,39 +20,7 @@
 //     node: document.getElementById('app')
 // });
 
+import Movable from './lib/Movable';
+
 const boxes = document.getElementsByClassName('box');
-const CELL_SIZE = 25;
-
-for (let box of boxes) {
-    box.style.position = 'absfolute';
-
-    box.addEventListener('mousedown', ev => {
-        ev.preventDefault();
-        // cancel if not left-click
-        if (ev.button != 0) return;
-
-        const widthOffset = ev.clientX - box.offsetLeft;
-        const heightOffset = ev.clientY - box.offsetTop;
-
-        function mousemove(ev) {
-            let x = ev.clientX - widthOffset;
-            let y = ev.clientY - heightOffset;
-
-            x = Math.round(x / CELL_SIZE) * CELL_SIZE;
-            y = Math.round(y / CELL_SIZE) * CELL_SIZE;
-
-            box.style.left = x + 'px';
-            box.style.top = y + 'px';
-        }
-
-        function mouseup(ev) {
-            document.removeEventListener('mousemove', mousemove);
-            document.removeEventListener('mouseup', mouseup);
-        }
-
-        document.addEventListener('mousemove', mousemove);
-        document.addEventListener('mouseup', mouseup);
-    });
-}
-
-// onMouseDown React listener that attaches mousemove/mouseup listeners on the window. I round the numbers to the grid.
+new Movable(boxes[0]);
