@@ -20,6 +20,8 @@
 //     node: document.getElementById('app')
 // });
 
+console.log('hi');
+
 import Movable from './lib/Movable';
 
 const boxes = document.getElementsByClassName('box');
