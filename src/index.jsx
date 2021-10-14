@@ -25,4 +25,11 @@ console.log('hi');
 import Movable from './lib/Movable';
 
 const boxes = document.getElementsByClassName('box');
-new Movable(boxes[0]);
+
+/** @type {HTMLElement} **/
+const box = (boxes[0]);
+/** @type {HTMLElement} **/
+const box2 = (boxes[1]);
+
+new Movable(box);
+new Movable(box2)

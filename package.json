@@ -16,6 +16,6 @@
 		"hyperapp": "^2.0.19"
 	},
 	"devDependencies": {
-		"esbuild": "0.12.x"
+		"esbuild": "^0.13.5"
 	}
 }

@@ -2,9 +2,9 @@
 
 - [x] create movable module
 - [x] constrain by max/min widths
-- [ ] resizable containers
+- [x] resizable containers
     - [x] corner
-    - [ ] left/right
-- [ ] disallow overlapping containers
-- [ ] add editor
+    - [x] left/right
 - [ ] integrate hyperapp for ui controls
+- [ ] add editor
+- [ ] disallow overlapping containers

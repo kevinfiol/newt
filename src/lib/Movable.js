@@ -1,11 +1,21 @@
 const CELL_SIZE = 25;
 
 class Movable {
+    /**
+     * @param {HTMLElement} el 
+     */
     constructor(el) {
         this.el = el;
-        this.container = null;
-        this.events = {};
         this.isResizing = false;
+
+        /**
+         * @type Record<string, (ev: MouseEvent) => void>
+         */
+        this.events = {};
+
+        /**
+         * @type {{ x: number, y: number }}
+         */
         this.offset = { x: null, y: null };
         this.init();
     }
@@ -24,10 +34,10 @@ class Movable {
         this.events = {};
     }
 
+    /**
+     * @param {HTMLElement} el 
+     */
     createResizeHandles(el) {
-        // const innerHtml = el.innerHTML;
-        // el.innerHTML = ''; // clear element
-
         const eHandle = document.createElement('div');
         eHandle.classList.add('handle', 'handle--e');
 
@@ -40,24 +50,39 @@ class Movable {
         el.appendChild(eHandle);
         el.appendChild(sHandle);
         el.appendChild(seHandle);
-        console.log(el);
 
         let mousemove;
         let mouseup;
 
-        const makeMousemove = (initX, initY, initWidth, initHeight) => {
+        /**
+         * @param {number} initX
+         * @param {number} initY
+         * @param {number} initWidth
+         * @param {number} initHeight
+         * @param {string} axis
+         * 
+         * @returns {(ev: MouseEvent) => void} mousemove
+         */
+        const makeMousemove = (initX, initY, initWidth, initHeight, axis) => {
+            /**
+             * @param {MouseEvent} ev
+             */
             mousemove = ev => {
-                let width = initWidth + (ev.clientX - initX);
-                let height = initHeight + (ev.clientY - initY);
+                // width adjustments
+                if (axis == 'xy' || axis == 'x') {
+                    let width = initWidth + (ev.clientX - initX);
+                    width = Math.min(Math.max(width, 50), Infinity);
+                    width = Math.round(width / CELL_SIZE) * CELL_SIZE;
+                    el.style.width = width + 'px';
+                }
 
-                width = Math.min(Math.max(width, 50), Infinity);
-                height = Math.min(Math.max(height, 50), Infinity);
-
-                width = Math.round(width / CELL_SIZE) * CELL_SIZE;
-                height = Math.round(height / CELL_SIZE) * CELL_SIZE;
-
-                el.style.width = width + 'px';
-                el.style.height = height + 'px';
+                // height adjustments
+                if (axis == 'xy' || axis == 'y') {
+                    let height = initHeight + (ev.clientY - initY);
+                    height = Math.min(Math.max(height, 50), Infinity);
+                    height = Math.round(height / CELL_SIZE) * CELL_SIZE;
+                    el.style.height = height + 'px';
+                }
             };
 
             return mousemove;
@@ -69,19 +94,29 @@ class Movable {
             document.removeEventListener('mouseup', mouseup);
         };
 
+        for (let handle of [eHandle, sHandle, seHandle]) {
+            let axis = 'xy';
+            if (handle == eHandle) axis = 'x';
+            else if (handle == sHandle) axis = 'y';
 
-        seHandle.addEventListener('mousedown', ev => {
-            this.isResizing = true;
-            let initX = ev.clientX;
-            let initY = ev.clientY;
-            let initWidth = el.clientWidth;
-            let initHeight = el.clientHeight;
+            handle.addEventListener('mousedown', ev => {
+                this.isResizing = true;
+                let initX = ev.clientX;
+                let initY = ev.clientY;
+                let initWidth = el.clientWidth;
+                let initHeight = el.clientHeight;
 
-            document.addEventListener('mousemove', makeMousemove(initX, initY, initWidth, initHeight));
-            document.addEventListener('mouseup', mouseup);
-        });
+                document.addEventListener('mouseup', mouseup);
+                document.addEventListener('mousemove',
+                    makeMousemove(initX, initY, initWidth, initHeight, axis)
+                );
+            });
+        }
     }
 
+    /**
+     * @param {MouseEvent} ev
+     */
     mousedown(ev) {
         ev.preventDefault();
         if (ev.button != 0) return;
@@ -100,14 +135,21 @@ class Movable {
         document.addEventListener('mouseup', mouseup);
     }
 
+    /**
+     * @param {MouseEvent} ev
+     */
     mousemove(ev) {
         // don't move is user is resizing
         if (this.isResizing) return;
 
         let minX = 0;
         let minY = 0;
-        let maxX = this.el.parentNode.offsetWidth - this.el.offsetWidth;
-        let maxY = this.el.parentNode.offsetHeight - this.el.offsetHeight;
+
+        /** @type {HTMLElement} **/
+        const parentNode = (this.el.parentNode);
+
+        let maxX = parentNode.offsetWidth - this.el.offsetWidth;
+        let maxY = parentNode.offsetHeight - this.el.offsetHeight;
 
         let x = ev.clientX - this.offset.x;
         let y = ev.clientY - this.offset.y;
