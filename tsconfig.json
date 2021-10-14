@@ -1,6 +1,9 @@
 {
     "compilerOptions": {
         "allowJs": true,
-        "checkJs": true
+        "checkJs": true,
+        "jsx": "preserve",
+        "jsxFactory": "h",
+        "jsxFragmentFactory": "h.Fragment"
     }
 }
