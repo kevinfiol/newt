@@ -1,9 +1,9 @@
-import { h, text } from 'hyperapp';
+import { h as hyperscript, text } from 'hyperapp';
 
-const jsx = (type, props, ...children) =>
+const h = (type, props, ...children) =>
     typeof type === "function"
         ? type(props, children)
-        : h(
+        : hyperscript(
             type,
             props || {},
             []
@@ -13,6 +13,6 @@ const jsx = (type, props, ...children) =>
                 )
           );
 
-jsx.Fragment = (_, children) => children;
+h.Fragment = (_, children) => children;
 
-export default jsx;
+export default h;

@@ -1,9 +1,11 @@
 {
+    "include": ["src/**/*.js", "src/**/*.ts"],
     "compilerOptions": {
         "allowJs": true,
         "checkJs": true,
+        "noEmit": true,
         "jsx": "preserve",
         "jsxFactory": "h",
-        "jsxFragmentFactory": "h.Fragment"
+        "jsxFragmentFactory": "Fragment"
     }
 }

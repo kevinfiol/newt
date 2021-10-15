@@ -10,7 +10,8 @@
 	},
 	"scripts": {
 		"dev": "node ./scripts/dev.js",
-		"build": "node ./scripts/build.js"
+		"build": "node ./scripts/build.js",
+		"check": "tsc"
 	},
 	"dependencies": {
 		"hyperapp": "^2.0.19"

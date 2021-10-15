@@ -7,7 +7,6 @@ class Movable {
     constructor(el) {
         this.el = el;
         this.isResizing = false;
-
         /**
          * @type Record<string, (ev: MouseEvent) => void>
          */
