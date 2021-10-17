@@ -10,7 +10,8 @@ import { bundle, logSuccess, logError } from './bundle.js';
         });
 
         await bundle({
-            minify: false, sourcemap: true,
+            minify: false,
+            sourcemap: true,
             watch: {
                 onRebuild(error) {
                     if (error) logError(error);
