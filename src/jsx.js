@@ -13,6 +13,6 @@ const h = (type, props, ...children) =>
                 )
           );
 
-h.Fragment = (_, children) => children;
+const Fragment = (_, children) => children;
 
-export default h;
+export { h, Fragment };

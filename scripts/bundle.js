@@ -11,7 +11,6 @@ export async function bundle(config = {}) {
         bundle: true,
         outfile: resolve(OUTPUT),
         jsxFactory: 'h',
-        jsxFragment: 'h.Fragment',
         ...config
     });
 }

@@ -1,5 +1,5 @@
 import { app } from 'hyperapp';
-import h from './jsx';
+import { h } from './jsx';
 
 import Controls from './components/Controls';
 
