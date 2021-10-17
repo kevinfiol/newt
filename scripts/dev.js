@@ -1,5 +1,4 @@
 import serve from 'create-serve';
-import { resolve } from 'path';
 import { bundle, logSuccess, logError } from './bundle.js';
 
 (async () => {
