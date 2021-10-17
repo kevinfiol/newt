@@ -17,6 +17,7 @@
 		"hyperapp": "^2.0.19"
 	},
 	"devDependencies": {
+		"create-serve": "^1.0.1",
 		"esbuild": "^0.13.5"
 	}
 }

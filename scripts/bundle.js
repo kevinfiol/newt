@@ -6,7 +6,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ENTRY = '../src/index.jsx';
 const OUTPUT = '../dist/app.js';
 
-export function bundle(config = {}) {
+export async function bundle(config = {}) {
     return esbuild.build({
         format: 'iife',
         entryPoints: [join(__dirname, ENTRY)],

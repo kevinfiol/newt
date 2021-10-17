@@ -1,5 +1,10 @@
-import { bundle, logSuccess, logError} from './bundle.js';
+import { bundle, logSuccess, logError } from './bundle.js';
 
-bundle({ minify: true })
-    .then(logSuccess)
-    .catch(e => logError(e.message));
+(async () => {
+    try {
+        await bundle({ minify: true });
+        logSuccess();
+    } catch(error) {
+        logError(error);
+    }
+})();

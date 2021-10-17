@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  create-serve: ^1.0.1
   esbuild: ^0.13.5
   hyperapp: ^2.0.19
 
@@ -8,9 +9,15 @@ dependencies:
   hyperapp: 2.0.19
 
 devDependencies:
+  create-serve: 1.0.1
   esbuild: 0.13.5
 
 packages:
+
+  /create-serve/1.0.1:
+    resolution: {integrity: sha512-cDAmBGhkwolS7ihq7SnPE8KwjYUZl5FaI9Pq5ZBwNelSKvFR9OoAA4/B5BfB/NC+eYaykBpX9RVMfuU4DHtrPw==}
+    hasBin: true
+    dev: true
 
   /esbuild-android-arm64/0.13.5:
     resolution: {integrity: sha512-xaNH58b9XRAWT5q0rwA2GNTgJynb51JhdotlNKdLmSCyKXPVlF87yqNLNdmlX/zndzRDrZdtpCWSALdn/J63Ug==}
