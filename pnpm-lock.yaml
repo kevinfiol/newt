@@ -3,10 +3,12 @@ lockfileVersion: 5.3
 specifiers:
   create-serve: ^1.0.1
   esbuild: ^0.13.5
-  hyperapp: ^2.0.19
+  mergerino: ^0.4.0
+  preact: ^10.5.15
 
 dependencies:
-  hyperapp: 2.0.19
+  mergerino: 0.4.0
+  preact: 10.5.15
 
 devDependencies:
   create-serve: 1.0.1
@@ -170,6 +172,10 @@ packages:
       esbuild-windows-arm64: 0.13.5
     dev: true
 
-  /hyperapp/2.0.19:
-    resolution: {integrity: sha512-PdagpWI3gCo8R1oVpoCv/f1Jtleg57Kw5MIcTKrW8cIDKsws4JD8bH4RdopqELQHsrpGMqbmkcBAtbrUq1Vjtg==}
+  /mergerino/0.4.0:
+    resolution: {integrity: sha512-dvyWWLp9GN7OZoAoqn1u2ewCDV06oggVi6AwFsgHxUV8jNnaTOMEyux3fZ7Njm7Hg/ypK2+M0p6liCIEWcJnbg==}
+    dev: false
+
+  /preact/10.5.15:
+    resolution: {integrity: sha512-5chK29n6QcJc3m1lVrKQSQ+V7K1Gb8HeQY6FViQ5AxCAEGu3DaHffWNDkC9+miZgsLvbvU9rxbV1qinGHMHzqA==}
     dev: false

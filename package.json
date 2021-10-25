@@ -14,7 +14,8 @@
 		"check": "tsc"
 	},
 	"dependencies": {
-		"hyperapp": "^2.0.19"
+		"mergerino": "^0.4.0",
+		"preact": "^10.5.15"
 	},
 	"devDependencies": {
 		"create-serve": "^1.0.1",

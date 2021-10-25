@@ -1,12 +1,10 @@
-import { h, Fragment } from '../jsx';
-import { AddBox } from '../state/actions';
+import { h } from 'preact';
+import { addBox } from '../actions';
 
 const Controls = () => (
-    <>
-        <div className="controls">
-            <button onclick={AddBox}>Add Box</button>
-        </div>
-    </>
+    <div className="controls">
+        <button onClick={addBox}>Add Box</button>
+    </div>
 );
 
 export default Controls;

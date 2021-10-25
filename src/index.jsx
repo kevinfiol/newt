@@ -1,23 +1,20 @@
-import { app } from 'hyperapp';
-import { h } from './jsx';
-
+import { h, render } from 'preact';
+import { useEffect, useReducer } from 'preact/hooks';
+import { store } from './store';
 import Controls from './components/Controls';
 
-const initialState = {
-    boxes: []
+const Newt = () => {
+    const [state, dispatch] = useReducer(store.reducer, store.init());
+    useEffect(() => store.listen(dispatch));
+
+    return (
+        <div>
+             <Controls />
+             <pre>
+                 {JSON.stringify(state.boxes)}
+             </pre>
+        </div>
+    );
 };
 
-const Newt = state => (
-    <div>
-        <Controls />
-        <pre>
-            {JSON.stringify(state.boxes)}
-        </pre>
-    </div>
-);
-
-app({
-    init: initialState,
-    view: Newt,
-    node: document.getElementById('app')
-});
+render(<Newt />, document.getElementById('app'));
