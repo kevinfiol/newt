@@ -1,5 +1,5 @@
-import { store } from './store';
+import { update } from './store';
 
 export const addBox = () => {
-    store.update({ boxes: x => [...x, 1] });
+    update({ boxes: x => [...x, 1] });
 };
