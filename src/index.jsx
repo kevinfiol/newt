@@ -1,17 +1,24 @@
-import { h, render } from 'preact';
+import { h, Fragment, render } from 'preact';
 import { useStore } from './store';
 import Controls from './components/Controls';
+import Box from './components/Box';
 
 const Newt = () => {
     const [state] = useStore();
 
     return (
-        <div>
+        <>
              <Controls />
-             <pre>
-                 {JSON.stringify(state.boxes)}
-             </pre>
-        </div>
+
+             <div className="stage">
+                {state.boxes.map(box =>
+                    <Box
+                        key={box.content}
+                        content={box.content}
+                    />
+                )}
+             </div>
+        </>
     );
 };
 

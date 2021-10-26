@@ -5,7 +5,7 @@ import { useReducer } from 'preact/hooks';
  * @typedef {(partial: Record<string, any>) => void | null} Updater
  * 
  * @typedef {object} State
- * @property {number[]} boxes
+ * @property {Record<string, any>[]} boxes
  */
 
 /** @type {State} **/

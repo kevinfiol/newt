@@ -1,5 +1,6 @@
 import { update } from './store';
 
 export const addBox = () => {
-    update({ boxes: x => [...x, 1] });
+    const el = { content: 'foo' };
+    update({ boxes: x => [...x, el] });
 };

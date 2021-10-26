@@ -27,6 +27,7 @@ class Movable {
     }
 
     destroy() {
+        console.log('destroy movable');
         document.removeEventListener('mousedown', this.events.mousedown);
         document.removeEventListener('mousemove', this.events.mousemove);
         document.removeEventListener('mouseup', this.events.mouseup);
@@ -117,6 +118,7 @@ class Movable {
      * @param {MouseEvent} ev
      */
     mousedown(ev) {
+        console.log('asdfasdf');
         ev.preventDefault();
         if (ev.button != 0) return;
         this.el.classList.add('grabbing');

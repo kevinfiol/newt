@@ -5,6 +5,6 @@
 - [x] resizable containers
     - [x] corner
     - [x] left/right
-- [ ] integrate hyperapp for ui controls
+- [ ] integrate ui controls
 - [ ] add editor
 - [ ] disallow overlapping containers
