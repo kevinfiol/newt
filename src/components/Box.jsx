@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { useRef, useEffect } from 'preact/hooks';
 import Movable from '../lib/Movable';
 
-const Box = ({ content }) => {
+const Box = ({ id, content }) => {
     const box = useRef();
     const boxEl = useRef();
 
@@ -20,7 +20,7 @@ const Box = ({ content }) => {
 
     return (
         <div className="box" ref={boxEl}>
-            {content}
+            {id} - {content}
         </div>
     );
 };
