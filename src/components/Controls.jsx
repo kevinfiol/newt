@@ -1,9 +1,9 @@
 import { h } from 'preact';
-import { incrementId } from '../actions';
+import { addBox } from '../actions';
 
 const Controls = () => (
     <div className="controls">
-        <button onClick={incrementId}>Add Box</button>
+        <button onClick={addBox}>Add Box</button>
     </div>
 );
 

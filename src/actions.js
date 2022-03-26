@@ -9,7 +9,10 @@ export const addBox = () => {
     const el = { content: 'foo' };
 
     update(state => {
-        console.log(state);
-        return { boxes: [...state.boxes, el] };
+        el.id = state.id;
+        return {
+            id: state.id + 1,
+            boxes: [...state.boxes, el]
+        };
     });
 };

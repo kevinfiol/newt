@@ -10,20 +10,15 @@ const Newt = () => {
         <>
              <Controls />
 
-             <br /><br />
-
-             <div>{state.id}</div>
-
-
-{/*             <div className="stage">
+             <div className="stage">
                 {state.boxes.map(box =>
                     <Box
-                        key={box.content}
-                        // id={box.id}
+                        key={box.id}
+                        id={box.id}
                         content={box.content}
                     />
                 )}
-             </div>*/}
+             </div>
         </>
     );
 };
