@@ -1,11 +1,22 @@
-import serve from 'create-serve';
+import servbot from 'servbot';
 import { bundle, logSuccess, logError } from './bundle.js';
 
-serve.start({
-    port: 5000,
-    root: 'dist',
-    live: true
+const PORT = 8080;
+
+// Start dev server
+const server = servbot({
+  root: 'dist',
+  reload: true,
+  fallback: 'index.html',
+  ignores: [
+    // don't pass app.js to the SPA
+    /\/app.js/i,
+    // don't pass assets at root level to SPA
+    /^\/([^/]+?)\.(css|png|ico)\/?$/i
+  ]
 });
+
+server.listen(PORT);
 
 bundle({
     minify: false,
@@ -13,8 +24,10 @@ bundle({
     watch: {
         onRebuild(error) {
             if (error) logError(error);
-            else logSuccess();
-            serve.update();
+            else {
+                logSuccess();
+                server.reload();
+            }
         }
     }
 }).then(logSuccess).catch(e => {

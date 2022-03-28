@@ -6,7 +6,7 @@
 	"author": "kevinfiol <me@kevinfiol.com>",
 	"license": "GPLv3",
 	"engines": {
-		"node": "14.x"
+		"node": "16.x"
 	},
 	"scripts": {
 		"dev": "node ./scripts/dev.js",
@@ -14,11 +14,10 @@
 		"check": "tsc"
 	},
 	"dependencies": {
-		"mergerino": "^0.4.0",
-		"preact": "^10.5.15"
+		"mithril": "github:mithrilJS/mithril.js#9906e23118ef2bfaffc09c13ddd0dd051f5d895b"
 	},
 	"devDependencies": {
-		"create-serve": "^1.0.1",
-		"esbuild": "^0.13.5"
+		"esbuild": "^0.14.28",
+		"servbot": "^0.2.0"
 	}
 }
