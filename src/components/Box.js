@@ -6,7 +6,11 @@ export const Box = () => {
 
     return {
         oncreate: ({ dom }) => {
-            box = new Movable(dom);
+            box = new Movable(dom, {
+                x: 100,
+                y: 100,
+                onChange: console.log
+            });
         },
 
         onremove: () => {

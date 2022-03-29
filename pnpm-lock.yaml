@@ -2,10 +2,12 @@ lockfileVersion: 5.3
 
 specifiers:
   esbuild: ^0.14.28
+  marked: ^4.0.12
   mithril: github:mithrilJS/mithril.js#9906e23118ef2bfaffc09c13ddd0dd051f5d895b
   servbot: ^0.2.0
 
 dependencies:
+  marked: 4.0.12
   mithril: github.com/mithrilJS/mithril.js/9906e23118ef2bfaffc09c13ddd0dd051f5d895b
 
 devDependencies:
@@ -261,6 +263,12 @@ packages:
 
   /inherits/2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
+    dev: false
+
+  /marked/4.0.12:
+    resolution: {integrity: sha512-hgibXWrEDNBWgGiK18j/4lkS6ihTe9sxtV4Q1OQppb/0zzyPSzoFANBa5MfsG/zgsWklmNnhm0XACZOH/0HBiQ==}
+    engines: {node: '>= 12'}
+    hasBin: true
     dev: false
 
   /minimatch/3.1.2:

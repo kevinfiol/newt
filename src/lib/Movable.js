@@ -1,12 +1,39 @@
 const CELL_SIZE = 25;
+const MIN_DIMENSION = CELL_SIZE * 4;
+
+/**
+ * @typedef {object} Config
+ * @property {number} x
+ * @property {number} y
+ * @property {number} width
+ * @property {number} height
+ * @property {(...any) => any} onChange
+ */
 
 class Movable {
     /**
      * @param {HTMLElement} el 
+     * @param {Partial<Config>} config
      */
-    constructor(el) {
+    constructor(el, config = {}) {
+        config = {
+            x: 0,
+            y: 0,
+            width: MIN_DIMENSION,
+            height: MIN_DIMENSION,
+            onChange: null,
+            ...config
+        };
+
         this.el = el;
         this.isResizing = false;
+        this.hasChangeOccurred = false;
+        this.onChange = config.onChange;
+
+        /** @type {{ x: number, y: number }} **/
+        this.position = { x: config.x, y: config.y };
+        this.size = { width: config.width, height: config.height };
+
         /**
          * @type Record<string, (ev: MouseEvent) => void>
          */
@@ -24,10 +51,16 @@ class Movable {
         this.el.addEventListener('mousedown', mousedown);
         this.events.mousedown = mousedown;
         this.createResizeHandles(this.el);
+
+        // update DOM based on initial position
+        this.setPosition(this.position.x, this.position.y);
+
+        // update height/width based on initial size
+        this.el.style.width = this.size.width + 'px';
+        this.el.style.height = this.size.height + 'px';
     }
 
     destroy() {
-        console.log('destroy movable');
         document.removeEventListener('mousedown', this.events.mousedown);
         document.removeEventListener('mousemove', this.events.mousemove);
         document.removeEventListener('mouseup', this.events.mouseup);
@@ -68,19 +101,29 @@ class Movable {
              * @param {MouseEvent} ev
              */
             mousemove = ev => {
+                let width = initWidth + (ev.clientX - initX);
+                let height = initHeight + (ev.clientY - initY);
+
+                /** @type {HTMLElement} **/
+                const parentNode = (this.el.parentNode);
+                let maxX = parentNode.offsetWidth;
+                let maxY = parentNode.offsetHeight;
+
                 // width adjustments
                 if (axis == 'xy' || axis == 'x') {
-                    let width = initWidth + (ev.clientX - initX);
-                    width = Math.min(Math.max(width, 50), Infinity);
+                    width = Math.min(Math.max(width, MIN_DIMENSION), maxX);
                     width = Math.round(width / CELL_SIZE) * CELL_SIZE;
+
+                    this.size.width = width;
                     el.style.width = width + 'px';
                 }
 
                 // height adjustments
                 if (axis == 'xy' || axis == 'y') {
-                    let height = initHeight + (ev.clientY - initY);
-                    height = Math.min(Math.max(height, 50), Infinity);
+                    height = Math.min(Math.max(height, MIN_DIMENSION), maxY);
                     height = Math.round(height / CELL_SIZE) * CELL_SIZE;
+
+                    this.size.height = height;
                     el.style.height = height + 'px';
                 }
             };
@@ -92,6 +135,10 @@ class Movable {
             this.isResizing = false;
             document.removeEventListener('mousemove', mousemove);
             document.removeEventListener('mouseup', mouseup);
+
+            if (this.onChange) {
+                this.onChange({ position: this.position, size: this.size });
+            }
         };
 
         for (let handle of [eHandle, sHandle, seHandle]) {
@@ -118,7 +165,6 @@ class Movable {
      * @param {MouseEvent} ev
      */
     mousedown(ev) {
-        console.log('asdfasdf');
         ev.preventDefault();
         if (ev.button != 0) return;
         this.el.classList.add('grabbing');
@@ -143,33 +189,58 @@ class Movable {
         // don't move is user is resizing
         if (this.isResizing) return;
 
-        let minX = 0;
-        let minY = 0;
+        let oldX = this.position.x;
+        let oldY = this.position.y;
 
-        /** @type {HTMLElement} **/
-        const parentNode = (this.el.parentNode);
+        const newPos = this.setPosition(
+            ev.clientX - this.offset.x,
+            ev.clientY - this.offset.y
+        );
 
-        let maxX = parentNode.offsetWidth - this.el.offsetWidth;
-        let maxY = parentNode.offsetHeight - this.el.offsetHeight;
-
-        let x = ev.clientX - this.offset.x;
-        let y = ev.clientY - this.offset.y;
-
-        // clamp
-        x = Math.min(Math.max(x, minX), maxX);
-        y = Math.min(Math.max(y, minY), maxY);
-
-        x = Math.round(x / CELL_SIZE) * CELL_SIZE;
-        y = Math.round(y / CELL_SIZE) * CELL_SIZE;
-
-        this.el.style.left = x + 'px';
-        this.el.style.top = y + 'px';
+        if (oldX !== newPos.x || oldY !== newPos.y) {
+            this.hasChangeOccurred = true;
+        }
     }
 
     mouseup() {
         this.el.classList.remove('grabbing');
         document.removeEventListener('mousemove', this.events.mousemove);
         document.removeEventListener('mouseup', this.events.mouseup);
+
+        if (this.onChange && this.hasChangeOccurred) {
+            this.hasChangeOccurred = false;
+            this.onChange({ position: this.position, size: this.size });
+        }
+    }
+
+    clamp(x = this.position.x, y = this.position.y, minX = 0, minY = 0) {
+        /** @type {HTMLElement} **/
+        const parentNode = (this.el.parentNode);
+        let maxX = parentNode.offsetWidth - this.el.offsetWidth;
+        let maxY = parentNode.offsetHeight - this.el.offsetHeight;
+
+        x = Math.min(Math.max(x, minX), maxX);
+        y = Math.min(Math.max(y, minY), maxY);
+
+        // align to grid
+        x = Math.round(x / CELL_SIZE) * CELL_SIZE;
+        y = Math.round(y / CELL_SIZE) * CELL_SIZE;
+
+        return { x, y };
+    }
+
+    setPosition(x = this.position.x, y = this.position.y) {
+        const clamped = this.clamp(x, y);
+        x = clamped.x;
+        y = clamped.y;
+
+        this.position.x = x;
+        this.position.y = y;
+
+        this.el.style.left = x + 'px';
+        this.el.style.top = y + 'px';
+
+        return { x, y };
     }
 }
 

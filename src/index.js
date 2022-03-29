@@ -5,7 +5,7 @@ import { Box } from './components/Box';
 
 const App = () => ({
     view: () =>
-        m('div',
+        m('div.container',
             m(Controls),
 
             m('div.stage',

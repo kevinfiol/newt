@@ -3,7 +3,6 @@ export const state = {
     boxes: []
 };
 
-// actions
 export const addBox = () => {
     const box = { id: state.id, content: 'foo' };
     console.log(box);

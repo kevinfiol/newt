@@ -13,14 +13,14 @@ body,
     overflow: hidden;
 }
 
-#app > .controls {
+.controls {
     position: absolute;
     top: 0;
     left: 0;
     z-index: 1;
 }
 
-#app > .stage {
+.container, .stage {
     height: 100%;
     width: 100%;
     padding: 0;
@@ -31,7 +31,7 @@ body,
     z-index: -1;
 }
 
-.stage > .box {
+.box {
     position: absolute;
     user-select: none;
     width: 100px;
@@ -43,15 +43,15 @@ body,
     overflow: auto;*/
 }
 
-.stage > .box > .handle {
+.box > .handle {
     position: absolute;
 }
 
-.stage > .box > .handle:hover {
+.box > .handle:hover {
     background-color: var(--faint-color);
 }
 
-.stage > .box > .handle--e {
+.box > .handle--e {
     top: 0;
     right: 0;
     bottom: 0;
@@ -60,7 +60,7 @@ body,
     cursor: ew-resize;
 }
 
-.stage > .box > .handle--s {
+.box > .handle--s {
     bottom: 0;
     right: 0;
     left: 0;
@@ -69,7 +69,7 @@ body,
     cursor: s-resize;
 }
 
-.stage > .box > .handle--se {
+.box > .handle--se {
     bottom: 0;
     right: 0;
     height: calc(var(--resize-handle-size) * 2);
