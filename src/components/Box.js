@@ -1,15 +1,27 @@
 import m from 'mithril';
 import Movable from '../lib/Movable';
+import { updateBox } from '../state';
 
-export const Box = () => {
+export const Box = ({ attrs: { config } }) => {
     let box;
 
     return {
         oncreate: ({ dom }) => {
+            const { id, x, y, width, height } = config;
+
             box = new Movable(dom, {
-                x: 100,
-                y: 100,
-                onChange: console.log
+                x,
+                y,
+                width,
+                height,
+                onChange: ({ position, size }) => {
+                    updateBox(id, {
+                        x: position.x,
+                        y: position.y,
+                        width: size.width,
+                        height: size.height
+                    });
+                }
             });
         },
 
@@ -18,7 +30,7 @@ export const Box = () => {
             box = undefined;
         },
 
-        view: ({ attrs: { id, content } }) =>
+        view: ({ attrs: { config: { id, content } } }) =>
             m('div.box', `${id} - ${content}`)
     };
 };

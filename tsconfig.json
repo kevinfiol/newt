@@ -1,6 +1,7 @@
 {
     "include": ["src/**/*.js", "src/**/*.jsx"],
     "compilerOptions": {
+        "lib": ["es2017", "dom"],
         "allowJs": true,
         "checkJs": true,
         "noEmit": true,

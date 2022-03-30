@@ -2,11 +2,13 @@ lockfileVersion: 5.3
 
 specifiers:
   esbuild: ^0.14.28
+  hexoid: ^1.0.0
   marked: ^4.0.12
   mithril: github:mithrilJS/mithril.js#9906e23118ef2bfaffc09c13ddd0dd051f5d895b
   servbot: ^0.2.0
 
 dependencies:
+  hexoid: 1.0.0
   marked: 4.0.12
   mithril: github.com/mithrilJS/mithril.js/9906e23118ef2bfaffc09c13ddd0dd051f5d895b
 
@@ -252,6 +254,11 @@ packages:
       minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
+    dev: false
+
+  /hexoid/1.0.0:
+    resolution: {integrity: sha512-QFLV0taWQOZtvIRIAdBChesmogZrtuXvVWsFHZTk2SU+anspqZ2vMnoLg7IE1+Uk16N19APic1BuF8bC8c2m5g==}
+    engines: {node: '>=8'}
     dev: false
 
   /inflight/1.0.6:

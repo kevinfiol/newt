@@ -14,6 +14,7 @@
 		"check": "tsc"
 	},
 	"dependencies": {
+		"hexoid": "^1.0.0",
 		"marked": "^4.0.12",
 		"mithril": "github:mithrilJS/mithril.js#9906e23118ef2bfaffc09c13ddd0dd051f5d895b"
 	},

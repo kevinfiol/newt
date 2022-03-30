@@ -1,8 +1,9 @@
-const CELL_SIZE = 25;
-const MIN_DIMENSION = CELL_SIZE * 4;
+const DEFAULT_CELL_SIZE = 25;
+const DEFAULT_MIN_DIMENSION = DEFAULT_CELL_SIZE * 4;
 
 /**
  * @typedef {object} Config
+ * @property {number} cellSize
  * @property {number} x
  * @property {number} y
  * @property {number} width
@@ -17,15 +18,18 @@ class Movable {
      */
     constructor(el, config = {}) {
         config = {
+            cellSize: DEFAULT_CELL_SIZE,
             x: 0,
             y: 0,
-            width: MIN_DIMENSION,
-            height: MIN_DIMENSION,
+            width: DEFAULT_MIN_DIMENSION,
+            height: DEFAULT_MIN_DIMENSION,
             onChange: null,
             ...config
         };
 
         this.el = el;
+        this.cellSize = config.cellSize;
+        this.minDimension = config.cellSize * 4;
         this.isResizing = false;
         this.hasChangeOccurred = false;
         this.onChange = config.onChange;
@@ -111,8 +115,8 @@ class Movable {
 
                 // width adjustments
                 if (axis == 'xy' || axis == 'x') {
-                    width = Math.min(Math.max(width, MIN_DIMENSION), maxX);
-                    width = Math.round(width / CELL_SIZE) * CELL_SIZE;
+                    width = Math.min(Math.max(width, this.minDimension), maxX);
+                    width = Math.round(width / this.cellSize) * this.cellSize;
 
                     this.size.width = width;
                     el.style.width = width + 'px';
@@ -120,8 +124,8 @@ class Movable {
 
                 // height adjustments
                 if (axis == 'xy' || axis == 'y') {
-                    height = Math.min(Math.max(height, MIN_DIMENSION), maxY);
-                    height = Math.round(height / CELL_SIZE) * CELL_SIZE;
+                    height = Math.min(Math.max(height, this.minDimension), maxY);
+                    height = Math.round(height / this.cellSize) * this.cellSize;
 
                     this.size.height = height;
                     el.style.height = height + 'px';
@@ -223,8 +227,8 @@ class Movable {
         y = Math.min(Math.max(y, minY), maxY);
 
         // align to grid
-        x = Math.round(x / CELL_SIZE) * CELL_SIZE;
-        y = Math.round(y / CELL_SIZE) * CELL_SIZE;
+        x = Math.round(x / this.cellSize) * this.cellSize;
+        y = Math.round(y / this.cellSize) * this.cellSize;
 
         return { x, y };
     }
