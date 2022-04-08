@@ -1,14 +1,19 @@
 import m from 'mithril';
 import { removeBox } from '../state';
 
+const Item = (name, action) => (
+    m('button', {
+        onmousedown: (ev) =>
+            ev.button === 0 && action()
+    }, name)
+);
+
 const MenuItems = () => ({
     view: ({ attrs: { mode, config } }) => {
         switch (mode) {
             case 'box': {
                 return [
-                    m('button', {
-                        onmousedown: () => removeBox(config.id)
-                    }, 'delete box')
+                    Item('delete box', () => removeBox(config.id))
                 ];
             }
 
