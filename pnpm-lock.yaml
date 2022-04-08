@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  codemirror: ^5.65.2
   esbuild: ^0.14.28
   hexoid: ^1.0.0
   marked: ^4.0.12
@@ -8,6 +9,7 @@ specifiers:
   servbot: ^0.2.0
 
 dependencies:
+  codemirror: 5.65.2
   hexoid: 1.0.0
   marked: 4.0.12
   mithril: github.com/mithrilJS/mithril.js/9906e23118ef2bfaffc09c13ddd0dd051f5d895b
@@ -27,6 +29,10 @@ packages:
     dependencies:
       balanced-match: 1.0.2
       concat-map: 0.0.1
+    dev: false
+
+  /codemirror/5.65.2:
+    resolution: {integrity: sha512-SZM4Zq7XEC8Fhroqe3LxbEEX1zUPWH1wMr5zxiBuiUF64iYOUH/JI88v4tBag8MiBS8B8gRv8O1pPXGYXQ4ErA==}
     dev: false
 
   /concat-map/0.0.1:
