@@ -1,8 +1,8 @@
 import m from 'mithril';
 import { state, setBoxMap, setBoxes, setCtxMenu } from './state';
+import { contextMenu } from './effects';
 import { getConfig, setConfig } from './storage';
 import { ContextMenu } from './components/ContextMenu';
-import { Controls } from './components/Controls';
 import { Box } from './components/Box';
 
 const App = () => ({
@@ -22,10 +22,16 @@ const App = () => ({
                 if (ev.button === 0 && state.ctxMenu.mode) {
                     setCtxMenu({ x: -999, y: -999, mode: '', config: null });
                 }
+            },
+
+            oncontextmenu: (ev) => {
+                contextMenu(ev, {
+                    mode: 'container',
+                    config: { x: ev.clientX, y: ev.clientY }
+                });
             }
         },
             m(ContextMenu, { ctxMenu: state.ctxMenu }),
-            m(Controls),
 
             m('div.stage',
                 state.boxes.map((box) =>

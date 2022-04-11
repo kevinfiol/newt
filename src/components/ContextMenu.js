@@ -1,39 +1,38 @@
 import m from 'mithril';
-import { removeBox } from '../state';
+import { addBox, removeBox } from '../state';
 
 const Item = (name, action) => (
     m('button', {
         onmousedown: (ev) =>
-            ev.button === 0 && action()
+            ev.button === 0 && action(ev)
     }, name)
 );
 
-const MenuItems = () => ({
-    view: ({ attrs: { mode, config } }) => {
-        switch (mode) {
-            case 'box': {
-                return [
-                    Item('delete box', () => removeBox(config.id))
-                ];
-            }
+const MenuItems = (mode, config) => {
+    switch (mode) {
+        case 'box': {
+            return [
+                Item('delete box', () => removeBox(config.id))
+            ];
+        }
 
-            default: {
-                return [];
-            }
+        case 'container': {
+            return [
+                Item('add box', () => addBox(config.x, config.y))
+            ];
+        }
+
+        default: {
+            return [];
         }
     }
-})
-
-export const ContextMenu = () => {
-    return {
-        view: ({ attrs: { ctxMenu } }) =>
-            m('div.context-menu', {
-                style: { left: ctxMenu.x + 'px', top: ctxMenu.y + 'px' }
-            },
-                m(MenuItems, {
-                    mode: ctxMenu.mode,
-                    config: ctxMenu.config
-                })
-            )
-    };
 };
+
+export const ContextMenu = () => ({
+    view: ({ attrs: { ctxMenu } }) =>
+        m('div.context-menu', {
+            style: { left: ctxMenu.x + 'px', top: ctxMenu.y + 'px' }
+        },
+            MenuItems(ctxMenu.mode, ctxMenu.config)
+        )
+});

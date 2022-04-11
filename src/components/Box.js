@@ -1,23 +1,17 @@
 import m from 'mithril';
 import Movable from '../lib/Movable';
-import { updateBox, setCtxMenu } from '../state';
+import { updateBox } from '../state';
+import { contextMenu } from '../effects';
 
 export const Box = ({ attrs: { config } }) => {
     let box;
 
-    const onRightClick = (ev) => {
-        ev.preventDefault();
-
-        const { clientX, clientY } = ev;
-
-        setCtxMenu({
+    const onContextMenu = (ev) => {
+        ev.stopPropagation();
+        contextMenu(ev, {
             mode: 'box',
             config: { id: config.id },
-            x: clientX + 2,
-            y: clientY + 2
         });
-
-        m.redraw();
     };
 
     return {
@@ -46,7 +40,7 @@ export const Box = ({ attrs: { config } }) => {
             box = undefined;
         },
 
-        view: ({ attrs: { config: { id, content } } }) =>
-            m('div.box', { oncontextmenu: onRightClick }, `${id} - ${content}`)
+        view: ({ attrs: { config: { content } } }) =>
+            m('div.box', { oncontextmenu: onContextMenu }, content)
     };
 };

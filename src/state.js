@@ -27,11 +27,11 @@ export const setCtxMenu = (ctxMenu) => {
     state.ctxMenu = ctxMenu;
 };
 
-export const addBox = () => {
+export const addBox = (x, y) => {
     const box = {
         id: generateId(),
-        x: 0,
-        y: 0,
+        x: x || 0,
+        y: y || 0,
         width: MIN_DIMENSION,
         height: MIN_DIMENSION,
         content: ''
