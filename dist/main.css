@@ -86,3 +86,7 @@ body,
 .grabbing {
     cursor: grabbing;
 }
+
+.unmovable, .unresizable {
+    cursor: default;
+}

@@ -1,6 +1,8 @@
 import m from 'mithril';
+import { marked } from 'marked';
+import { Editor } from './Editor';
 import Movable from '../lib/Movable';
-import { updateBox } from '../state';
+import { updateBox, setBoxContent } from '../state';
 import { contextMenu } from '../effects';
 
 export const Box = ({ attrs: { config } }) => {
@@ -35,12 +37,26 @@ export const Box = ({ attrs: { config } }) => {
         },
 
         onremove: () => {
-            console.log('destroy');
             box.destroy();
             box = undefined;
         },
 
-        view: ({ attrs: { config: { content } } }) =>
-            m('div.box', { oncontextmenu: onContextMenu }, content)
+        view: ({ attrs: { config: { id, content }, isEditing } }) =>
+            m('div.box', {
+                className: isEditing ? 'unmovable unresizable' : '',
+                oncontextmenu: onContextMenu
+            },
+                !isEditing &&
+                    m.trust( marked(content) )
+                ,
+
+                isEditing &&
+                    m(Editor, {
+                        editorContent: content,
+                        syntax: 'markdown',
+                        onInput: (val) => setBoxContent(id, val)
+                    })
+                ,
+            )
     };
 };

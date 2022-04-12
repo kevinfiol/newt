@@ -5,24 +5,30 @@ import css from 'CodeMirror/mode/css/css';
 import comment from 'CodeMirror/addon/comment/comment';
 import keymap from 'CodeMirror/keymap/sublime';
 
-const Editor = {
-    view: ({ attrs: { editorContent, syntax, oninput } }) =>
-        m('div', {
-            oncreate: ({ dom }) => {
-                const cm = new CodeMirror(dom, {
-                    value: editorContent,
-                    mode: syntax,
-                    lineNumbers: true,
-                    theme: 'base16-dark',
-                    keyMap: 'sublime'
-                });
+export const Editor = ({ attrs: { editorContent, syntax, onInput } }) => {
+    let cm;
 
-                cm.on('change', cm => {
-                    oninput(cm.getValue());
-                    m.redraw();
-                });
-            }
-        })
+    return {
+        oncreate: ({ dom }) => {
+            cm = new CodeMirror(dom, {
+                value: editorContent,
+                mode: syntax,
+                lineNumbers: true,
+                theme: 'base16-dark',
+                keyMap: 'sublime'
+            });
+
+            cm.on('change', (cmInstance) => {
+                onInput(cmInstance.getValue());
+                m.redraw();
+            });
+        },
+
+        ondestroy: () => {
+            cm = undefined;
+        },
+
+        view: () =>
+            m('div.editor')
+    };
 };
-
-export default Editor;

@@ -5,6 +5,7 @@ const MIN_DIMENSION = 100;
 const generateId = hexoid();
 
 export const state = {
+    editing: {},
     ctxMenu: {
         mode: '',
         config: null,
@@ -34,7 +35,7 @@ export const addBox = (x, y) => {
         y: y || 0,
         width: MIN_DIMENSION,
         height: MIN_DIMENSION,
-        content: ''
+        content: '# test'
     };
 
     state.boxMap[box.id] = box;
@@ -46,6 +47,15 @@ export const removeBox = (id) => {
     delete state.boxMap[id];
     state.boxes = state.boxes.filter((box) => box.id !== id);
     setConfig(state.boxMap);
+};
+
+export const toggleEdit = (boxId) => {
+    if (state.editing[boxId]) delete state.editing[boxId];
+    else state.editing[boxId] = true;
+};
+
+export const setBoxContent = (boxId, content) => {
+    state.boxMap[boxId].content = content;
 };
 
 export const updateBox = (id, config) => {

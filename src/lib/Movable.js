@@ -1,5 +1,7 @@
 const DEFAULT_CELL_SIZE = 25;
 const DEFAULT_MIN_DIMENSION = DEFAULT_CELL_SIZE * 4;
+const UNMOVABLE_CLASS = 'unmovable';
+const UNRESIZABLE_CLASS = 'unresizable';
 
 /**
  * @typedef {object} Config
@@ -151,6 +153,8 @@ class Movable {
             else if (handle == sHandle) axis = 'y';
 
             handle.addEventListener('mousedown', ev => {
+                if (this.el.classList.contains(UNRESIZABLE_CLASS)) return;
+
                 this.isResizing = true;
                 let initX = ev.clientX;
                 let initY = ev.clientY;
@@ -171,6 +175,7 @@ class Movable {
     mousedown(ev) {
         ev.preventDefault();
         if (ev.button != 0) return;
+        if (this.el.classList.contains(UNMOVABLE_CLASS)) return;
         this.el.classList.add('grabbing');
 
         this.offset.x = ev.clientX - this.el.offsetLeft;

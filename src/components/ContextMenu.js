@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { addBox, removeBox } from '../state';
+import { addBox, toggleEdit, removeBox } from '../state';
 
 const Item = (name, action) => (
     m('button', {
@@ -12,7 +12,8 @@ const MenuItems = (mode, config) => {
     switch (mode) {
         case 'box': {
             return [
-                Item('delete box', () => removeBox(config.id))
+                Item('delete box', () => removeBox(config.id)),
+                Item('edit', () => toggleEdit(config.id))
             ];
         }
 

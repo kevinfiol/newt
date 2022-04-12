@@ -35,7 +35,11 @@ const App = () => ({
 
             m('div.stage',
                 state.boxes.map((box) =>
-                    m(Box, { key: box.id, config: box })
+                    m(Box, {
+                        key: box.id,
+                        config: box,
+                        isEditing: state.editing[box.id]
+                    })
                 )
             )
         )
