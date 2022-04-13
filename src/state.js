@@ -16,6 +16,10 @@ export const state = {
     boxMap: {}
 };
 
+export const saveToStorage = () => {
+    setConfig(state.boxMap);
+};
+
 export const setBoxMap = (boxMap) => {
     state.boxMap = boxMap;
 };
@@ -40,13 +44,13 @@ export const addBox = (x, y) => {
 
     state.boxMap[box.id] = box;
     state.boxes.push(box);
-    setConfig(state.boxMap);
+    saveToStorage();
 };
 
 export const removeBox = (id) => {
     delete state.boxMap[id];
     state.boxes = state.boxes.filter((box) => box.id !== id);
-    setConfig(state.boxMap);
+    saveToStorage();
 };
 
 export const toggleEdit = (boxId) => {
@@ -56,10 +60,11 @@ export const toggleEdit = (boxId) => {
 
 export const setBoxContent = (boxId, content) => {
     state.boxMap[boxId].content = content;
+    saveToStorage();
 };
 
 export const updateBox = (id, config) => {
     if (!state.boxMap[id]) return;
     state.boxMap[id] = { ...state.boxMap[id], ...config };
-    setConfig(state.boxMap);
+    saveToStorage();
 };

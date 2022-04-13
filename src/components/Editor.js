@@ -13,7 +13,7 @@ export const Editor = ({ attrs: { editorContent, syntax, onInput } }) => {
             cm = new CodeMirror(dom, {
                 value: editorContent,
                 mode: syntax,
-                lineNumbers: true,
+                lineNumbers: false,
                 theme: 'base16-dark',
                 keyMap: 'sublime'
             });

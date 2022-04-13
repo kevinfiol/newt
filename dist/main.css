@@ -6,6 +6,7 @@
 html,
 body,
 #app {
+    font-family: monospace;
     height: 100%;
     width: 100%;
     padding: 0;
@@ -45,8 +46,8 @@ body,
     border: 1px solid black;
     /*padding: 1rem;*/
     cursor: grab;
-    /*resize: both;
-    overflow: auto;*/
+    /*resize: both;*/
+    overflow: hidden;
 }
 
 .box > .handle {
@@ -89,4 +90,17 @@ body,
 
 .unmovable, .unresizable {
     cursor: default;
+}
+
+.editor, .editor > .CodeMirror {
+    font-size: 0.9em;
+    width: 100%;
+    height: 100%;
+}
+
+.box > .save-btn {
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    bottom: 0;
 }

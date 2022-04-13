@@ -2,18 +2,22 @@ import m from 'mithril';
 import { marked } from 'marked';
 import { Editor } from './Editor';
 import Movable from '../lib/Movable';
-import { updateBox, setBoxContent } from '../state';
+import { updateBox, setBoxContent, toggleEdit } from '../state';
 import { contextMenu } from '../effects';
 
 export const Box = ({ attrs: { config } }) => {
     let box;
+    let temp = '';
 
-    const onContextMenu = (ev) => {
+    const onContextMenu = (ev, isEditing) => {
         ev.stopPropagation();
-        contextMenu(ev, {
-            mode: 'box',
-            config: { id: config.id },
-        });
+
+        if (!isEditing) {
+            contextMenu(ev, {
+                mode: 'box',
+                config: { id: config.id },
+            });
+        }
     };
 
     return {
@@ -44,19 +48,28 @@ export const Box = ({ attrs: { config } }) => {
         view: ({ attrs: { config: { id, content }, isEditing } }) =>
             m('div.box', {
                 className: isEditing ? 'unmovable unresizable' : '',
-                oncontextmenu: onContextMenu
+                oncontextmenu: (ev) => onContextMenu(ev, isEditing)
             },
                 !isEditing &&
-                    m.trust( marked(content) )
+                    m.trust(marked(content))
                 ,
 
-                isEditing &&
+                isEditing && [
                     m(Editor, {
                         editorContent: content,
                         syntax: 'markdown',
-                        onInput: (val) => setBoxContent(id, val)
-                    })
-                ,
+                        onInput: (val) => temp = val
+                    }),
+
+                    m('button.save-btn', { onclick: () => {
+                        if (temp) {
+                            setBoxContent(id, temp);
+                            temp = '';
+                        }
+
+                        toggleEdit(id);
+                    } }, 'save')
+                ],
             )
     };
 };
