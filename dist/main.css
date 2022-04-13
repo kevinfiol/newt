@@ -1,5 +1,5 @@
 :root {
-    --resize-handle-size: 6px;
+    --resize-handle-size: 8px;
     --faint-color: rgba(0, 0, 100, 0.2);
 }
 
@@ -20,14 +20,8 @@ body,
     z-index: 999;
 }
 
-.controls {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-
-.container, .stage {
+#app > .container,
+#app > .container > .stage {
     height: 100%;
     width: 100%;
     padding: 0;
@@ -38,16 +32,43 @@ body,
     z-index: -1;
 }
 
+.modal {
+    z-index: 99;
+    background-color: rgba(0, 0, 0, 0.25);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+    padding: 1rem;
+    animation: fade-in 0.2s, fade-out 0.2s;
+}
+
+.modal > .container {
+    background-color: white;
+    border: 1px solid var(--faint-color);
+    padding: 2rem;
+    width: 90%;
+    margin: 0 auto;
+}
+
 .box {
     position: absolute;
     user-select: none;
     width: 100px;
     height: 100px;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     /*padding: 1rem;*/
     cursor: grab;
     /*resize: both;*/
     overflow: hidden;
+    transition: outline 0.1s, box-shadow ease-in-out;
+}
+
+.box:hover {
+    outline: 1px solid rgba(0, 0, 0, 25%);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 25%);
 }
 
 .box > .handle {
@@ -84,6 +105,13 @@ body,
     cursor: se-resize;
 }
 
+.box > .save-btn {
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    bottom: 0;
+}
+
 .grabbing {
     cursor: grabbing;
 }
@@ -96,11 +124,4 @@ body,
     font-size: 0.9em;
     width: 100%;
     height: 100%;
-}
-
-.box > .save-btn {
-    position: absolute;
-    z-index: 10;
-    right: 0;
-    bottom: 0;
 }

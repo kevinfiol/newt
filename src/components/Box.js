@@ -2,8 +2,7 @@ import m from 'mithril';
 import { marked } from 'marked';
 import { Editor } from './Editor';
 import Movable from '../lib/Movable';
-import { updateBox, setBoxContent, toggleEdit } from '../state';
-import { contextMenu } from '../effects';
+import { updateBox, setBoxContent, setCtxMenu, toggleEdit } from '../state';
 
 export const Box = ({ attrs: { config } }) => {
     let box;
@@ -13,9 +12,13 @@ export const Box = ({ attrs: { config } }) => {
         ev.stopPropagation();
 
         if (!isEditing) {
-            contextMenu(ev, {
+            ev.preventDefault();
+
+            setCtxMenu({
                 mode: 'box',
-                config: { id: config.id },
+                x: ev.clientX,
+                y: ev.clientY,
+                props: { id: config.id },
             });
         }
     };

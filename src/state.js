@@ -8,7 +8,7 @@ export const state = {
     editing: {},
     ctxMenu: {
         mode: '',
-        config: null,
+        props: null,
         x: -999,
         y: -999
     },
@@ -30,6 +30,10 @@ export const setBoxes = (boxes) => {
 
 export const setCtxMenu = (ctxMenu) => {
     state.ctxMenu = ctxMenu;
+};
+
+export const clearCtxMenu = () => {
+    setCtxMenu({ mode: '', props: null, x: -999, y: -999 });
 };
 
 export const addBox = (x, y) => {

@@ -1,25 +1,27 @@
 import m from 'mithril';
-import { addBox, toggleEdit, removeBox } from '../state';
+import { addBox, toggleEdit, removeBox, clearCtxMenu } from '../state';
 
 const Item = (name, action) => (
     m('button', {
-        onmousedown: (ev) =>
-            ev.button === 0 && action(ev)
+        onmousedown: (ev) => {
+            if (ev.button === 0) action(ev);
+            clearCtxMenu();
+        }
     }, name)
 );
 
-const MenuItems = (mode, config) => {
+const MenuItems = (mode, props) => {
     switch (mode) {
         case 'box': {
             return [
-                Item('delete box', () => removeBox(config.id)),
-                Item('edit', () => toggleEdit(config.id))
+                Item('delete box', () => removeBox(props.id)),
+                Item('edit', () => toggleEdit(props.id))
             ];
         }
 
         case 'container': {
             return [
-                Item('add box', () => addBox(config.x, config.y))
+                Item('add box', () => addBox(props.x, props.y))
             ];
         }
 
@@ -34,6 +36,6 @@ export const ContextMenu = () => ({
         m('div.context-menu', {
             style: { left: ctxMenu.x + 'px', top: ctxMenu.y + 'px' }
         },
-            MenuItems(ctxMenu.mode, ctxMenu.config)
+            MenuItems(ctxMenu.mode, ctxMenu.props)
         )
 });

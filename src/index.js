@@ -1,9 +1,10 @@
 import m from 'mithril';
-import { state, setBoxMap, setBoxes, setCtxMenu } from './state';
-import { contextMenu } from './effects';
+import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu } from './state';
+// import { contextMenu } from './effects';
 import { getConfig, setConfig } from './storage';
 import { ContextMenu } from './components/ContextMenu';
 import { Box } from './components/Box';
+import { Modal } from './components/Modal';
 
 const App = () => ({
     oninit: () => {
@@ -17,23 +18,26 @@ const App = () => ({
     },
 
     view: () =>
-        m('div.container', {
-            onmousedown: (ev) => {
-                if (ev.button === 0 && state.ctxMenu.mode) {
-                    setCtxMenu({ x: -999, y: -999, mode: '', config: null });
-                }
-            },
-
-            oncontextmenu: (ev) => {
-                contextMenu(ev, {
-                    mode: 'container',
-                    config: { x: ev.clientX, y: ev.clientY }
-                });
-            }
-        },
+        m('div.container',
             m(ContextMenu, { ctxMenu: state.ctxMenu }),
 
-            m('div.stage',
+            m('div.stage', {
+                onmousedown: (ev) => {
+                    if (ev.button === 0 && state.ctxMenu.mode) {
+                        clearCtxMenu();
+                    }
+                },
+
+                oncontextmenu: (ev) => {
+                    ev.preventDefault();
+
+                    setCtxMenu({
+                        mode: 'container',
+                        x: ev.clientX,
+                        y: ev.clientY
+                    });
+                }
+            },
                 state.boxes.map((box) =>
                     m(Box, {
                         key: box.id,
