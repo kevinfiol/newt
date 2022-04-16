@@ -14,6 +14,7 @@
 		"check": "tsc"
 	},
 	"dependencies": {
+		"classies": "^1.0.5",
 		"codemirror": "^5.65.2",
 		"hexoid": "^1.0.0",
 		"marked": "^4.0.12",

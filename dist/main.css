@@ -1,6 +1,9 @@
 :root {
     --resize-handle-size: 8px;
     --faint-color: rgba(0, 0, 100, 0.2);
+
+    --box-outline: 1px solid rgba(0, 0, 0, 25%);
+    --box-shadow: 3px 3px 0 rgba(0, 0, 0, 25%);
 }
 
 html,
@@ -63,16 +66,18 @@ body,
     cursor: grab;
     /*resize: both;*/
     overflow: hidden;
-    transition: outline 0.1s, box-shadow ease-in-out;
+    outline-color: transparent;
+    transition: outline-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 }
 
 .box:hover {
-    outline: 1px solid rgba(0, 0, 0, 25%);
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 25%);
+    outline: var(--box-outline);
+    box-shadow: var(--box-shadow);
 }
 
 .box > .handle {
     position: absolute;
+    transition: background-color 0.1s ease-in-out;
 }
 
 .box > .handle:hover {
@@ -114,6 +119,9 @@ body,
 
 .grabbing {
     cursor: grabbing;
+    z-index: 10;
+    outline: var(--box-outline);
+    box-shadow: var(--box-shadow);
 }
 
 .unmovable, .unresizable {

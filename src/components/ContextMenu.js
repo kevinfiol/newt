@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { addBox, toggleEdit, removeBox, clearCtxMenu } from '../state';
+import { addBox, toggleEdit, removeBox, clearCtxMenu, setShowOptions } from '../state';
 
 const Item = (name, action) => (
     m('button', {
@@ -21,7 +21,8 @@ const MenuItems = (mode, props) => {
 
         case 'container': {
             return [
-                Item('add box', () => addBox(props.x, props.y))
+                Item('add box', () => addBox(props.x, props.y)),
+                Item('options', () => setShowOptions(true))
             ];
         }
 

@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  classies: ^1.0.5
   codemirror: ^5.65.2
   esbuild: ^0.14.28
   hexoid: ^1.0.0
@@ -9,6 +10,7 @@ specifiers:
   servbot: ^0.2.0
 
 dependencies:
+  classies: 1.0.5
   codemirror: 5.65.2
   hexoid: 1.0.0
   marked: 4.0.12
@@ -29,6 +31,10 @@ packages:
     dependencies:
       balanced-match: 1.0.2
       concat-map: 0.0.1
+    dev: false
+
+  /classies/1.0.5:
+    resolution: {integrity: sha512-yJGY1CLHlcKQ2qcQIj4MrnEaM6+xpiJGVXW52ffyVKJSHE6IdmmSuncLiCvmyHQ+CdxTbwF09QYx98442LtCTA==}
     dev: false
 
   /codemirror/5.65.2:

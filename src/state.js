@@ -5,6 +5,11 @@ const MIN_DIMENSION = 100;
 const generateId = hexoid();
 
 export const state = {
+    showOptions: false,
+    options: {
+        bgColor: '#ffffff',
+        fontFamily: 'monospace'
+    },
     editing: {},
     ctxMenu: {
         mode: '',
@@ -17,7 +22,15 @@ export const state = {
 };
 
 export const saveToStorage = () => {
-    setConfig(state.boxMap);
+    setConfig({ boxMap: state.boxMap, options: state.options });
+};
+
+export const setShowOptions = (showOptions) => {
+    state.showOptions = showOptions;
+};
+
+export const setOptions = (options) => {
+    state.options = { ...state.options, ...options };
 };
 
 export const setBoxMap = (boxMap) => {
