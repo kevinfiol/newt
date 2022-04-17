@@ -1,4 +1,4 @@
-const DEFAULT_CELL_SIZE = 25;
+const DEFAULT_CELL_SIZE = 12.5;
 const DEFAULT_MIN_DIMENSION = DEFAULT_CELL_SIZE * 4;
 const UNMOVABLE_CLASS = 'unmovable';
 const UNRESIZABLE_CLASS = 'unresizable';

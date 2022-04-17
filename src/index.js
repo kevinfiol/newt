@@ -19,9 +19,8 @@ const App = () => ({
             setOptions(options);
         }
 
-        const boxes = Object.values(state.boxMap);
-        setBoxes(boxes);
-        console.log(state);
+        setBoxes(Object.values(state.boxMap));
+        document.getElementById('newt-styles').innerText = state.options.customCss;
     },
 
     view: () =>
@@ -35,6 +34,12 @@ const App = () => ({
             m(ContextMenu, { ctxMenu: state.ctxMenu }),
 
             m('div.stage', {
+                style: {
+                    color: state.options.color,
+                    backgroundColor: state.options.bgColor,
+                    fontFamily: state.options.fontFamily
+                },
+
                 onmousedown: (ev) => {
                     if (ev.button === 0 && state.ctxMenu.mode) {
                         clearCtxMenu();

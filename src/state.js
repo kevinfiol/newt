@@ -7,8 +7,10 @@ const generateId = hexoid();
 export const state = {
     showOptions: false,
     options: {
+        color: '#000000',
         bgColor: '#ffffff',
-        fontFamily: 'monospace'
+        fontFamily: 'monospace',
+        customCss: ''
     },
     editing: {},
     ctxMenu: {
@@ -22,6 +24,7 @@ export const state = {
 };
 
 export const saveToStorage = () => {
+    console.log("SAVED TO STORAGE!!", state.options);
     setConfig({ boxMap: state.boxMap, options: state.options });
 };
 
@@ -77,6 +80,11 @@ export const toggleEdit = (boxId) => {
 
 export const setBoxContent = (boxId, content) => {
     state.boxMap[boxId].content = content;
+
+    // TODO
+    // this is to fix a big where if you resize a box and then try to set content
+    // it doesn't properly rerender
+    state.boxes = Object.values(state.boxMap);
     saveToStorage();
 };
 

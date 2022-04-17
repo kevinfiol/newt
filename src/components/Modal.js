@@ -16,7 +16,7 @@ export const Modal = ({ attrs: { closeAction } }) => {
 
         view: ({ children }) =>
             m('div.modal', {
-                onclick: ({ target }) => {
+                onmousedown: ({ target }) => {
                     if ((modalRef === target) && closeAction) {
                         closeAction();
                         modalRef.remove(); // clean up dom

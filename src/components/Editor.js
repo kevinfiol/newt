@@ -5,7 +5,7 @@ import css from 'CodeMirror/mode/css/css';
 import comment from 'CodeMirror/addon/comment/comment';
 import keymap from 'CodeMirror/keymap/sublime';
 
-export const Editor = ({ attrs: { editorContent, syntax, onInput } }) => {
+export const Editor = ({ attrs: { editorContent, syntax, onInput, lineNumbers } }) => {
     let cm;
 
     return {
@@ -13,7 +13,7 @@ export const Editor = ({ attrs: { editorContent, syntax, onInput } }) => {
             cm = new CodeMirror(dom, {
                 value: editorContent,
                 mode: syntax,
-                lineNumbers: false,
+                lineNumbers: lineNumbers || false,
                 theme: 'base16-dark',
                 keyMap: 'sublime'
             });

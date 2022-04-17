@@ -66,11 +66,13 @@ export const Box = ({ attrs: { config } }) => {
 
                     m('button.save-btn', { onclick: () => {
                         if (temp) {
+                            console.log({temp});
                             setBoxContent(id, temp);
                             temp = '';
                         }
 
                         toggleEdit(id);
+                        m.redraw();
                     } }, 'save')
                 ],
             )

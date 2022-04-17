@@ -1,14 +1,12 @@
 import m from 'mithril';
+import { saveToStorage, setOptions } from '../state';
 import { debounce } from '../util';
 import { ColorPicker } from './ColorPicker';
+import { Editor } from './Editor';
 
 export const Options = ({ attrs: { options } }) => {
-    let bgColor = options.bgColor;
-    let fontFamily = options.fontFamily;
-
-    const saveChanges = () => {
-        // debounce and save to localStorage on changes
-    };
+    const styleTag = document.getElementById('newt-styles');
+    const persistChanges = debounce(saveToStorage, 1500);
 
     return {
         view: () =>
@@ -18,19 +16,42 @@ export const Options = ({ attrs: { options } }) => {
                 m('h2', 'font family'),
                 m('input', {
                     type: 'text',
-                    oncreate: ({ dom }) => dom.value = fontFamily,
-                    oninput: ({ target: { value } }) => fontFamily = value
+                    oncreate: ({ dom }) => dom.value = options.fontFamily,
+                    oninput: ({ target: { value } }) => {
+                        setOptions({ fontFamily: value });
+                        persistChanges();
+                    }
+                }),
+
+                m('h2', 'font color'),
+                m(ColorPicker, {
+                    initialValue: options.color,
+                    onChange: (color) => {
+                        setOptions({ color });
+                        persistChanges();
+                    }
                 }),
 
                 m('h2', 'background color'),
                 m(ColorPicker, {
-                    initialValue: bgColor,
+                    initialValue: options.bgColor,
                     onChange: (color) => {
-                        bgColor = color;
-                        console.log(bgColor);
-                        m.redraw();
+                        setOptions({ bgColor: color });
+                        persistChanges();
                     }
-                })
+                }),
+
+                m('h2', 'custom css'),
+                m(Editor, {
+                    lineNumbers: true,
+                    editorContent: options.customCss,
+                    syntax: 'css',
+                    onInput: (val) => {
+                        setOptions({ customCss: val });
+                        styleTag.innerText = val;
+                        persistChanges();
+                    }
+                }),
             )
     };
 };
