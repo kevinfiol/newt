@@ -17,9 +17,24 @@ body,
     overflow: hidden;
 }
 
-.context-menu {
+.button {
+    font-family: monospace !important;
+    border-radius: 0px;
+    border: 0;
+    padding: 0.3em;
+}
+
+.controls {
     position: absolute;
-    border: 1px solid black;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.context-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
     z-index: 999;
 }
 

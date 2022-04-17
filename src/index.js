@@ -1,7 +1,7 @@
 import m from 'mithril';
 import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu, setShowOptions, setOptions } from './state';
-// import { contextMenu } from './effects';
 import { getConfig, setConfig } from './storage';
+import { Controls } from './components/Controls';
 import { ContextMenu } from './components/ContextMenu';
 import { Box } from './components/Box';
 import { Modal } from './components/Modal';
@@ -31,6 +31,7 @@ const App = () => ({
                 )
             ,
 
+            m(Controls),
             m(ContextMenu, { ctxMenu: state.ctxMenu }),
 
             m('div.stage', {
@@ -48,8 +49,8 @@ const App = () => ({
 
                 oncontextmenu: (ev) => {
                     ev.preventDefault();
-                    const x = ev.clientX;
-                    const y = ev.clientY;
+                    const x = ev.clientX + 1;
+                    const y = ev.clientY + 1;
 
                     setCtxMenu({
                         mode: 'container',

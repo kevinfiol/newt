@@ -1,9 +1,9 @@
 import m from 'mithril';
-import { addBox } from '../state';
+import { setShowOptions } from '../state';
 
 export const Controls = () => ({
     view: () =>
         m('div.controls',
-            m('button', { onclick: addBox }, 'Add Box')
+            m('button.button', { onclick: () => setShowOptions(true) }, 'Options')
         )
 });

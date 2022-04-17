@@ -16,8 +16,8 @@ export const Box = ({ attrs: { config } }) => {
 
             setCtxMenu({
                 mode: 'box',
-                x: ev.clientX,
-                y: ev.clientY,
+                x: ev.clientX + 1,
+                y: ev.clientY + 1,
                 props: { id: config.id },
             });
         }
@@ -64,7 +64,7 @@ export const Box = ({ attrs: { config } }) => {
                         onInput: (val) => temp = val
                     }),
 
-                    m('button.save-btn', { onclick: () => {
+                    m('button.button.save-btn', { onclick: () => {
                         if (temp) {
                             console.log({temp});
                             setBoxContent(id, temp);

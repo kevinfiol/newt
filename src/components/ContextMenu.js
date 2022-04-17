@@ -2,7 +2,7 @@ import m from 'mithril';
 import { addBox, toggleEdit, removeBox, clearCtxMenu, setShowOptions } from '../state';
 
 const Item = (name, action) => (
-    m('button', {
+    m('button.button', {
         onmousedown: (ev) => {
             if (ev.button === 0) action(ev);
             clearCtxMenu();
@@ -14,8 +14,8 @@ const MenuItems = (mode, props) => {
     switch (mode) {
         case 'box': {
             return [
-                Item('delete box', () => removeBox(props.id)),
-                Item('edit', () => toggleEdit(props.id))
+                Item('edit', () => toggleEdit(props.id)),
+                Item('delete box', () => removeBox(props.id))
             ];
         }
 
