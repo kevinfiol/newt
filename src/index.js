@@ -32,6 +32,12 @@ const App = () => ({
             ,
 
             m(Controls),
+
+            (() => {
+                console.log(state.ctxMenu);
+            })(),
+
+            state.ctxMenu.mode &&
             m(ContextMenu, { ctxMenu: state.ctxMenu }),
 
             m('div.stage', {

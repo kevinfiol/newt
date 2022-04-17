@@ -33,9 +33,22 @@ const MenuItems = (mode, props) => {
 };
 
 export const ContextMenu = () => ({
+    onbeforeremove: ({ dom }) => {
+        dom.classList.add('fade-out');
+        return new Promise((resolve) => {
+            dom.addEventListener('animationend', () => {
+                dom.remove();
+                resolve();
+            });
+        });
+    },
+
     view: ({ attrs: { ctxMenu } }) =>
-        m('div.context-menu', {
-            style: { left: ctxMenu.x + 'px', top: ctxMenu.y + 'px' }
+        m('div.context-menu.fade-in', {
+            style: {
+                left: ctxMenu.x + 'px',
+                top: ctxMenu.y + 'px'
+            }
         },
             MenuItems(ctxMenu.mode, ctxMenu.props)
         )

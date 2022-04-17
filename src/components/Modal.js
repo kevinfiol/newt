@@ -9,18 +9,20 @@ export const Modal = ({ attrs: { closeAction } }) => {
         },
 
         onbeforeremove: ({ dom }) => {
-            return new Promise((resolve) =>
-                dom.addEventListener('animationend', resolve)
-            );
+            dom.classList.add('fade-out');
+            return new Promise((resolve) => {
+                dom.addEventListener('animationend', () => {
+                    dom.remove();
+                    resolve();
+                });
+            });
         },
 
         view: ({ children }) =>
-            m('div.modal', {
+            m('div.modal.fade-in', {
                 onmousedown: ({ target }) => {
                     if ((modalRef === target) && closeAction) {
                         closeAction();
-                        modalRef.remove(); // clean up dom
-                        modalRef = undefined;
                     }
                 }
             },

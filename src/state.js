@@ -49,7 +49,7 @@ export const setCtxMenu = (ctxMenu) => {
 };
 
 export const clearCtxMenu = () => {
-    setCtxMenu({ mode: '', props: null, x: -999, y: -999 });
+    setCtxMenu({ mode: '', props: null });
 };
 
 export const addBox = (x, y) => {
