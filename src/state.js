@@ -6,6 +6,7 @@ const generateId = hexoid();
 
 export const state = {
     showOptions: false,
+    editMode: false,
     options: {
         color: '#000000',
         bgColor: '#ffffff',
@@ -21,6 +22,11 @@ export const state = {
     },
     boxes: [],
     boxMap: {}
+};
+
+export const setEditMode = (editMode) => {
+    state.editMode = editMode;
+    if (!editMode) state.editing = {};
 };
 
 export const saveToStorage = () => {

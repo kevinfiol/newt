@@ -8,7 +8,8 @@ export const Box = ({ attrs: { config } }) => {
     let box;
     let temp = '';
 
-    const onContextMenu = (ev, isEditing) => {
+    const onContextMenu = (ev, editMode, isEditing) => {
+        if (!editMode) return;
         ev.stopPropagation();
 
         if (!isEditing) {
@@ -48,10 +49,10 @@ export const Box = ({ attrs: { config } }) => {
             box = undefined;
         },
 
-        view: ({ attrs: { config: { id, content }, isEditing } }) =>
+        view: ({ attrs: { config: { id, content }, editMode, isEditing } }) =>
             m('div.box', {
-                className: isEditing ? 'unmovable unresizable' : '',
-                oncontextmenu: (ev) => onContextMenu(ev, isEditing)
+                className: (isEditing || !editMode) ? 'unmovable unresizable' : 'movable',
+                oncontextmenu: (ev) => onContextMenu(ev, editMode, isEditing)
             },
                 !isEditing &&
                     m.trust(marked(content))

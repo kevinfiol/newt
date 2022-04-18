@@ -173,9 +173,10 @@ class Movable {
      * @param {MouseEvent} ev
      */
     mousedown(ev) {
+        if (this.el.classList.contains(UNMOVABLE_CLASS)) return;
+
         ev.preventDefault();
         if (ev.button != 0) return;
-        if (this.el.classList.contains(UNMOVABLE_CLASS)) return;
         this.el.classList.add('grabbing');
 
         this.offset.x = ev.clientX - this.el.offsetLeft;

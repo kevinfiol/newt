@@ -31,14 +31,11 @@ const App = () => ({
                 )
             ,
 
-            m(Controls),
-
-            (() => {
-                console.log(state.ctxMenu);
-            })(),
+            m(Controls, { editMode: state.editMode }),
 
             state.ctxMenu.mode &&
-            m(ContextMenu, { ctxMenu: state.ctxMenu }),
+                m(ContextMenu, { ctxMenu: state.ctxMenu })
+            ,
 
             m('div.stage', {
                 style: {
@@ -54,6 +51,7 @@ const App = () => ({
                 },
 
                 oncontextmenu: (ev) => {
+                    if (!state.editMode) return;
                     ev.preventDefault();
                     const x = ev.clientX + 1;
                     const y = ev.clientY + 1;
@@ -70,6 +68,7 @@ const App = () => ({
                     m(Box, {
                         key: box.id,
                         config: box,
+                        editMode: state.editMode,
                         isEditing: state.editing[box.id]
                     })
                 )
