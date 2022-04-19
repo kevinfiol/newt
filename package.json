@@ -10,8 +10,7 @@
 	},
 	"scripts": {
 		"dev": "node ./scripts/dev.js",
-		"build": "node ./scripts/build.js",
-		"check": "tsc"
+		"build": "node ./scripts/build.js"
 	},
 	"dependencies": {
 		"classies": "^1.0.5",
