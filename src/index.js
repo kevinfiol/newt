@@ -1,5 +1,7 @@
 import m from 'mithril';
-import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu, setShowOptions, setOptions } from './state';
+import cls from 'classies';
+import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu, setShowOptions, setOptions, setEditMode } from './state';
+import { getBrightness } from './util';
 import { getConfig, setConfig } from './storage';
 import { Controls } from './components/Controls';
 import { ContextMenu } from './components/ContextMenu';
@@ -10,11 +12,17 @@ import { Options } from './components/Options';
 const App = () => ({
     oninit: () => {
         const config = getConfig();
+        console.log(config);
 
         if (!config) {
-            setConfig({ boxMap: state.boxMap, options: state.options });
+            setConfig({
+                editMode: state.editMode,
+                boxMap: state.boxMap,
+                options: state.options
+            });
         } else {
-            const { boxMap, options } = config;
+            const { editMode, boxMap, options } = config;
+            setEditMode(editMode);
             setBoxMap(boxMap);
             setOptions(options);
         }
@@ -38,6 +46,11 @@ const App = () => ({
             ,
 
             m('div.stage', {
+                className: cls({
+                    'bg-grid': state.editMode,
+                    '-dark-mode': getBrightness(state.options.bgColor) < 120
+                }),
+
                 style: {
                     color: state.options.color,
                     backgroundColor: state.options.bgColor,

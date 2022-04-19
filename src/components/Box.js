@@ -1,12 +1,15 @@
 import m from 'mithril';
+import cls from 'classies';
 import { marked } from 'marked';
 import { Editor } from './Editor';
 import Movable from '../lib/Movable';
 import { updateBox, setBoxContent, setCtxMenu, toggleEdit } from '../state';
 
 export const Box = ({ attrs: { config } }) => {
+    let domRef;
     let box;
     let temp = '';
+    let expanded = false;
 
     const onContextMenu = (ev, editMode, isEditing) => {
         if (!editMode) return;
@@ -26,6 +29,7 @@ export const Box = ({ attrs: { config } }) => {
 
     return {
         oncreate: ({ dom }) => {
+            domRef = dom;
             const { id, x, y, width, height } = config;
 
             box = new Movable(dom, {
@@ -46,16 +50,24 @@ export const Box = ({ attrs: { config } }) => {
 
         onremove: () => {
             box.destroy();
+            domRef = undefined;
             box = undefined;
         },
 
         view: ({ attrs: { config: { id, content }, editMode, isEditing } }) =>
             m('div.box', {
-                className: (isEditing || !editMode) ? 'unmovable unresizable' : 'movable',
+                className: cls({
+                    'unmovable unresizable': isEditing || !editMode,
+                    'movable': editMode && !isEditing,
+                    '-editing': isEditing,
+                    '-expanded': expanded,
+                }),
                 oncontextmenu: (ev) => onContextMenu(ev, editMode, isEditing)
             },
                 !isEditing &&
-                    m.trust(marked(content))
+                    m('div.content',
+                        m.trust(marked(content))
+                    )
                 ,
 
                 isEditing && [
@@ -65,16 +77,22 @@ export const Box = ({ attrs: { config } }) => {
                         onInput: (val) => temp = val
                     }),
 
-                    m('button.button.save-btn', { onclick: () => {
-                        if (temp) {
-                            console.log({temp});
-                            setBoxContent(id, temp);
-                            temp = '';
-                        }
+                    m('div.controls',
+                        m('button.button', {
+                            onclick: () => expanded = !expanded
+                        }, expanded ? 'Collapse' : 'Expand'),
 
-                        toggleEdit(id);
-                        m.redraw();
-                    } }, 'save')
+                        m('button.button.save-btn', { onclick: () => {
+                            if (temp) {
+                                setBoxContent(id, temp);
+                                temp = '';
+                            }
+
+                            toggleEdit(id);
+                            expanded = false;
+                            m.redraw();
+                        } }, 'Save')
+                    )
                 ],
             )
     };

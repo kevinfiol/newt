@@ -1,9 +1,19 @@
 :root {
     --resize-handle-size: 8px;
-    --faint-color: rgba(0, 0, 100, 0.2);
+    --handle-bg-color: rgba(0, 0, 0, 20%);
+    --dark-handle-bg-color: rgba(255, 255, 255, 20%);
 
     --box-outline: 1px solid rgba(0, 0, 0, 25%);
     --box-shadow: 3px 3px 0 rgba(0, 0, 0, 25%);
+
+    --box-outline-heavy: 1px solid rgba(0, 0, 0, 40%);
+    --box-shadow-heavy: 4px 4px 0 rgba(0, 0, 0, 40%);
+
+    --dark-box-outline: 1px solid rgba(255, 255, 255, 25%);
+    --dark-box-shadow: 3px 3px 0 rgba(255, 255, 255, 25%);
+
+    --dark-box-outline-heavy: 1px solid rgba(255, 255, 255, 40%);
+    --dark-box-shadow-heavy: 4px 4px 0 rgba(255, 255, 255, 40%);
 }
 
 html,
@@ -24,7 +34,7 @@ body,
     padding: 0.3em;
 }
 
-.controls {
+#app > .container > .controls {
     position: absolute;
     top: 0;
     left: 0;
@@ -47,11 +57,6 @@ body,
     overflow: hidden;
 }
 
-#app > .container > .stage {
-    background-size: 25px 25px;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.25) 1px, rgba(0, 0, 0, 0) 1px);
-}
-
 .modal {
     z-index: 99;
     background-color: rgba(0, 0, 0, 0.25);
@@ -68,7 +73,7 @@ body,
     background-color: white;
     border: 1px solid var(--faint-color);
     padding: 2rem;
-    width: 90%;
+    max-width: 800px;
     margin: 0 auto;
 }
 
@@ -92,13 +97,32 @@ body,
     box-shadow: var(--box-shadow);
 }
 
+.movable:hover {
+    outline: var(--box-outline-heavy);
+    box-shadow: var(--box-shadow-heavy);
+}
+
+.stage.-dark-mode > .movable {
+    outline: var(--dark-box-outline);
+    box-shadow: var(--dark-box-shadow);
+}
+
+.stage.-dark-mode > .movable:hover {
+    outline: var(--dark-box-outline-heavy);
+    box-shadow: var(--dark-box-shadow-heavy);
+}
+
+.stage.-dark-mode > .movable > .handle:hover {
+    background-color: var(--dark-handle-bg-color)
+}
+
 .movable > .handle {
     position: absolute;
     transition: background-color 0.1s ease-in-out;
 }
 
 .movable > .handle:hover {
-    background-color: var(--faint-color);
+    background-color: var(--handle-bg-color);
 }
 
 .movable > .handle--e {
@@ -127,7 +151,7 @@ body,
     cursor: se-resize;
 }
 
-.box > .save-btn {
+.box > .controls {
     position: absolute;
     z-index: 10;
     right: 0;
@@ -145,6 +169,32 @@ body,
     font-size: 0.9em;
     width: 100%;
     height: 100%;
+}
+
+.options > .editor > .CodeMirror {
+    height: 300px;
+}
+
+.box.-editing {
+    z-index: 11;
+    transition:
+        top 0.2s ease-in-out,
+        left 0.2s ease-in-out,
+        width 0.2s ease-in-out,
+        height 0.2s ease-in-out;
+}
+
+.box.-expanded {
+    z-index: 12;
+    top: 5% !important;
+    left: 5% !important;
+    width: 90% !important;
+    height: 90% !important;
+}
+
+.bg-grid {
+    background-size: 25px 25px;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.25) 1px, rgba(0, 0, 0, 0) 1px);
 }
 
 @keyframes fade-in { from { opacity:0; } to { opacity:1; } }

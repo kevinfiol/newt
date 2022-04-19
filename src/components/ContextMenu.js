@@ -14,15 +14,15 @@ const MenuItems = (mode, props) => {
     switch (mode) {
         case 'box': {
             return [
-                Item('edit', () => toggleEdit(props.id)),
-                Item('delete box', () => removeBox(props.id))
+                Item('Edit', () => toggleEdit(props.id)),
+                Item('Delete', () => removeBox(props.id))
             ];
         }
 
         case 'container': {
             return [
-                Item('add box', () => addBox(props.x, props.y)),
-                Item('options', () => setShowOptions(true))
+                Item('New Box', () => addBox(props.x, props.y)),
+                Item('Options', () => setShowOptions(true))
             ];
         }
 

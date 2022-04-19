@@ -1,7 +1,7 @@
 import hexoid from 'hexoid';
 import { setConfig } from './storage';
 
-const MIN_DIMENSION = 100;
+const MIN_DIMENSION = 200;
 const generateId = hexoid();
 
 export const state = {
@@ -30,8 +30,11 @@ export const setEditMode = (editMode) => {
 };
 
 export const saveToStorage = () => {
-    console.log("SAVED TO STORAGE!!", state.options);
-    setConfig({ boxMap: state.boxMap, options: state.options });
+    setConfig({
+        editMode: state.editMode,
+        boxMap: state.boxMap,
+        options: state.options
+    });
 };
 
 export const setShowOptions = (showOptions) => {
