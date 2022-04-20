@@ -12,6 +12,7 @@ const DEFAULT_OPTIONS = {
 export const state = {
     autohideMenu: false,
     showOptions: false,
+    showAbout: false,
     editMode: true,
     options: { ...DEFAULT_OPTIONS },
     editing: {},
@@ -34,6 +35,10 @@ export const resetToDefaults = () => {
     state.boxes = [];
     state.boxMap = {};
     state.files = {};
+};
+
+export const setShowAbout = (showAbout) => {
+    state.showAbout = showAbout;
 };
 
 export const setEditMode = (editMode) => {

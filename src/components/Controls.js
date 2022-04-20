@@ -1,9 +1,13 @@
 import m from 'mithril';
-import { setShowOptions, setEditMode, saveToStorage } from '../state';
+import { setShowOptions, setShowAbout, setEditMode, saveToStorage } from '../state';
 
 export const Controls = () => ({
     view: ({ attrs: { autohideMenu, editMode } }) =>
         m('div.controls', { className: autohideMenu ? 'autohide' : '' },
+            m('button.button', {
+                onclick: () => setShowAbout(true)
+            }, ' ? '),
+
             m('button.button', {
                 onclick: () => setShowOptions(true)
             }, 'Options'),

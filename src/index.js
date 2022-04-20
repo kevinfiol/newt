@@ -1,6 +1,6 @@
 import m from 'mithril';
 import cls from 'classies';
-import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu, setShowOptions, setOptions, setEditMode, setFiles, setAutohideMenu } from './state';
+import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu, setShowOptions, setOptions, setEditMode, setFiles, setAutohideMenu, setShowAbout } from './state';
 import { getBrightness } from './util';
 import { getConfig, setConfig } from './storage';
 import { Controls } from './components/Controls';
@@ -8,6 +8,7 @@ import { ContextMenu } from './components/ContextMenu';
 import { Box } from './components/Box';
 import { Modal } from './components/Modal';
 import { Options } from './components/Options';
+import { About } from './components/About';
 
 const App = () => ({
     oninit: () => {
@@ -40,6 +41,12 @@ const App = () => ({
             state.showOptions &&
                 m(Modal, { closeAction: () => setShowOptions(false) },
                     m(Options, { options: state.options })
+                )
+            ,
+
+            state.showAbout &&
+                m(Modal, { closeAction: () => setShowAbout(false) },
+                    m(About)
                 )
             ,
 
