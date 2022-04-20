@@ -70,11 +70,12 @@ body,
 }
 
 .modal > .container {
-    background-color: white;
+    background-color: #dddddd;
     border: 1px solid var(--faint-color);
     padding: 2rem;
     max-width: 800px;
     margin: 0 auto;
+    border-radius: 3px;
 }
 
 .box {
@@ -175,6 +176,11 @@ body,
     height: 300px;
 }
 
+.options > .group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
 .box.-editing {
     z-index: 11;
     transition:
@@ -195,6 +201,10 @@ body,
 .bg-grid {
     background-size: 25px 25px;
     background-image: radial-gradient(circle, rgba(0, 0, 0, 0.25) 1px, rgba(0, 0, 0, 0) 1px);
+}
+
+.bg-grid.-dark-mode {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, rgba(255, 255, 255, 0) 1px);
 }
 
 .row-container {
@@ -221,6 +231,12 @@ body,
 
 .autohide:hover {
     opacity: 1;
+}
+
+.text-input {
+    font-size: 1em;
+    padding: 0.4em;
+    font-family: monospace;
 }
 
 /*Default Box Styles*/

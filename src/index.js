@@ -1,6 +1,6 @@
 import m from 'mithril';
 import cls from 'classies';
-import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu, setShowOptions, setOptions, setEditMode, setFiles } from './state';
+import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu, setShowOptions, setOptions, setEditMode, setFiles, setAutohideMenu } from './state';
 import { getBrightness } from './util';
 import { getConfig, setConfig } from './storage';
 import { Controls } from './components/Controls';
@@ -16,13 +16,15 @@ const App = () => ({
 
         if (!config) {
             setConfig({
+                autohideMenu: state.autohideMenu,
                 editMode: state.editMode,
                 boxMap: state.boxMap,
                 options: state.options,
                 files: state.files
             });
         } else {
-            const { editMode, boxMap, options, files } = config;
+            const { autohideMenu, editMode, boxMap, options, files } = config;
+            setAutohideMenu(autohideMenu);
             setEditMode(editMode);
             setBoxMap(boxMap);
             setOptions(options);

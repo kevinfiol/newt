@@ -3,12 +3,11 @@ import { setConfig } from './storage';
 
 const MIN_DIMENSION = 200;
 const DEFAULT_OPTIONS = {
-    color: '#000000',
-    bgColor: '#ffffff',
+    color: '#2a2a2a',
+    bgColor: '#dadada',
     fontFamily: 'monospace',
     customCss: ''
 };
-
 
 export const state = {
     autohideMenu: false,
@@ -48,6 +47,7 @@ export const setAutohideMenu = (autohideMenu) => {
 
 export const saveToStorage = () => {
     setConfig({
+        autohideMenu: state.autohideMenu,
         editMode: state.editMode,
         boxMap: state.boxMap,
         options: state.options,
@@ -134,6 +134,7 @@ export const removeLocalFile = (id) => {
 };
 
 export const loadFromObject = (obj) => {
+    state.autohideMenu = obj.autohideMenu || false;
     state.editMode = obj.editMode || false;
     state.options = obj.options || { ...DEFAULT_OPTIONS };
 

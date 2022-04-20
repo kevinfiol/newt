@@ -20,37 +20,48 @@ export const Options = ({ attrs: { options } }) => {
                     type: 'checkbox',
                     id: 'autohide-checkbox',
                     checked: state.autohideMenu,
-                    onchange: ({ target: { checked } }) => setAutohideMenu(checked)
+                    onchange: ({ target: { checked } }) => {
+                        setAutohideMenu(checked);
+                        persistChanges();
+                    }
                 }),
                 m('label', { for: 'autohide-checkbox' }, '  Auto-hide Controls'),
 
-                m('h2', 'Font Family'),
-                m('input.text-input', {
-                    type: 'text',
-                    oncreate: ({ dom }) => dom.value = options.fontFamily,
-                    oninput: ({ target: { value } }) => {
-                        setOptions({ fontFamily: value });
-                        persistChanges();
-                    }
-                }),
+                m('div.group',
+                    m('div.input-group',
+                        m('h2', 'Font Family'),
+                        m('input.text-input', {
+                            type: 'text',
+                            oncreate: ({ dom }) => dom.value = options.fontFamily,
+                            oninput: ({ target: { value } }) => {
+                                setOptions({ fontFamily: value });
+                                persistChanges();
+                            }
+                        }),
+                    ),
 
-                m('h2', 'Font Color'),
-                m(ColorPicker, {
-                    initialValue: options.color,
-                    onChange: (color) => {
-                        setOptions({ color });
-                        persistChanges();
-                    }
-                }),
+                    m('div.input-group',
+                        m('h2', 'Font Color'),
+                        m(ColorPicker, {
+                            initialValue: options.color,
+                            onChange: (color) => {
+                                setOptions({ color });
+                                persistChanges();
+                            }
+                        }),
+                    ),
 
-                m('h2', 'Background Color'),
-                m(ColorPicker, {
-                    initialValue: options.bgColor,
-                    onChange: (color) => {
-                        setOptions({ bgColor: color });
-                        persistChanges();
-                    }
-                }),
+                    m('div.input-group',
+                        m('h2', 'Background Color'),
+                        m(ColorPicker, {
+                            initialValue: options.bgColor,
+                            onChange: (color) => {
+                                setOptions({ bgColor: color });
+                                persistChanges();
+                            }
+                        }),
+                    )
+                ),
 
                 m('h2', 'Custom CSS'),
                 m(Editor, {
