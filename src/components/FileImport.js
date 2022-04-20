@@ -1,6 +1,5 @@
 import m from 'mithril';
-import { loadFromObject, saveToStorage, setShowOptions, resetToDefaults } from '../state';
-import { clearConfig } from '../storage';
+import { loadFromObject, saveToStorage, setShowOptions } from '../state';
 import { FileInput } from './FileInput';
 
 export const FileImport = ({ attrs: { userConfig } }) => {
@@ -15,6 +14,8 @@ export const FileImport = ({ attrs: { userConfig } }) => {
     return {
         view: () =>
             m('div.file-import',
+                m('p', 'Options and Boxes are exported. Local Images are not exported.'),
+
                 m(FileInput, { onLoad: (res) => data = res }),
 
                 m('button.button', {
@@ -37,16 +38,7 @@ export const FileImport = ({ attrs: { userConfig } }) => {
                         const D = d.getDate();
                         return `${Y}-${M}-${D}_newt-config.json`;
                     })(),
-                }, 'Export'),
-
-                m('button.button', {
-                    onclick: () => {
-                        clearConfig();
-                        resetToDefaults();
-                        setShowOptions(false);
-                        saveToStorage();
-                    }
-                }, 'Restore Defaults')
+                }, 'Export')
             )
     };
 };

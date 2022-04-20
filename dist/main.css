@@ -27,17 +27,41 @@ body,
     overflow: hidden;
 }
 
-.button {
+.button, .button-link {
     font-family: monospace !important;
     border-radius: 0px;
     border: 0;
     padding: 0.3em;
+    background-color: #e9e9ed;
+}
+
+.button:not([disabled]):hover, .button-link:hover {
+    background-color: #d0d0d7;
+}
+
+.button:not([disabled]):active, .button-link:active {
+    background-color: #b1b1b9;
+}
+
+.button-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.file-input {
+    font-family: inherit;
+    padding: 0.15em;
+    background-color: #d0d0d7;
+}
+
+.file-input:hover {
+    background-color: #b1b1b9;
 }
 
 #app > .container > .controls {
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: 0;
+    right: 0;
     z-index: 1;
 }
 
@@ -179,6 +203,13 @@ body,
 .options > .group {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+}
+
+.options > p > code,
+.about > p > code {
+    background-color: #202020;
+    padding: 0.15em 0.3em;
+    color: white;
 }
 
 .box.-editing {

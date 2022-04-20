@@ -82,7 +82,7 @@ export const LocalImages = () => {
                                 }
                             })
                         )
-                        : m('div', 'No images loaded.')
+                        : m('div', m('em', 'No images loaded.'))
                     ,
                 )
             )

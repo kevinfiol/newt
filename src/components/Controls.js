@@ -5,10 +5,6 @@ export const Controls = () => ({
     view: ({ attrs: { autohideMenu, editMode } }) =>
         m('div.controls', { className: autohideMenu ? 'autohide' : '' },
             m('button.button', {
-                onclick: () => setShowAbout(true)
-            }, ' ? '),
-
-            m('button.button', {
                 onclick: () => setShowOptions(true)
             }, 'Options'),
 
@@ -17,6 +13,10 @@ export const Controls = () => ({
                     setEditMode(!editMode);
                     saveToStorage();
                 }
-            }, editMode ? 'View Mode' : 'Edit Mode')
+            }, editMode ? 'View Mode' : 'Edit Mode'),
+
+            m('button.button', {
+                onclick: () => setShowAbout(true)
+            }, ' ? ')
         )
 });

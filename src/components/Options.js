@@ -1,6 +1,7 @@
 import m from 'mithril';
 import { state } from '../state';
-import { saveToStorage, setOptions, setAutohideMenu } from '../state';
+import { saveToStorage, setOptions, setAutohideMenu, resetToDefaults, setShowOptions } from '../state';
+import { clearConfig } from '../storage';
 import { debounce } from '../util';
 import { ColorPicker } from './ColorPicker';
 import { Editor } from './Editor';
@@ -64,6 +65,7 @@ export const Options = ({ attrs: { options } }) => {
                 ),
 
                 m('h2', 'Custom CSS'),
+                m('p', 'Use the ', m('code', '.content'), ' class to scope styles to boxes.'),
                 m(Editor, {
                     lineNumbers: true,
                     editorContent: options.customCss,
@@ -87,7 +89,18 @@ export const Options = ({ attrs: { options } }) => {
                         options: state.options,
                         boxMap: state.boxMap
                     }
-                })
+                }),
+
+                m('h2', 'Danger Zone'),
+                m('p', 'Resetting to defaults will also clear your saved settings.'),
+                m('button.button', {
+                    onclick: () => {
+                        clearConfig();
+                        resetToDefaults();
+                        setShowOptions(false);
+                        saveToStorage();
+                    }
+                }, 'Restore Defaults')
             )
     };
 };
