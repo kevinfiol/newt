@@ -1,6 +1,6 @@
 import m from 'mithril';
 import cls from 'classies';
-import { marked } from 'marked';
+import { renderMarkdown } from '../util';
 import { Editor } from './Editor';
 import Movable from '../lib/Movable';
 import { updateBox, setBoxContent, setCtxMenu, toggleEdit } from '../state';
@@ -66,7 +66,7 @@ export const Box = ({ attrs: { config } }) => {
             },
                 !isEditing &&
                     m('div.content',
-                        m.trust(marked(content))
+                        m.trust(renderMarkdown(content))
                     )
                 ,
 

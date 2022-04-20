@@ -1,8 +1,11 @@
 import m from 'mithril';
-import { saveToStorage, setOptions } from '../state';
+import { state } from '../state';
+import { saveToStorage, setOptions, setAutohideMenu } from '../state';
 import { debounce } from '../util';
 import { ColorPicker } from './ColorPicker';
 import { Editor } from './Editor';
+import { LocalImages } from './LocalImages';
+import { FileImport } from './FileImport';
 
 export const Options = ({ attrs: { options } }) => {
     const styleTag = document.getElementById('newt-styles');
@@ -11,10 +14,18 @@ export const Options = ({ attrs: { options } }) => {
     return {
         view: () =>
             m('div.options',
-                m('h1', 'options'),
+                m('h1', 'Options'),
 
-                m('h2', 'font family'),
                 m('input', {
+                    type: 'checkbox',
+                    id: 'autohide-checkbox',
+                    checked: state.autohideMenu,
+                    onchange: ({ target: { checked } }) => setAutohideMenu(checked)
+                }),
+                m('label', { for: 'autohide-checkbox' }, '  Auto-hide Controls'),
+
+                m('h2', 'Font Family'),
+                m('input.text-input', {
                     type: 'text',
                     oncreate: ({ dom }) => dom.value = options.fontFamily,
                     oninput: ({ target: { value } }) => {
@@ -23,7 +34,7 @@ export const Options = ({ attrs: { options } }) => {
                     }
                 }),
 
-                m('h2', 'font color'),
+                m('h2', 'Font Color'),
                 m(ColorPicker, {
                     initialValue: options.color,
                     onChange: (color) => {
@@ -32,7 +43,7 @@ export const Options = ({ attrs: { options } }) => {
                     }
                 }),
 
-                m('h2', 'background color'),
+                m('h2', 'Background Color'),
                 m(ColorPicker, {
                     initialValue: options.bgColor,
                     onChange: (color) => {
@@ -41,7 +52,7 @@ export const Options = ({ attrs: { options } }) => {
                     }
                 }),
 
-                m('h2', 'custom css'),
+                m('h2', 'Custom CSS'),
                 m(Editor, {
                     lineNumbers: true,
                     editorContent: options.customCss,
@@ -52,6 +63,20 @@ export const Options = ({ attrs: { options } }) => {
                         persistChanges();
                     }
                 }),
+
+                m('h2', 'Local Images'),
+                m(LocalImages, {
+                    files: state.files
+                }),
+
+                m('h2', 'Import / Export Config'),
+                m(FileImport, {
+                    userConfig: {
+                        editMode: state.editMode,
+                        options: state.options,
+                        boxMap: state.boxMap
+                    }
+                })
             )
     };
 };

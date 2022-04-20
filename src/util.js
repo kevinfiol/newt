@@ -1,3 +1,25 @@
+import hexoid from 'hexoid';
+import { marked } from 'marked';
+import { state } from './state';
+
+marked.use({
+    renderer: {
+        image: (href, title, text) => {
+            let src = href;
+            if (src.slice(0, 6) === 'local_') {
+                const id = src.slice(6);
+                src = state.files[id];
+            }
+
+            return `<img src="${src}" title="${title || 'local image'}" alt="${text}"></img>`;
+        }
+    }
+});
+
+export const renderMarkdown = (markdown) => marked(markdown);
+
+export const generateId = hexoid();
+
 export const debounce = (callback, wait = 1000) => {
     let timer;
 

@@ -1,18 +1,20 @@
-import hexoid from 'hexoid';
+import { generateId } from './util';
 import { setConfig } from './storage';
 
 const MIN_DIMENSION = 200;
-const generateId = hexoid();
+const DEFAULT_OPTIONS = {
+    color: '#000000',
+    bgColor: '#ffffff',
+    fontFamily: 'monospace',
+    customCss: ''
+};
+
 
 export const state = {
+    autohideMenu: false,
     showOptions: false,
-    editMode: false,
-    options: {
-        color: '#000000',
-        bgColor: '#ffffff',
-        fontFamily: 'monospace',
-        customCss: ''
-    },
+    editMode: true,
+    options: { ...DEFAULT_OPTIONS },
     editing: {},
     ctxMenu: {
         mode: '',
@@ -21,7 +23,18 @@ export const state = {
         y: -999
     },
     boxes: [],
-    boxMap: {}
+    boxMap: {},
+    files: {}
+};
+
+export const resetToDefaults = () => {
+    state.autohideMenu = false;
+    state.editMode = true;
+    state.options = { ...DEFAULT_OPTIONS };
+    state.editing = {};
+    state.boxes = [];
+    state.boxMap = {};
+    state.files = {};
 };
 
 export const setEditMode = (editMode) => {
@@ -29,11 +42,16 @@ export const setEditMode = (editMode) => {
     if (!editMode) state.editing = {};
 };
 
+export const setAutohideMenu = (autohideMenu) => {
+    state.autohideMenu = autohideMenu;
+};
+
 export const saveToStorage = () => {
     setConfig({
         editMode: state.editMode,
         boxMap: state.boxMap,
-        options: state.options
+        options: state.options,
+        files: state.files
     });
 };
 
@@ -53,6 +71,10 @@ export const setBoxes = (boxes) => {
     state.boxes = boxes;
 };
 
+export const setFiles = (files) => {
+    state.files = files;
+};
+
 export const setCtxMenu = (ctxMenu) => {
     state.ctxMenu = ctxMenu;
 };
@@ -68,7 +90,7 @@ export const addBox = (x, y) => {
         y: y || 0,
         width: MIN_DIMENSION,
         height: MIN_DIMENSION,
-        content: '# test'
+        content: 'Right-Click to Edit...'
     };
 
     state.boxMap[box.id] = box;
@@ -101,4 +123,22 @@ export const updateBox = (id, config) => {
     if (!state.boxMap[id]) return;
     state.boxMap[id] = { ...state.boxMap[id], ...config };
     saveToStorage();
+};
+
+export const setLocalFile = (id, file) => {
+    state.files[id] = file;
+};
+
+export const removeLocalFile = (id) => {
+    delete state.files[id];
+};
+
+export const loadFromObject = (obj) => {
+    state.editMode = obj.editMode || false;
+    state.options = obj.options || { ...DEFAULT_OPTIONS };
+
+    if (obj.boxMap && Object.keys(obj.boxMap).length > 0) {
+        state.boxMap = obj.boxMap;
+        state.boxes = Object.values(state.boxMap);
+    }
 };
