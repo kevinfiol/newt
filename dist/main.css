@@ -16,6 +16,14 @@
     --dark-box-shadow-heavy: 4px 4px 0 rgba(255, 255, 255, 40%);
 }
 
+/* Movable.js Styles */
+.grabbing {
+    cursor: grabbing;
+    z-index: 10;
+    outline: var(--box-outline);
+    box-shadow: var(--box-shadow);
+}
+
 html,
 body,
 #app {
@@ -24,46 +32,37 @@ body,
     width: 100%;
     padding: 0;
     margin: 0;
-    /*overflow: auto;*/
 }
 
-/*html {
-    scrollbar-color: #000000 #171717;
-}*/
-
-.button, .button-link {
-    color: black;
-    font-family: monospace !important;
-    border-radius: 0px;
-    border: 0;
-    padding: 0.3em;
-    background-color: #e9e9ed;
+/* Container Elements */
+.newt,
+.stage {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
-.button:not([disabled]):hover, .button-link:hover {
-    background-color: #d0d0d7;
+.stage {
+    height: 3600px;
+    width: 8000px;
 }
 
-.button:not([disabled]):active, .button-link:active {
-    background-color: #b1b1b9;
+.stage.-dark-mode > .movable {
+    outline: var(--dark-box-outline);
+    box-shadow: var(--dark-box-shadow);
 }
 
-.button-link {
-    text-decoration: none;
-    color: inherit;
+.stage.-dark-mode > .movable:hover {
+    outline: var(--dark-box-outline-heavy);
+    box-shadow: var(--dark-box-shadow-heavy);
 }
 
-.file-input {
-    font-family: inherit;
-    padding: 0.15em;
-    background-color: #d0d0d7;
+.stage.-dark-mode > .movable > .handle:hover {
+    background-color: var(--dark-handle-bg-color)
 }
 
-.file-input:hover {
-    background-color: #b1b1b9;
-}
-
-#app > .container > .controls {
+.newt > .controls {
     position: fixed;
     top: 0;
     right: 0;
@@ -77,20 +76,7 @@ body,
     z-index: 999;
 }
 
-#app > .container,
-#app > .container > .stage {
-    height: 100%;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    /*overflow: auto;*/
-}
-
-#app > .container > .stage {
-    height: 3600px;
-    width: 8000px;
-}
-
+/* Components */
 .modal {
     z-index: 99;
     background-color: rgba(0, 0, 0, 0.25);
@@ -121,8 +107,28 @@ body,
     transition: outline-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 }
 
-.box img {
-    width: 100%;
+.box.-editing {
+    z-index: 11;
+    transition:
+        top 0.2s ease-in-out,
+        left 0.2s ease-in-out,
+        width 0.2s ease-in-out,
+        height 0.2s ease-in-out;
+}
+
+.box.-expanded {
+    z-index: 12;
+    top: 5% !important;
+    left: 5% !important;
+    width: 90% !important;
+    height: 90% !important;
+}
+
+.box > .controls {
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    bottom: 0;
 }
 
 .movable {
@@ -135,20 +141,6 @@ body,
 .movable:hover {
     outline: var(--box-outline-heavy);
     box-shadow: var(--box-shadow-heavy);
-}
-
-.stage.-dark-mode > .movable {
-    outline: var(--dark-box-outline);
-    box-shadow: var(--dark-box-shadow);
-}
-
-.stage.-dark-mode > .movable:hover {
-    outline: var(--dark-box-outline-heavy);
-    box-shadow: var(--dark-box-shadow-heavy);
-}
-
-.stage.-dark-mode > .movable > .handle:hover {
-    background-color: var(--dark-handle-bg-color)
 }
 
 .movable > .handle {
@@ -186,22 +178,9 @@ body,
     cursor: se-resize;
 }
 
-.box > .controls {
-    position: absolute;
-    z-index: 10;
-    right: 0;
-    bottom: 0;
-}
-
-.grabbing {
-    cursor: grabbing;
-    z-index: 10;
-    outline: var(--box-outline);
-    box-shadow: var(--box-shadow);
-}
-
-.editor, .editor > .CodeMirror {
-    font-size: 0.9em;
+.editor,
+.editor > .CodeMirror {
+    font-size: 0.95em;
     width: 100%;
     height: 100%;
 }
@@ -220,23 +199,6 @@ body,
     background-color: #202020;
     padding: 0.15em 0.3em;
     color: white;
-}
-
-.box.-editing {
-    z-index: 11;
-    transition:
-        top 0.2s ease-in-out,
-        left 0.2s ease-in-out,
-        width 0.2s ease-in-out,
-        height 0.2s ease-in-out;
-}
-
-.box.-expanded {
-    z-index: 12;
-    top: 5% !important;
-    left: 5% !important;
-    width: 90% !important;
-    height: 90% !important;
 }
 
 .bg-grid {
@@ -266,12 +228,40 @@ body,
     width: 35%;
 }
 
-.autohide {
-    opacity: 0;
+/* UI Elements */
+.button,
+.button-link {
+    color: black;
+    font-family: monospace !important;
+    border-radius: 0px;
+    border: 0;
+    padding: 0.3em;
+    background-color: #e9e9ed;
 }
 
-.autohide:hover {
-    opacity: 1;
+.button-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.button:not([disabled]):hover,
+.button-link:hover {
+    background-color: #d0d0d7;
+}
+
+.button:not([disabled]):active,
+.button-link:active {
+    background-color: #b1b1b9;
+}
+
+.file-input {
+    font-family: inherit;
+    padding: 0.15em;
+    background-color: #d0d0d7;
+}
+
+.file-input:hover {
+    background-color: #b1b1b9;
 }
 
 .text-input {
@@ -280,12 +270,16 @@ body,
     font-family: monospace;
 }
 
-/*Default Box Styles*/
-.content p {
-    margin: 0;
+/* Utility Classes */
+.autohide {
+    opacity: 0;
 }
 
-/*Animations*/
+.autohide:hover {
+    opacity: 1;
+}
+
+/* Animations */
 @keyframes fade-in { from { opacity:0; } to { opacity:1; } }
 @keyframes fade-out { from { opacity:1; } to { opacity:0; } }
 .fade-in { animation: fade-in 0.1s; }

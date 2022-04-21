@@ -40,7 +40,7 @@ const App = () => ({
     },
 
     view: () =>
-        m('div.container',
+        m('div.newt',
             state.showOptions &&
                 m(Modal, { closeAction: () => setShowOptions(false) },
                     m(Options, { options: state.options })
