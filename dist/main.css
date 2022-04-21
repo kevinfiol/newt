@@ -24,10 +24,15 @@ body,
     width: 100%;
     padding: 0;
     margin: 0;
-    overflow: hidden;
+    /*overflow: auto;*/
 }
 
+/*html {
+    scrollbar-color: #000000 #171717;
+}*/
+
 .button, .button-link {
+    color: black;
     font-family: monospace !important;
     border-radius: 0px;
     border: 0;
@@ -78,7 +83,12 @@ body,
     width: 100%;
     padding: 0;
     margin: 0;
-    overflow: hidden;
+    /*overflow: auto;*/
+}
+
+#app > .container > .stage {
+    height: 3600px;
+    width: 8000px;
 }
 
 .modal {

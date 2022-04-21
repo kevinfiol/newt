@@ -147,4 +147,6 @@ export const loadFromObject = (obj) => {
         state.boxMap = obj.boxMap;
         state.boxes = Object.values(state.boxMap);
     }
+
+    document.getElementById('newt-styles').innerText = state.options.customCss;
 };

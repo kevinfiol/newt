@@ -34,6 +34,9 @@ const App = () => ({
 
         setBoxes(Object.values(state.boxMap));
         document.getElementById('newt-styles').innerText = state.options.customCss;
+        console.log(state.options.bgColor);
+        document.querySelector('html').style.scrollbarColor =
+            `${getBrightness(state.options.bgColor) < 120 ? '#404040' : '#999999'} ${state.options.bgColor}`;
     },
 
     view: () =>

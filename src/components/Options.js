@@ -2,7 +2,7 @@ import m from 'mithril';
 import { state } from '../state';
 import { saveToStorage, setOptions, setAutohideMenu, resetToDefaults, setShowOptions } from '../state';
 import { clearConfig } from '../storage';
-import { debounce } from '../util';
+import { debounce, getBrightness } from '../util';
 import { ColorPicker } from './ColorPicker';
 import { Editor } from './Editor';
 import { LocalImages } from './LocalImages';
@@ -59,6 +59,8 @@ export const Options = ({ attrs: { options } }) => {
                             onChange: (color) => {
                                 setOptions({ bgColor: color });
                                 persistChanges();
+                                document.querySelector('html').style.scrollbarColor =
+                                    `${getBrightness(color) < 120 ? '#404040' : '#999999'} ${color}`;
                             }
                         }),
                     )

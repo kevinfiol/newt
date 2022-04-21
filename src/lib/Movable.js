@@ -227,10 +227,10 @@ class Movable {
         /** @type {HTMLElement} **/
         const parentNode = (this.el.parentNode);
         let maxX = parentNode.offsetWidth - this.el.offsetWidth;
-        let maxY = parentNode.offsetHeight - this.el.offsetHeight;
+        // let maxY = parentNode.offsetHeight - this.el.offsetHeight;
 
         x = Math.min(Math.max(x, minX), maxX);
-        y = Math.min(Math.max(y, minY), maxY);
+        y = Math.min(Math.max(y, minY), Infinity);
 
         // align to grid
         x = Math.round(x / this.cellSize) * this.cellSize;
@@ -239,10 +239,8 @@ class Movable {
         return { x, y };
     }
 
-    setPosition(x = this.position.x, y = this.position.y) {
-        const clamped = this.clamp(x, y);
-        x = clamped.x;
-        y = clamped.y;
+    setPosition(oldX = this.position.x, oldY = this.position.y) {
+        const { x, y } = this.clamp(oldX, oldY);
 
         this.position.x = x;
         this.position.y = y;
