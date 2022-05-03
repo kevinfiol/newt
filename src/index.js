@@ -1,7 +1,7 @@
 import m from 'mithril';
 import cls from 'classies';
-import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu, setShowOptions, setOptions, setEditMode, setFiles, setAutohideMenu, setShowAbout } from './state';
-import { getBrightness } from './util';
+import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu, setShowOptions, setOptions, setEditMode, setFiles, setAutohideMenu, setShowAbout, setScroll } from './state';
+import { getBrightness, debounce } from './util';
 import { getConfig, setConfig } from './storage';
 import { Controls } from './components/Controls';
 import { ContextMenu } from './components/ContextMenu';
@@ -21,22 +21,35 @@ const App = () => ({
                 editMode: state.editMode,
                 boxMap: state.boxMap,
                 options: state.options,
-                files: state.files
+                files: state.files,
+                scroll: state.scroll
             });
         } else {
-            const { autohideMenu, editMode, boxMap, options, files } = config;
+            const { autohideMenu, editMode, boxMap, options, files, scroll } = config;
             setAutohideMenu(autohideMenu);
             setEditMode(editMode);
             setBoxMap(boxMap);
             setOptions(options);
             setFiles(files);
+            setScroll(scroll);
         }
 
         setBoxes(Object.values(state.boxMap));
+
         document.getElementById('newt-styles').innerText = state.options.customCss;
-        console.log(state.options.bgColor);
         document.querySelector('html').style.scrollbarColor =
             `${getBrightness(state.options.bgColor) < 120 ? '#404040' : '#999999'} ${state.options.bgColor}`;
+
+        requestAnimationFrame(() => window.scrollTo(state.scroll.x, state.scroll.y));
+
+        const updateScroll = debounce(() => {
+            setScroll({
+                x: window.scrollX,
+                y: window.scrollY
+            });
+        }, 100);
+
+        document.addEventListener('scroll', updateScroll);
     },
 
     view: () =>
@@ -83,8 +96,8 @@ const App = () => ({
                 oncontextmenu: (ev) => {
                     if (!state.editMode) return;
                     ev.preventDefault();
-                    const x = ev.clientX + 1;
-                    const y = ev.clientY + 1;
+                    const x = ev.pageX + 1;
+                    const y = ev.pageY + 1;
 
                     setCtxMenu({
                         mode: 'container',

@@ -8,6 +8,7 @@ specifiers:
   marked: ^4.0.12
   mithril: github:mithrilJS/mithril.js#9906e23118ef2bfaffc09c13ddd0dd051f5d895b
   servbot: ^0.2.0
+  vyce: ^0.2.2
 
 dependencies:
   classies: 1.0.5
@@ -15,6 +16,7 @@ dependencies:
   hexoid: 1.0.0
   marked: 4.0.12
   mithril: github.com/mithrilJS/mithril.js/9906e23118ef2bfaffc09c13ddd0dd051f5d895b
+  vyce: 0.2.2
 
 devDependencies:
   esbuild: 0.14.28
@@ -318,6 +320,11 @@ packages:
     resolution: {integrity: sha512-2lqrOBZhTwp53hGdT3DUCLlh8X+d8aLTyupXmjwvQrdXWTLOkOQ2YKDFTZHHrCjIFafyjLbO1ytKufkQ4UgjuQ==}
     engines: {node: '>=12.x'}
     dev: true
+
+  /vyce/0.2.2:
+    resolution: {integrity: sha512-oqUfv05MZB2aMgCAfL3Sy4kiiZXh4vQ8snLMOgfXEMzF6cs9V8DpDiJy+Iv/LKI17Y2lSKWor6eOsf80v0DXCA==}
+    engines: {node: '>=12.x'}
+    dev: false
 
   /wrappy/1.0.2:
     resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}

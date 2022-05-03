@@ -1,4 +1,4 @@
-import { generateId } from './util';
+import { generateId, getBrightness } from './util';
 import { setConfig } from './storage';
 
 const MIN_DIMENSION = 200;
@@ -24,7 +24,11 @@ export const state = {
     },
     boxes: [],
     boxMap: {},
-    files: {}
+    files: {},
+    scroll: {
+        x: 0,
+        y: 0
+    }
 };
 
 export const resetToDefaults = () => {
@@ -35,6 +39,10 @@ export const resetToDefaults = () => {
     state.boxes = [];
     state.boxMap = {};
     state.files = {};
+    state.scroll = { x: 0, y: 0 };
+
+    document.querySelector('html').style.scrollbarColor =
+        `${getBrightness(state.options.bgColor) < 120 ? '#404040' : '#999999'} ${state.options.bgColor}`;
 };
 
 export const setShowAbout = (showAbout) => {
@@ -44,6 +52,11 @@ export const setShowAbout = (showAbout) => {
 export const setEditMode = (editMode) => {
     state.editMode = editMode;
     if (!editMode) state.editing = {};
+};
+
+export const setScroll = (scroll) => {
+    state.scroll = { ...state.scroll, ...scroll };
+    saveToStorage();
 };
 
 export const setAutohideMenu = (autohideMenu) => {
@@ -56,12 +69,14 @@ export const saveToStorage = () => {
         editMode: state.editMode,
         boxMap: state.boxMap,
         options: state.options,
-        files: state.files
+        files: state.files,
+        scroll: state.scroll
     });
 };
 
 export const setShowOptions = (showOptions) => {
     state.showOptions = showOptions;
+    document.querySelector('html').style.overflow = showOptions ? 'hidden' : 'auto';
 };
 
 export const setOptions = (options) => {
@@ -149,4 +164,6 @@ export const loadFromObject = (obj) => {
     }
 
     document.getElementById('newt-styles').innerText = state.options.customCss;
+    document.querySelector('html').style.scrollbarColor =
+        `${getBrightness(state.options.bgColor) < 120 ? '#404040' : '#999999'} ${state.options.bgColor}`;
 };

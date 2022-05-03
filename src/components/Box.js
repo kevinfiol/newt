@@ -17,11 +17,12 @@ export const Box = ({ attrs: { config } }) => {
 
         if (!isEditing) {
             ev.preventDefault();
+            console.log(ev);
 
             setCtxMenu({
                 mode: 'box',
-                x: ev.clientX + 1,
-                y: ev.clientY + 1,
+                x: ev.pageX + 1,
+                y: ev.pageY + 1,
                 props: { id: config.id },
             });
         }

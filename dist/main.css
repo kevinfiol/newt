@@ -45,7 +45,7 @@ body,
 
 .stage {
     height: 3600px;
-    width: 8000px;
+    width: 3840px;
 }
 
 .stage.-dark-mode > .movable {
@@ -118,6 +118,7 @@ body,
 
 .box.-expanded {
     z-index: 4;
+    position: fixed;
     top: 5% !important;
     left: 5% !important;
     width: 90% !important;
