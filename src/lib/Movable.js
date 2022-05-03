@@ -153,6 +153,7 @@ class Movable {
             else if (handle == sHandle) axis = 'y';
 
             handle.addEventListener('mousedown', ev => {
+                if (ev.button !== 0) return;
                 if (this.el.classList.contains(UNRESIZABLE_CLASS)) return;
 
                 this.isResizing = true;

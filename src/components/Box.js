@@ -63,6 +63,10 @@ export const Box = ({ attrs: { config } }) => {
                     '-editing': isEditing,
                     '-expanded': expanded,
                 }),
+                onmousedown: (ev) => {
+                    // so that we can drag the stage by right-clicking
+                    if (ev.button === 2) ev.stopPropagation();
+                },
                 oncontextmenu: (ev) => onContextMenu(ev, editMode, isEditing)
             },
                 !isEditing &&

@@ -10,6 +10,77 @@ import { Modal } from './components/Modal';
 import { Options } from './components/Options';
 import { About } from './components/About';
 
+let htmlEl = document.querySelector('html');
+let isStageDraggable = false;
+let isDragging = false;
+let pos = { top: 0, left: 0, x: 0, y: 0 };
+let vel = { x: 0, y: 0 };
+let momentumId = null;
+
+const trackingLoop = () => {
+    htmlEl.scrollLeft += vel.x;
+    htmlEl.scrollTop += vel.y;
+    vel.x *= 0.95;
+    vel.y *= 0.95;
+
+    if (Math.abs(vel.x) > 0.5 || Math.abs(vel.y) > 0.5) {
+        momentumId = requestAnimationFrame(trackingLoop);
+    }
+}
+
+const cancelTracking = () => {
+    cancelAnimationFrame(momentumId);
+};
+
+const beginTracking = () => {
+    cancelTracking();
+    momentumId = requestAnimationFrame(trackingLoop);
+};
+
+htmlEl.addEventListener('wheel', cancelTracking);
+
+htmlEl.addEventListener('mousedown', (ev) => {
+    if (ev.button !== 2) return;
+    isStageDraggable = true;
+    pos = {
+        ...pos,
+        left: htmlEl.scrollLeft,
+        top: htmlEl.scrollTop,
+        x: ev.clientX,
+        y: ev.clientY
+    };
+    cancelTracking();
+});
+
+htmlEl.addEventListener('mousemove', (ev) => {
+    if (!isStageDraggable) return;
+    isDragging = true;
+
+    const x = ev.clientX;
+    const walkX = (x - pos.x) * 1.5;
+    let prevLeft = htmlEl.scrollLeft;
+    htmlEl.scrollLeft = pos.left - walkX;
+    vel.x = htmlEl.scrollLeft - prevLeft;
+
+    const y = ev.clientY;
+    const walkY = (y - pos.y) * 1.5;
+    let prevTop = htmlEl.scrollTop;
+    htmlEl.scrollTop = pos.top - walkY;
+    vel.y = htmlEl.scrollTop - prevTop;
+});
+
+htmlEl.addEventListener('mouseup', (ev) => {
+    if (ev.button !== 2) return;
+    isStageDraggable = false;
+    setTimeout(() => isDragging = false, 100);
+    beginTracking();
+});
+
+htmlEl.addEventListener('mouseleave', () => {
+    isStageDraggable = false;
+    setTimeout(() => isDragging = false, 100);
+});
+
 const App = () => ({
     oninit: () => {
         const config = getConfig();
@@ -96,6 +167,8 @@ const App = () => ({
                 oncontextmenu: (ev) => {
                     if (!state.editMode) return;
                     ev.preventDefault();
+                    if (isDragging) return;
+
                     const x = ev.pageX + 1;
                     const y = ev.pageY + 1;
 

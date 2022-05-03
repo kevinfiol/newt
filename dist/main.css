@@ -16,14 +16,6 @@
     --dark-box-shadow-heavy: 4px 4px 0 rgba(255, 255, 255, 40%);
 }
 
-/* Movable.js Styles */
-.grabbing {
-    cursor: grabbing;
-    z-index: 10;
-    outline: var(--box-outline);
-    box-shadow: var(--box-shadow);
-}
-
 html,
 body,
 #app {
@@ -273,6 +265,14 @@ body,
     font-size: 1em;
     padding: 0.4em;
     font-family: monospace;
+}
+
+/* Movable.js Styles */
+.grabbing {
+    cursor: grabbing;
+    z-index: 10;
+    outline: var(--box-outline);
+    box-shadow: var(--box-shadow);
 }
 
 /* Utility Classes */

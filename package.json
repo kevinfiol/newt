@@ -17,8 +17,7 @@
 		"codemirror": "^5.65.2",
 		"hexoid": "^1.0.0",
 		"marked": "^4.0.12",
-		"mithril": "github:mithrilJS/mithril.js#9906e23118ef2bfaffc09c13ddd0dd051f5d895b",
-		"vyce": "^0.2.2"
+		"mithril": "github:mithrilJS/mithril.js#9906e23118ef2bfaffc09c13ddd0dd051f5d895b"
 	},
 	"devDependencies": {
 		"esbuild": "^0.14.28",
