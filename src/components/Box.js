@@ -5,11 +5,30 @@ import { Editor } from './Editor';
 import Movable from '../lib/Movable';
 import { updateBox, setBoxContent, setCtxMenu, toggleEdit } from '../state';
 
+// const SCROLL_DISTANCE = 20;
+// const htmlEl = document.querySelector('html');
+let isCtrl = false;
+
+document.addEventListener('keydown', (ev) => {
+    if (ev.key == 'Control') {
+        isCtrl = true;
+        m.redraw();
+    }
+});
+
+document.addEventListener('keyup', (ev) => {
+    if (ev.key == 'Control') {
+        isCtrl = false;
+        m.redraw();
+    }
+});
+
 export const Box = ({ attrs: { config } }) => {
     let domRef;
     let box;
     let temp = '';
     let expanded = false;
+    // let scrollInterval = null;
 
     const onContextMenu = (ev, editMode, isEditing) => {
         if (!editMode) return;
@@ -17,7 +36,6 @@ export const Box = ({ attrs: { config } }) => {
 
         if (!isEditing) {
             ev.preventDefault();
-            console.log(ev);
 
             setCtxMenu({
                 mode: 'box',
@@ -27,6 +45,34 @@ export const Box = ({ attrs: { config } }) => {
             });
         }
     };
+
+    // buggy, needs fixing
+    // const scrollWhileMoving = () => {
+    //     let left = box.position.x;
+    //     let right = left + box.size.width - window.scrollX;
+    //     let top = box.position.y;
+    //     let bottom = top + box.size.height - window.scrollY;
+
+    //     if (right > window.innerWidth - 100) {
+    //         htmlEl.scrollLeft += SCROLL_DISTANCE;
+    //     } else if (left < window.scrollX) {
+    //         htmlEl.scrollLeft -= SCROLL_DISTANCE;
+    //     }
+
+    //     if (bottom > window.innerHeight) {
+    //         htmlEl.scrollTop += SCROLL_DISTANCE;
+    //     } else if (top < window.scrollY) {
+    //         htmlEl.scrollTop -= SCROLL_DISTANCE;
+    //     }
+    // };
+
+    // const watchForScrolling = () => {
+    //     scrollInterval = setInterval(scrollWhileMoving, 100);
+    // };
+
+    // const stopWatchForScrolling = () => {
+    //     clearInterval(scrollInterval);
+    // };
 
     return {
         oncreate: ({ dom }) => {
@@ -58,15 +104,17 @@ export const Box = ({ attrs: { config } }) => {
         view: ({ attrs: { config: { id, content }, editMode, isEditing } }) =>
             m('div.box', {
                 className: cls({
-                    'unmovable unresizable': isEditing || !editMode,
+                    'unmovable unresizable': isEditing || !editMode || isCtrl,
                     'movable': editMode && !isEditing,
                     '-editing': isEditing,
                     '-expanded': expanded,
                 }),
-                onmousedown: (ev) => {
-                    // so that we can drag the stage by right-clicking
-                    if (ev.button === 2) ev.stopPropagation();
-                },
+                // onmousedown: () => {
+                //     if (editMode && !isEditing) watchForScrolling();
+                // },
+                // onmouseup: () => {
+                //     if (editMode && !isEditing) stopWatchForScrolling();
+                // },
                 oncontextmenu: (ev) => onContextMenu(ev, editMode, isEditing)
             },
                 !isEditing &&

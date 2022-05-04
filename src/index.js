@@ -11,6 +11,7 @@ import { Options } from './components/Options';
 import { About } from './components/About';
 
 let htmlEl = document.querySelector('html');
+let isCtrl = false;
 let isStageDraggable = false;
 let isDragging = false;
 let pos = { top: 0, left: 0, x: 0, y: 0 };
@@ -37,19 +38,33 @@ const beginTracking = () => {
     momentumId = requestAnimationFrame(trackingLoop);
 };
 
+document.addEventListener('keydown', (ev) => {
+    if (ev.key == 'Control') isCtrl = true;
+});
+
+document.addEventListener('keyup', (ev) => {
+    if (ev.key == 'Control') {
+        isCtrl = false;
+        isStageDraggable = false;
+        isDragging = false;
+    }
+});
+
 htmlEl.addEventListener('wheel', cancelTracking);
 
 htmlEl.addEventListener('mousedown', (ev) => {
-    if (ev.button !== 2) return;
-    isStageDraggable = true;
-    pos = {
-        ...pos,
-        left: htmlEl.scrollLeft,
-        top: htmlEl.scrollTop,
-        x: ev.clientX,
-        y: ev.clientY
-    };
-    cancelTracking();
+    if (state.showOptions || state.showAbout) return;
+    if (isCtrl && ev.button == 0) {
+        isStageDraggable = true;
+        pos = {
+            ...pos,
+            left: htmlEl.scrollLeft,
+            top: htmlEl.scrollTop,
+            x: ev.clientX,
+            y: ev.clientY
+        };
+        cancelTracking();
+    }
 });
 
 htmlEl.addEventListener('mousemove', (ev) => {
@@ -70,21 +85,21 @@ htmlEl.addEventListener('mousemove', (ev) => {
 });
 
 htmlEl.addEventListener('mouseup', (ev) => {
-    if (ev.button !== 2) return;
-    isStageDraggable = false;
-    setTimeout(() => isDragging = false, 100);
-    beginTracking();
+    if (isCtrl && ev.button == 0) {
+        isStageDraggable = false;
+        isDragging = false;
+        beginTracking();
+    }
 });
 
 htmlEl.addEventListener('mouseleave', () => {
     isStageDraggable = false;
-    setTimeout(() => isDragging = false, 100);
+    isDragging = false;
 });
 
 const App = () => ({
     oninit: () => {
         const config = getConfig();
-        console.log(config);
 
         if (!config) {
             setConfig({
