@@ -2,7 +2,7 @@ import m from 'mithril';
 import cls from 'classies';
 import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu, setShowOptions, setOptions, setEditMode, setFiles, setAutohideMenu, setShowAbout, setScroll } from './state';
 import { getBrightness, debounce } from './util';
-import { getConfig, setConfig } from './storage';
+import { browserStorage } from './storage';
 import { Controls } from './components/Controls';
 import { ContextMenu } from './components/ContextMenu';
 import { Box } from './components/Box';
@@ -98,11 +98,11 @@ htmlEl.addEventListener('mouseleave', () => {
 });
 
 const App = () => ({
-    oninit: () => {
-        const config = getConfig();
+    oninit: async () => {
+        const config = await browserStorage.getConfig();
 
-        if (!config) {
-            setConfig({
+        if (!config || Object.keys(config).length == 0) {
+            await browserStorage.setConfig({
                 autohideMenu: state.autohideMenu,
                 editMode: state.editMode,
                 boxMap: state.boxMap,

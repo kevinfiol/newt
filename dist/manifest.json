@@ -1,0 +1,24 @@
+{
+    "manifest_version": 2,
+    "name": "newt",
+    "version": "0.1.0",
+    "description": "Dynamic markdown-powered new tab",
+    "author": "kevinfiol",
+    "homepage_url": "https://kevinfiol.com",
+    "developer": {
+        "name": "kevinfiol",
+        "url": "https://kevinfiol.com"
+    },
+    "icons": {
+        "48": "icon.png"
+    },
+    "permissions": [
+        "storage"
+    ],
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    },
+    "chrome_settings_overrides": {
+      "homepage": "index.html"
+    }
+}

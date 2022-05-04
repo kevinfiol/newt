@@ -1,7 +1,7 @@
 import m from 'mithril';
 import { state } from '../state';
 import { saveToStorage, setOptions, setAutohideMenu, resetToDefaults, setShowOptions } from '../state';
-import { clearConfig } from '../storage';
+import { browserStorage } from '../storage';
 import { debounce, getBrightness } from '../util';
 import { ColorPicker } from './ColorPicker';
 import { Editor } from './Editor';
@@ -89,18 +89,20 @@ export const Options = ({ attrs: { options } }) => {
                     userConfig: {
                         editMode: state.editMode,
                         options: state.options,
-                        boxMap: state.boxMap
+                        boxMap: state.boxMap,
+                        scroll: state.scroll
                     }
                 }),
 
                 m('h2', 'Danger Zone'),
                 m('p', 'Resetting to defaults will also clear your saved settings.'),
                 m('button.button', {
-                    onclick: () => {
-                        clearConfig();
+                    onclick: async () => {
+                        await browserStorage.clearConfig();
                         resetToDefaults();
                         setShowOptions(false);
                         saveToStorage();
+                        m.redraw();
                     }
                 }, 'Restore Defaults')
             )

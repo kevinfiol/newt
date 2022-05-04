@@ -1,5 +1,6 @@
+import m from 'mithril';
 import { generateId, getBrightness } from './util';
-import { setConfig } from './storage';
+import { browserStorage } from './storage';
 
 const MIN_DIMENSION = 200;
 const DEFAULT_OPTIONS = {
@@ -32,6 +33,7 @@ export const state = {
 };
 
 export const resetToDefaults = () => {
+    const htmlEl = document.querySelector('html');
     state.autohideMenu = false;
     state.editMode = true;
     state.options = { ...DEFAULT_OPTIONS };
@@ -41,8 +43,9 @@ export const resetToDefaults = () => {
     state.files = {};
     state.scroll = { x: 0, y: 0 };
 
-    document.querySelector('html').style.scrollbarColor =
+    htmlEl.style.scrollbarColor =
         `${getBrightness(state.options.bgColor) < 120 ? '#404040' : '#999999'} ${state.options.bgColor}`;
+    window.scrollTo(0, 0);
 };
 
 export const setShowAbout = (showAbout) => {
@@ -63,8 +66,8 @@ export const setAutohideMenu = (autohideMenu) => {
     state.autohideMenu = autohideMenu;
 };
 
-export const saveToStorage = () => {
-    setConfig({
+export const saveToStorage = async () => {
+    await browserStorage.setConfig({
         autohideMenu: state.autohideMenu,
         editMode: state.editMode,
         boxMap: state.boxMap,
@@ -72,6 +75,8 @@ export const saveToStorage = () => {
         files: state.files,
         scroll: state.scroll
     });
+
+    m.redraw();
 };
 
 export const setShowOptions = (showOptions) => {
@@ -157,6 +162,7 @@ export const loadFromObject = (obj) => {
     state.autohideMenu = obj.autohideMenu || false;
     state.editMode = obj.editMode || false;
     state.options = obj.options || { ...DEFAULT_OPTIONS };
+    state.scroll = obj.scroll || { x: 0, y: 0 };
 
     if (obj.boxMap && Object.keys(obj.boxMap).length > 0) {
         state.boxMap = obj.boxMap;
@@ -166,4 +172,5 @@ export const loadFromObject = (obj) => {
     document.getElementById('newt-styles').innerText = state.options.customCss;
     document.querySelector('html').style.scrollbarColor =
         `${getBrightness(state.options.bgColor) < 120 ? '#404040' : '#999999'} ${state.options.bgColor}`;
+    requestAnimationFrame(() => window.scrollTo(state.scroll.x, state.scroll.y));
 };
