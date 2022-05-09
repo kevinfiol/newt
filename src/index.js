@@ -1,6 +1,20 @@
 import m from 'mithril';
 import cls from 'classies';
-import { state, setBoxMap, setBoxes, setCtxMenu, clearCtxMenu, setShowOptions, setOptions, setEditMode, setFiles, setAutohideMenu, setShowAbout, setScroll } from './state';
+import {
+    state,
+    setBoxMap,
+    setBoxes,
+    setCtxMenu,
+    clearCtxMenu,
+    setShowOptions,
+    setOptions,
+    setEditMode,
+    setFiles,
+    setAutohideMenu,
+    setShowAbout,
+    setScroll,
+    resetToDefaults
+} from './state';
 import { getBrightness, debounce } from './util';
 import { browserStorage } from './storage';
 import { Controls } from './components/Controls';
@@ -102,6 +116,7 @@ const App = () => ({
         const config = await browserStorage.getConfig();
 
         if (!config || Object.keys(config).length == 0) {
+            resetToDefaults();
             await browserStorage.setConfig({
                 autohideMenu: state.autohideMenu,
                 editMode: state.editMode,

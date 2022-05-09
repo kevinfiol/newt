@@ -1,21 +1,21 @@
 import m from 'mithril';
 import { generateId, getBrightness } from './util';
 import { browserStorage } from './storage';
+import { defaults } from './defaults';
 
 const MIN_DIMENSION = 200;
-const DEFAULT_OPTIONS = {
-    color: '#2a2a2a',
-    bgColor: '#dadada',
-    fontFamily: 'monospace',
-    customCss: ''
-};
 
 export const state = {
     autohideMenu: false,
     showOptions: false,
     showAbout: false,
     editMode: true,
-    options: { ...DEFAULT_OPTIONS },
+    options: {
+        color: '#2a2a2a',
+        bgColor: '#dadada',
+        fontFamily: 'monospace',
+        customCss: ''
+    },
     editing: {},
     ctxMenu: {
         mode: '',
@@ -33,19 +33,7 @@ export const state = {
 };
 
 export const resetToDefaults = () => {
-    const htmlEl = document.querySelector('html');
-    state.autohideMenu = false;
-    state.editMode = true;
-    state.options = { ...DEFAULT_OPTIONS };
-    state.editing = {};
-    state.boxes = [];
-    state.boxMap = {};
-    state.files = {};
-    state.scroll = { x: 0, y: 0 };
-
-    htmlEl.style.scrollbarColor =
-        `${getBrightness(state.options.bgColor) < 120 ? '#404040' : '#999999'} ${state.options.bgColor}`;
-    window.scrollTo(0, 0);
+    loadFromObject(defaults);
 };
 
 export const setShowAbout = (showAbout) => {
