@@ -6,6 +6,7 @@ import { defaults } from './defaults';
 const MIN_DIMENSION = 200;
 
 export const state = {
+    isLoaded: false,
     autohideMenu: false,
     showOptions: false,
     showAbout: false,
@@ -28,8 +29,13 @@ export const state = {
     files: {},
     scroll: {
         x: 0,
-        y: 0
+        y: 0,
+        lock: true
     }
+};
+
+export const setIsLoaded = (isLoaded) => {
+    state.isLoaded = isLoaded;
 };
 
 export const resetToDefaults = () => {
@@ -47,6 +53,7 @@ export const setEditMode = (editMode) => {
 
 export const setScroll = (scroll) => {
     state.scroll = { ...state.scroll, ...scroll };
+    document.querySelector('html').style.overflow = (state.scroll.lock) ? 'hidden' : 'auto';
     saveToStorage();
 };
 
@@ -69,7 +76,7 @@ export const saveToStorage = async () => {
 
 export const setShowOptions = (showOptions) => {
     state.showOptions = showOptions;
-    document.querySelector('html').style.overflow = showOptions ? 'hidden' : 'auto';
+    document.querySelector('html').style.overflow = (showOptions || state.scroll.lock) ? 'hidden' : 'auto';
 };
 
 export const setOptions = (options) => {
@@ -161,4 +168,6 @@ export const loadFromObject = (obj) => {
     document.querySelector('html').style.scrollbarColor =
         `${getBrightness(state.options.bgColor) < 120 ? '#404040' : '#999999'} ${state.options.bgColor}`;
     requestAnimationFrame(() => window.scrollTo(state.scroll.x, state.scroll.y));
+
+    m.redraw();
 };

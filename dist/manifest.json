@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "newt",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "Dynamic markdown-powered new tab",
     "author": "kevinfiol",
     "homepage_url": "https://kevinfiol.com",

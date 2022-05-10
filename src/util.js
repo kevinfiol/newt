@@ -11,7 +11,7 @@ marked.use({
                 src = state.files[id];
             }
 
-            return `<img src="${src}" title="${title || 'local image'}" alt="${text}"></img>`;
+            return `<img src="${src}" title="${title || 'markdown image'}" alt="${text}"></img>`;
         }
     }
 });

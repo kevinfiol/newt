@@ -13,6 +13,7 @@ import {
     setAutohideMenu,
     setShowAbout,
     setScroll,
+    setIsLoaded,
     resetToDefaults
 } from './state';
 import { getBrightness, debounce } from './util';
@@ -112,49 +113,8 @@ htmlEl.addEventListener('mouseleave', () => {
 });
 
 const App = () => ({
-    oninit: async () => {
-        const config = await browserStorage.getConfig();
-
-        if (!config || Object.keys(config).length == 0) {
-            resetToDefaults();
-            await browserStorage.setConfig({
-                autohideMenu: state.autohideMenu,
-                editMode: state.editMode,
-                boxMap: state.boxMap,
-                options: state.options,
-                files: state.files,
-                scroll: state.scroll
-            });
-        } else {
-            const { autohideMenu, editMode, boxMap, options, files, scroll } = config;
-            setAutohideMenu(autohideMenu);
-            setEditMode(editMode);
-            setBoxMap(boxMap);
-            setOptions(options);
-            setFiles(files);
-            setScroll(scroll);
-        }
-
-        setBoxes(Object.values(state.boxMap));
-
-        document.getElementById('newt-styles').innerText = state.options.customCss;
-        document.querySelector('html').style.scrollbarColor =
-            `${getBrightness(state.options.bgColor) < 120 ? '#404040' : '#999999'} ${state.options.bgColor}`;
-
-        requestAnimationFrame(() => window.scrollTo(state.scroll.x, state.scroll.y));
-
-        const updateScroll = debounce(() => {
-            setScroll({
-                x: window.scrollX,
-                y: window.scrollY
-            });
-        }, 100);
-
-        document.addEventListener('scroll', updateScroll);
-    },
-
     view: () =>
-        m('div.newt',
+        m('div.newt.fade-in', { className: cls({ 'overflow-hidden': state.scroll.lock }) },
             state.showOptions &&
                 m(Modal, { closeAction: () => setShowOptions(false) },
                     m(Options, { options: state.options })
@@ -169,7 +129,8 @@ const App = () => ({
 
             m(Controls, {
                 autohideMenu: state.autohideMenu,
-                editMode: state.editMode
+                editMode: state.editMode,
+                scrollLock: state.scroll.lock
             }),
 
             state.ctxMenu.mode &&
@@ -222,4 +183,50 @@ const App = () => ({
         )
 });
 
-m.mount(document.getElementById('app'), App);
+m.mount(document.getElementById('app'), {
+    oninit: async () => {
+        const config = await browserStorage.getConfig();
+
+        if (!config || Object.keys(config).length == 0) {
+            resetToDefaults();
+            await browserStorage.setConfig({
+                autohideMenu: state.autohideMenu,
+                editMode: state.editMode,
+                boxMap: state.boxMap,
+                options: state.options,
+                files: state.files,
+                scroll: state.scroll
+            });
+        } else {
+            const { autohideMenu, editMode, boxMap, options, files, scroll } = config;
+            setAutohideMenu(autohideMenu);
+            setEditMode(editMode);
+            setBoxMap(boxMap);
+            setOptions(options);
+            setFiles(files);
+            setScroll(scroll);
+        }
+
+        setBoxes(Object.values(state.boxMap));
+
+        document.getElementById('newt-styles').innerText = state.options.customCss;
+        document.querySelector('html').style.scrollbarColor =
+            `${getBrightness(state.options.bgColor) < 120 ? '#404040' : '#999999'} ${state.options.bgColor}`;
+
+        requestAnimationFrame(() => window.scrollTo(state.scroll.x, state.scroll.y));
+
+        const updateScroll = debounce(() => {
+            setScroll({
+                x: window.scrollX,
+                y: window.scrollY
+            });
+        }, 100);
+
+        document.addEventListener('scroll', updateScroll);
+
+        setIsLoaded(true);
+        m.redraw();
+    },
+
+    view: () => state.isLoaded && m(App)
+});
