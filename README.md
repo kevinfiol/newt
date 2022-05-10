@@ -4,7 +4,7 @@ https://user-images.githubusercontent.com/4752973/166815553-2219a1e3-0857-4008-8
 
 An `about:newtab` add-on for Firefox. [colm](https://github.com/kevinfiol/colm)'s little brother that is more customizable.
 
-# Develop
+## Develop
 
 This project uses [pnpm](https://pnpm.io/). Development scripts are found in `package.json`.
 
