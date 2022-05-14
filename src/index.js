@@ -18,12 +18,7 @@ import {
 } from './state';
 import { getBrightness, debounce } from './util';
 import { storage } from './storage';
-import { Controls } from './components/Controls';
-import { ContextMenu } from './components/ContextMenu';
-import { Box } from './components/Box';
-import { Modal } from './components/Modal';
-import { Options } from './components/Options';
-import { About } from './components/About';
+import { Controls, ContextMenu, Box, Modal, Options, About } from './components';
 
 let htmlEl = document.querySelector('html');
 let isCtrl = false;
