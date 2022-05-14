@@ -3,14 +3,12 @@ import { state } from '../state';
 import { saveToStorage, setOptions, setAutohideMenu, resetToDefaults, setShowOptions } from '../state';
 import { storage } from '../storage';
 import { debounce, getBrightness } from '../util';
-import { ColorPicker } from './ColorPicker';
-import { Editor } from './Editor';
-import { LocalImages } from './LocalImages';
-import { FileImport } from './FileImport';
+import { ColorPicker, Editor, LocalImages, FileImport } from './index';
+import * as effect from '../effects';
+
 
 export const Options = ({ attrs: { options } }) => {
-    const styleTag = document.getElementById('newt-styles');
-    const persistChanges = debounce(saveToStorage, 1500);
+    const persistChanges = debounce(saveToStorage, 1000);
 
     return {
         view: () =>
@@ -59,8 +57,7 @@ export const Options = ({ attrs: { options } }) => {
                             onChange: (color) => {
                                 setOptions({ bgColor: color });
                                 persistChanges();
-                                document.querySelector('html').style.scrollbarColor =
-                                    `${getBrightness(color) < 120 ? '#404040' : '#999999'} ${color}`;
+                                effect.setScrollbarColor(color);
                             }
                         }),
                     )
@@ -74,7 +71,7 @@ export const Options = ({ attrs: { options } }) => {
                     syntax: 'css',
                     onInput: (val) => {
                         setOptions({ customCss: val });
-                        styleTag.innerText = val;
+                        effect.setStyles(val);
                         persistChanges();
                     }
                 }),

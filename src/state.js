@@ -1,7 +1,8 @@
 import m from 'mithril';
-import { generateId, getBrightness } from './util';
+import { generateId } from './util';
 import { storage } from './storage';
 import { defaults } from './defaults';
+import * as effect from './effects';
 
 const MIN_DIMENSION = 200;
 
@@ -53,7 +54,7 @@ export const setEditMode = (editMode) => {
 
 export const setScroll = (scroll) => {
     state.scroll = { ...state.scroll, ...scroll };
-    document.querySelector('html').style.overflow = (state.scroll.lock) ? 'hidden' : 'auto';
+    effect.setHtmlOverflow(state.scroll.lock);
     saveToStorage();
 };
 
@@ -76,7 +77,7 @@ export const saveToStorage = async () => {
 
 export const setShowOptions = (showOptions) => {
     state.showOptions = showOptions;
-    document.querySelector('html').style.overflow = (showOptions || state.scroll.lock) ? 'hidden' : 'auto';
+    effect.setHtmlOverflow(showOptions || state.scroll.lock);
 };
 
 export const setOptions = (options) => {
@@ -164,10 +165,8 @@ export const loadFromObject = (obj) => {
         state.boxes = Object.values(state.boxMap);
     }
 
-    document.getElementById('newt-styles').innerText = state.options.customCss;
-    document.querySelector('html').style.scrollbarColor =
-        `${getBrightness(state.options.bgColor) < 120 ? '#404040' : '#999999'} ${state.options.bgColor}`;
-    requestAnimationFrame(() => window.scrollTo(state.scroll.x, state.scroll.y));
-
+    effect.setStyles(state.options.customCss);
+    effect.setScrollbarColor(state.options.bgColor);
+    effect.setWindowScroll(state.scroll);
     m.redraw();
 };
