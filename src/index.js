@@ -17,7 +17,7 @@ import {
     resetToDefaults
 } from './state';
 import { getBrightness, debounce } from './util';
-import { browserStorage } from './storage';
+import { storage } from './storage';
 import { Controls } from './components/Controls';
 import { ContextMenu } from './components/ContextMenu';
 import { Box } from './components/Box';
@@ -185,11 +185,11 @@ const App = () => ({
 
 m.mount(document.getElementById('app'), {
     oninit: async () => {
-        const config = await browserStorage.getConfig();
+        const config = await storage.getConfig();
 
         if (!config || Object.keys(config).length == 0) {
             resetToDefaults();
-            await browserStorage.setConfig({
+            await storage.setConfig({
                 autohideMenu: state.autohideMenu,
                 editMode: state.editMode,
                 boxMap: state.boxMap,

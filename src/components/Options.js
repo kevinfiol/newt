@@ -1,7 +1,7 @@
 import m from 'mithril';
 import { state } from '../state';
 import { saveToStorage, setOptions, setAutohideMenu, resetToDefaults, setShowOptions } from '../state';
-import { browserStorage } from '../storage';
+import { storage } from '../storage';
 import { debounce, getBrightness } from '../util';
 import { ColorPicker } from './ColorPicker';
 import { Editor } from './Editor';
@@ -98,7 +98,7 @@ export const Options = ({ attrs: { options } }) => {
                 m('p', 'Resetting to defaults will also clear your saved settings.'),
                 m('button.button', {
                     onclick: async () => {
-                        await browserStorage.clearConfig();
+                        await storage.clearConfig();
                         resetToDefaults();
                         setShowOptions(false);
                         saveToStorage();

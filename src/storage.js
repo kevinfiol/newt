@@ -1,17 +1,16 @@
 const KEY = 'newt_config';
+const protocol = window.location.protocol;
 
-const get = (key) => localStorage.getItem(key);
-const set = (key, value) => localStorage.setItem(key, value);
-const clear = () => localStorage.clear();
-
-export const localStorage = {
-    getConfig: () => JSON.parse(get(KEY)),
-    setConfig: (config) => set(KEY, JSON.stringify(config)),
-    clearConfig: () => clear()
+const storage = {
+    getConfig: async () => JSON.parse(localStorage.getItem(KEY)),
+    setConfig: async (config) => localStorage.setItem(KEY, JSON.stringify(config)),
+    clearConfig: async () => localStorage.clear()
 };
 
-export const browserStorage = {
-    getConfig: async () => browser.storage.local.get(),
-    setConfig: async (config) => browser.storage.local.set(config),
-    clearConfig: async () => browser.storage.local.clear()
-};
+if (protocol == 'moz-extension:') {
+    storage.getConfig = async () => browser.storage.local.get();
+    storage.setConfig = async (config) => browser.storage.local.set(config);
+    storage.clearConfig = async () => browser.storage.local.clear();
+}
+
+export { storage };

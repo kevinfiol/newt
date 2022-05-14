@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { generateId, getBrightness } from './util';
-import { browserStorage } from './storage';
+import { storage } from './storage';
 import { defaults } from './defaults';
 
 const MIN_DIMENSION = 200;
@@ -62,7 +62,7 @@ export const setAutohideMenu = (autohideMenu) => {
 };
 
 export const saveToStorage = async () => {
-    await browserStorage.setConfig({
+    await storage.setConfig({
         autohideMenu: state.autohideMenu,
         editMode: state.editMode,
         boxMap: state.boxMap,
