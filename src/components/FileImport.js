@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { loadFromObject, saveToStorage, setShowOptions } from '../state';
+import { actions } from '../state';
 import { FileInput } from './FileInput';
 
 export const FileImport = ({ attrs: { userConfig } }) => {
@@ -23,9 +23,9 @@ export const FileImport = ({ attrs: { userConfig } }) => {
                     onclick: () => {
                         if (!data) return;
                         const obj = JSON.parse(data);
-                        loadFromObject(obj);
-                        setShowOptions(false);
-                        saveToStorage();
+                        actions.loadFromObject(obj);
+                        actions.setShowOptions(false);
+                        actions.saveToStorage();
                     }
                 }, 'Load'),
 

@@ -4,25 +4,30 @@ specifiers:
   classies: ^1.0.5
   codemirror: ^5.65.2
   esbuild: ^0.14.28
-  hexoid: ^1.0.0
   marked: ^4.0.12
+  mergerino: ^0.4.0
   mithril: github:mithrilJS/mithril.js#9906e23118ef2bfaffc09c13ddd0dd051f5d895b
   servbot: ^0.2.0
-  vyce: ^0.3.0
+  uid: ^2.0.0
 
 dependencies:
   classies: 1.0.5
   codemirror: 5.65.2
-  hexoid: 1.0.0
   marked: 4.0.12
+  mergerino: 0.4.0
   mithril: github.com/mithrilJS/mithril.js/9906e23118ef2bfaffc09c13ddd0dd051f5d895b
-  vyce: 0.3.0
+  uid: 2.0.0
 
 devDependencies:
   esbuild: 0.14.28
   servbot: 0.2.0
 
 packages:
+
+  /@lukeed/csprng/1.0.1:
+    resolution: {integrity: sha512-uSvJdwQU5nK+Vdf6zxcWAY2A8r7uqe+gePwLWzJ+fsQehq18pc0I2hJKwypZ2aLM90+Er9u1xn4iLJPZ+xlL4g==}
+    engines: {node: '>=8'}
+    dev: false
 
   /balanced-match/1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -270,11 +275,6 @@ packages:
       path-is-absolute: 1.0.1
     dev: false
 
-  /hexoid/1.0.0:
-    resolution: {integrity: sha512-QFLV0taWQOZtvIRIAdBChesmogZrtuXvVWsFHZTk2SU+anspqZ2vMnoLg7IE1+Uk16N19APic1BuF8bC8c2m5g==}
-    engines: {node: '>=8'}
-    dev: false
-
   /inflight/1.0.6:
     resolution: {integrity: sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk=}
     dependencies:
@@ -290,6 +290,10 @@ packages:
     resolution: {integrity: sha512-hgibXWrEDNBWgGiK18j/4lkS6ihTe9sxtV4Q1OQppb/0zzyPSzoFANBa5MfsG/zgsWklmNnhm0XACZOH/0HBiQ==}
     engines: {node: '>= 12'}
     hasBin: true
+    dev: false
+
+  /mergerino/0.4.0:
+    resolution: {integrity: sha512-dvyWWLp9GN7OZoAoqn1u2ewCDV06oggVi6AwFsgHxUV8jNnaTOMEyux3fZ7Njm7Hg/ypK2+M0p6liCIEWcJnbg==}
     dev: false
 
   /minimatch/3.1.2:
@@ -321,9 +325,11 @@ packages:
     engines: {node: '>=12.x'}
     dev: true
 
-  /vyce/0.3.0:
-    resolution: {integrity: sha512-GwPPSr7uVBo7fdOpum/FVHLChYCeVijP+UkTLnY7s3rDLsrUISA2pyFb4zD5bQmrt6IZEtYLPXSzDl8GupvGhQ==}
-    engines: {node: '>=12.x'}
+  /uid/2.0.0:
+    resolution: {integrity: sha512-hFw+zKBA1szYdbZWj6FjTxZzJnKNf+wTDcsxlJaXS64MCy9LQEmJUVieGYHCKek/WRyFIcs0cEXtGIQmfvHe2A==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@lukeed/csprng': 1.0.1
     dev: false
 
   /wrappy/1.0.2:

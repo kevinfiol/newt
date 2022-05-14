@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { generateId } from '../util';
-import { setLocalFile, removeLocalFile, saveToStorage } from '../state';
+import { actions } from '../state';
 import { FileInput } from './FileInput';
 
 const ImageRow = () => ({
@@ -53,11 +53,11 @@ export const LocalImages = () => {
                                 while (!stored) {
                                     let id = generateId();
                                     if (!(id in files)) {
-                                        setLocalFile(id, fileToStore);
+                                        actions.setLocalFile(id, fileToStore);
                                         fileToStore = null;
                                         inputEl.value = null;
                                         stored = true;
-                                        saveToStorage();
+                                        actions.saveToStorage();
                                     }
                                 }
                             }
@@ -77,8 +77,8 @@ export const LocalImages = () => {
                                 id: id,
                                 url: file,
                                 removeFile: () => {
-                                    removeLocalFile(id);
-                                    saveToStorage();
+                                    actions.removeLocalFile(id);
+                                    actions.saveToStorage();
                                 }
                             })
                         )

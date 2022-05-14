@@ -1,14 +1,14 @@
 import m from 'mithril';
-import { state } from '../state';
-import { saveToStorage, setOptions, setAutohideMenu, resetToDefaults, setShowOptions } from '../state';
+import { state, actions } from '../state';
 import { storage } from '../storage';
-import { debounce, getBrightness } from '../util';
+import { debounce } from '../util';
 import { ColorPicker, Editor, LocalImages, FileImport } from './index';
 import * as effect from '../effects';
 
 
 export const Options = ({ attrs: { options } }) => {
-    const persistChanges = debounce(saveToStorage, 1000);
+    const persistChanges = debounce(actions.saveToStorage, 1000);
+    const setOptions = (patch) => actions.setState({ options: patch });
 
     return {
         view: () =>
@@ -20,7 +20,7 @@ export const Options = ({ attrs: { options } }) => {
                     id: 'autohide-checkbox',
                     checked: state.autohideMenu,
                     onchange: ({ target: { checked } }) => {
-                        setAutohideMenu(checked);
+                        actions.setState({ autohideMenu: checked });
                         persistChanges();
                     }
                 }),
@@ -96,9 +96,9 @@ export const Options = ({ attrs: { options } }) => {
                 m('button.button', {
                     onclick: async () => {
                         await storage.clearConfig();
-                        resetToDefaults();
-                        setShowOptions(false);
-                        saveToStorage();
+                        actions.resetToDefaults();
+                        actions.setShowOptions(false);
+                        actions.saveToStorage();
                         m.redraw();
                     }
                 }, 'Restore Defaults')

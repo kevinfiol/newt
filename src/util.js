@@ -1,4 +1,4 @@
-import hexoid from 'hexoid';
+import { uid } from 'uid';
 import { marked } from 'marked';
 import { state } from './state';
 
@@ -18,7 +18,7 @@ marked.use({
 
 export const renderMarkdown = (markdown) => marked(markdown);
 
-export const generateId = hexoid();
+export const generateId = uid;
 
 export const debounce = (callback, wait = 1000) => {
     let timer;

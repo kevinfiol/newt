@@ -3,7 +3,7 @@ import cls from 'classies';
 import { renderMarkdown } from '../util';
 import { Editor } from './Editor';
 import Movable from '../lib/Movable';
-import { updateBox, setBoxContent, setCtxMenu, toggleEdit } from '../state';
+import { actions } from '../state';
 import * as effect from '../effects';
 
 let isCtrl = false;
@@ -28,6 +28,8 @@ export const Box = ({ attrs: { config } }) => {
     let box;
     let temp = '';
     let expanded = false;
+
+    const setCtxMenu = (patch) => actions.setState({ ctxMenu: patch });
 
     const onContextMenu = (ev, editMode, isEditing) => {
         if (!editMode) return;
@@ -55,7 +57,7 @@ export const Box = ({ attrs: { config } }) => {
                 width,
                 height,
                 onChange: ({ position, size }) => {
-                    updateBox(id, {
+                    actions.updateBox(id, {
                         x: position.x,
                         y: position.y,
                         width: size.width,
@@ -100,11 +102,11 @@ export const Box = ({ attrs: { config } }) => {
 
                         m('button.button.save-btn', { onclick: () => {
                             if (temp) {
-                                setBoxContent(id, temp);
+                                actions.setBoxContent(id, temp);
                                 temp = '';
                             }
 
-                            toggleEdit(id);
+                            actions.toggleEdit(id);
                             expanded = false;
                             m.redraw();
                         } }, 'Save')

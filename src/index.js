@@ -1,21 +1,6 @@
 import m from 'mithril';
 import cls from 'classies';
-import {
-    state,
-    setBoxMap,
-    setBoxes,
-    setCtxMenu,
-    clearCtxMenu,
-    setShowOptions,
-    setOptions,
-    setEditMode,
-    setFiles,
-    setAutohideMenu,
-    setShowAbout,
-    setScroll,
-    setIsLoaded,
-    resetToDefaults
-} from './state';
+import { state, actions } from './state';
 import { getBrightness, debounce } from './util';
 import { storage } from './storage';
 import { Controls, ContextMenu, Box, Modal, Options, About } from './components';
@@ -25,13 +10,13 @@ const App = () => ({
     view: () =>
         m('div.newt.fade-in', { className: cls({ 'overflow-hidden': state.scroll.lock }) },
             state.showOptions &&
-                m(Modal, { closeAction: () => setShowOptions(false) },
+                m(Modal, { closeAction: () => actions.setShowOptions(false) },
                     m(Options, { options: state.options })
                 )
             ,
 
             state.showAbout &&
-                m(Modal, { closeAction: () => setShowAbout(false) },
+                m(Modal, { closeAction: () => actions.setState({ showAbout: false }) },
                     m(About)
                 )
             ,
@@ -60,7 +45,7 @@ const App = () => ({
 
                 onmousedown: (ev) => {
                     if (ev.button === 0 && state.ctxMenu.mode) {
-                        clearCtxMenu();
+                        actions.clearCtxMenu();
                     }
                 },
 
@@ -71,11 +56,13 @@ const App = () => ({
                     const x = ev.pageX + 1;
                     const y = ev.pageY + 1;
 
-                    setCtxMenu({
-                        mode: 'container',
-                        x,
-                        y,
-                        props: { x, y }
+                    actions.setState({
+                        ctxMenu: {
+                            mode: 'container',
+                            x,
+                            y,
+                            props: { x, y }
+                        }
                     });
                 }
             },
@@ -96,7 +83,7 @@ m.mount(document.getElementById('app'), {
         const config = await storage.getConfig();
 
         if (!config || Object.keys(config).length == 0) {
-            resetToDefaults();
+            actions.resetToDefaults();
             await storage.setConfig({
                 autohideMenu: state.autohideMenu,
                 editMode: state.editMode,
@@ -106,17 +93,30 @@ m.mount(document.getElementById('app'), {
                 scroll: state.scroll
             });
         } else {
-            const { autohideMenu, editMode, boxMap, options, files, scroll } = config;
-            setAutohideMenu(autohideMenu);
-            setEditMode(editMode);
-            setBoxMap(boxMap);
-            setOptions(options);
-            setFiles(files);
-            setScroll(scroll);
+            const {
+                autohideMenu,
+                editMode,
+                boxMap,
+                options,
+                files,
+                scroll
+            } = config;
+
+            actions.setState({
+                autohideMenu,
+                boxMap,
+                options,
+                files
+            });
+
+            actions.setEditMode(editMode);
+            actions.setScroll(scroll);
         }
 
-        setBoxes(Object.values(state.boxMap));
-        setIsLoaded(true);
+        actions.setState({
+            isLoaded: true,
+            boxes: Object.values(state.boxMap)
+        });
 
         // Use Effects
         effect.enableScrolling(() => (state.showOptions || state.showAbout)); // enables drag scrolling
@@ -125,7 +125,7 @@ m.mount(document.getElementById('app'), {
         effect.setWindowScroll(state.scroll);
         effect.registerScrollListener(
             debounce(() =>
-                setScroll({
+                actions.setScroll({
                     x: window.scrollX,
                     y: window.scrollY
                 }),
