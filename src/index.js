@@ -67,7 +67,6 @@ const App = () => ({
                 oncontextmenu: (ev) => {
                     if (!state.editMode) return;
                     ev.preventDefault();
-                    if (isDragging) return;
 
                     const x = ev.pageX + 1;
                     const y = ev.pageY + 1;

@@ -4,6 +4,35 @@ const q = (selector) => document.querySelector(selector);
 
 const htmlEl = q('html');
 
+export function setStyles(styles) {
+    document.getElementById('newt-styles').innerText = styles;
+}
+
+export function setScrollbarColor(bgColor) {
+    htmlEl.style.scrollbarColor =
+        `${getBrightness(bgColor) < 120 ? '#404040' : '#999999'} ${bgColor}`;
+}
+
+export function setWindowScroll({ x, y }) {
+    requestAnimationFrame(() =>
+        window.scrollTo(x, y)
+    );
+}
+
+export function registerScrollListener(callback) {
+    document.addEventListener('scroll', callback);
+}
+
+export function registerListeners(events) {
+    Object.entries(events).map(([event, callback]) =>
+        document.addEventListener(event, callback)
+    );
+}
+
+export function setHtmlOverflow(lock) {
+    htmlEl.style.overflow = lock ? 'hidden' : 'auto';
+}
+
 export function enableScrolling(isDisabled) {
     let isCtrl = false;
     let isStageDraggable = false;
@@ -85,33 +114,4 @@ export function enableScrolling(isDisabled) {
     htmlEl.addEventListener('mouseleave', () => {
         isStageDraggable = false;
     });
-}
-
-export function setStyles(styles) {
-    document.getElementById('newt-styles').innerText = styles;
-}
-
-export function setScrollbarColor(bgColor) {
-    htmlEl.style.scrollbarColor =
-        `${getBrightness(bgColor) < 120 ? '#404040' : '#999999'} ${bgColor}`;
-}
-
-export function setWindowScroll({ x, y }) {
-    requestAnimationFrame(() =>
-        window.scrollTo(x, y)
-    );
-}
-
-export function registerScrollListener(callback) {
-    document.addEventListener('scroll', callback);
-}
-
-export function registerListeners(events) {
-    Object.entries(events).map(([event, callback]) =>
-        document.addEventListener(event, callback)
-    );
-}
-
-export function setHtmlOverflow(lock) {
-    htmlEl.style.overflow = lock ? 'hidden' : 'auto';
 }
