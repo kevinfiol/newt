@@ -98,8 +98,6 @@ export const Options = ({ attrs: { options } }) => {
                         await storage.clearConfig();
                         actions.resetToDefaults();
                         actions.setShowOptions(false);
-                        actions.saveToStorage();
-                        m.redraw();
                     }
                 }, 'Restore Defaults')
             )

@@ -80,17 +80,15 @@ export const actions = {
         actions.setState({ ctxMenu: { mode: '', props: null } });
     },
 
-    saveToStorage: async () => {
-        await storage.setConfig({
+    saveToStorage: () => {
+        return storage.setConfig({
             autohideMenu: state.autohideMenu,
             editMode: state.editMode,
             boxMap: state.boxMap,
             options: state.options,
             files: state.files,
             scroll: state.scroll
-        });
-
-        m.redraw();
+        })
     },
 
     addBox: (x, y) => {
@@ -127,22 +125,28 @@ export const actions = {
 
     loadFromObject: (obj) => {
         actions.setState({
+            showOptions: false,
             autohideMenu: obj.autohideMenu || false,
             editMode: obj.editMode || false,
             options: obj.options || { ...DEFAULT_OPTIONS },
             scroll: obj.scroll || { x: 0, y: 0 }
         });
 
-        if (obj.boxMap && Object.keys(obj.boxMap).length > 0) {
-            actions.setState({
-                boxMap: obj.boxMap,
-                boxes: Object.values(obj.boxMap)
-            });
+        const isNewBoxes = obj.boxMap && Object.keys(obj.boxMap).length > 0;
+
+        if (isNewBoxes) {
+            state.boxMap = {};
+            state.boxes = [];
         }
+
+        setTimeout(() => {
+            state.boxMap = obj.boxMap || state.boxMap;
+            state.boxes = isNewBoxes ? Object.values(obj.boxMap) : state.boxes;
+            actions.saveToStorage().then(m.redraw);
+        }, 100);
 
         effect.setStyles(state.options.customCss);
         effect.setScrollbarColor(state.options.bgColor);
         effect.setWindowScroll(state.scroll);
-        m.redraw();
     }
 };

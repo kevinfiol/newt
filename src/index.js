@@ -83,7 +83,7 @@ m.mount(document.getElementById('app'), {
         const config = await storage.getConfig();
 
         if (!config || Object.keys(config).length == 0) {
-            actions.resetToDefaults();
+            await actions.resetToDefaults();
             await storage.setConfig({
                 autohideMenu: state.autohideMenu,
                 editMode: state.editMode,

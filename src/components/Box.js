@@ -69,6 +69,7 @@ export const Box = ({ attrs: { config } }) => {
 
         onremove: () => {
             box.destroy();
+            console.log('destroy');
             box = undefined;
         },
 

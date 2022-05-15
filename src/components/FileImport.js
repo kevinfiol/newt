@@ -25,7 +25,6 @@ export const FileImport = ({ attrs: { userConfig } }) => {
                         const obj = JSON.parse(data);
                         actions.loadFromObject(obj);
                         actions.setShowOptions(false);
-                        actions.saveToStorage();
                     }
                 }, 'Load'),
 
