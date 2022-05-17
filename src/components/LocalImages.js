@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { generateId } from '../util';
-import { actions } from '../state';
+import { actions } from '../store';
 import { FileInput } from './FileInput';
 
 const ImageRow = () => ({

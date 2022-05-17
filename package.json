@@ -15,10 +15,12 @@
 	"dependencies": {
 		"classies": "^1.0.5",
 		"codemirror": "^5.65.2",
+		"klona": "^2.0.5",
 		"marked": "^4.0.12",
 		"mergerino": "^0.4.0",
-		"mithril": "github:mithrilJS/mithril.js#9906e23118ef2bfaffc09c13ddd0dd051f5d895b",
-		"uid": "^2.0.0"
+		"mithril": "^2.2.0",
+		"uid": "^2.0.0",
+		"vyce": "^0.3.0"
 	},
 	"devDependencies": {
 		"esbuild": "^0.14.28",

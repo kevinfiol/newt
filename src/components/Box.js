@@ -3,7 +3,7 @@ import cls from 'classies';
 import { renderMarkdown } from '../util';
 import { Editor } from './Editor';
 import Movable from '../lib/Movable';
-import { actions } from '../state';
+import { actions } from '../store';
 import * as effect from '../effects';
 
 let isCtrl = false;
@@ -24,7 +24,7 @@ effect.registerListeners({
     }
 });
 
-export const Box = ({ attrs: { config } }) => {
+export const Box = ({ attrs }) => {
     let box;
     let temp = '';
     let expanded = false;
@@ -42,13 +42,13 @@ export const Box = ({ attrs: { config } }) => {
                 mode: 'box',
                 x: ev.pageX + 1,
                 y: ev.pageY + 1,
-                props: { id: config.id },
+                props: { id: attrs.config.id },
             });
         }
     };
 
     return {
-        oncreate: ({ dom }) => {
+        oncreate: ({ dom, attrs: { config } }) => {
             const { id, x, y, width, height } = config;
 
             box = new Movable(dom, {
@@ -69,7 +69,6 @@ export const Box = ({ attrs: { config } }) => {
 
         onremove: () => {
             box.destroy();
-            console.log('destroy');
             box = undefined;
         },
 

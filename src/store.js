@@ -1,5 +1,7 @@
 import m from 'mithril';
 import merge from 'mergerino';
+import { store } from 'vyce';
+import { klona } from 'klona/json';
 import { generateId } from './util';
 import { storage } from './storage';
 import { defaults } from './defaults';
@@ -13,7 +15,7 @@ const DEFAULT_OPTIONS = {
     customCss: ''
 };
 
-export let state = {
+export const NewtStore = store({
     isLoaded: false,
     autohideMenu: false,
     showOptions: false,
@@ -35,45 +37,55 @@ export let state = {
         y: 0,
         lock: true
     }
-};
+});
 
 export const actions = {
     setState: (patch) => {
-        state = merge(state, patch);
-    },
-
-    resetToDefaults: () => {
-        actions.loadFromObject(defaults);
+        NewtStore.set((prev) => merge(klona(prev), patch));
     },
 
     setEditMode: (editMode) => {
-        state.editMode = editMode;
-        if (!editMode) state.editing = {};
+        actions.setState({
+            editMode,
+            editing: (prev) => !editMode ? ({}) : prev
+        });
     },
 
     setScroll: (scroll) => {
         actions.setState({ scroll });
-        effect.setHtmlOverflow(state.scroll.lock);
         actions.saveToStorage();
+        effect.setHtmlOverflow(scroll.lock);
     },
 
     setShowOptions: (showOptions) => {
+        const { scroll } = NewtStore.get();
         actions.setState({ showOptions });
-        effect.setHtmlOverflow(showOptions || state.scroll.lock);
+        effect.setHtmlOverflow(showOptions || scroll.lock);
     },
 
     setBoxContent: (boxId, content) => {
-        state.boxMap[boxId].content = content;
-        state.boxes = Object.values(state.boxMap);
+        NewtStore.set((prev) => {
+            prev.boxMap[boxId].content = content;
+            prev.boxes = Object.values(prev.boxMap);
+            return prev;
+        });
+
         actions.saveToStorage();
     },
 
     setLocalFile: (id, file) => {
-        state.files[id] = file;
+        actions.setState({
+            files: { [id]: file }
+        });
     },
 
     removeLocalFile: (id) => {
-        delete state.files[id];
+        actions.setState({
+            files: (prev) => {
+                delete prev[id];
+                return prev;
+            }
+        });
     },
 
     clearCtxMenu: () => {
@@ -81,6 +93,8 @@ export const actions = {
     },
 
     saveToStorage: () => {
+        const state = NewtStore.get();
+
         return storage.setConfig({
             autohideMenu: state.autohideMenu,
             editMode: state.editMode,
@@ -101,26 +115,45 @@ export const actions = {
             content: 'Right-Click to Edit...'
         };
 
-        state.boxMap[box.id] = box;
-        state.boxes.push(box);
+        actions.setState({
+            boxMap: { [box.id]: box },
+            boxes: (prev) => [...prev, box]
+        });
+
         actions.saveToStorage();
     },
 
     removeBox: (id) => {
-        delete state.boxMap[id];
-        state.boxes = state.boxes.filter((box) => box.id !== id);
+        NewtStore.set((prev) => {
+            delete prev.boxMap[id];
+            prev.boxes = prev.boxes.filter((box) => box.id !== id);
+            return prev;
+        });
+
         actions.saveToStorage();
     },
 
     toggleEdit: (boxId) => {
-        if (state.editing[boxId]) delete state.editing[boxId];
-        else state.editing[boxId] = true;
+        NewtStore.set((prev) => {
+            if (prev.editing[boxId]) delete prev.editing[boxId];
+            else prev.editing[boxId] = true;
+            return prev;
+        });
     },
 
     updateBox: (id, config) => {
-        if (!state.boxMap[id]) return;
-        state.boxMap[id] = { ...state.boxMap[id], ...config };
+        actions.setState({
+            boxMap: (prev) => {
+                if (prev[id]) prev[id] = { ...prev[id], ...config };
+                return prev;
+            }
+        });
+
         actions.saveToStorage();
+    },
+
+    resetToDefaults: () => {
+        actions.loadFromObject(defaults);
     },
 
     loadFromObject: (obj) => {
@@ -135,18 +168,26 @@ export const actions = {
         const isNewBoxes = obj.boxMap && Object.keys(obj.boxMap).length > 0;
 
         if (isNewBoxes) {
-            state.boxMap = {};
-            state.boxes = [];
+            actions.setState({
+                boxMap: () => ({}),
+                boxes: []
+            });
         }
 
-        setTimeout(() => {
-            state.boxMap = obj.boxMap || state.boxMap;
-            state.boxes = isNewBoxes ? Object.values(obj.boxMap) : state.boxes;
-            actions.saveToStorage().then(m.redraw);
-        }, 100);
-
+        // apply effects
+        const state = NewtStore.get();
         effect.setStyles(state.options.customCss);
         effect.setScrollbarColor(state.options.bgColor);
         effect.setWindowScroll(state.scroll);
+        actions.saveToStorage().then(m.redraw);
+
+        setTimeout(() => {
+            actions.setState({
+                boxMap: (prev) => obj.boxMap || prev,
+                boxes: (prev) => isNewBoxes ? Object.values(obj.boxMap) : prev
+            });
+
+            actions.saveToStorage().then(m.redraw);
+        });
     }
 };

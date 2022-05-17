@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { state, actions } from '../state';
+import { actions } from '../store';
 import { storage } from '../storage';
 import { debounce } from '../util';
 import { ColorPicker, Editor, LocalImages, FileImport } from './index';
@@ -11,7 +11,7 @@ export const Options = ({ attrs: { options } }) => {
     const setOptions = (patch) => actions.setState({ options: patch });
 
     return {
-        view: () =>
+        view: ({ attrs: { state } }) =>
             m('div.options',
                 m('h1', 'Options'),
 

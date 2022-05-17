@@ -1,6 +1,6 @@
 import { uid } from 'uid';
 import { marked } from 'marked';
-import { state } from './state';
+import { NewtStore } from './store';
 
 marked.use({
     renderer: {
@@ -8,7 +8,8 @@ marked.use({
             let src = href;
             if (src.slice(0, 6) === 'local_') {
                 const id = src.slice(6);
-                src = state.files[id];
+                const { files } = NewtStore.get();
+                src = files[id];
             }
 
             return `<img src="${src}" title="${title || 'markdown image'}" alt="${text}"></img>`;

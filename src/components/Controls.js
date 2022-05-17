@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { actions } from '../state';
+import { actions } from '../store';
 
 export const Controls = () => ({
     view: ({ attrs: { autohideMenu, editMode, scrollLock } }) =>

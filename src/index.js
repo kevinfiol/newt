@@ -1,17 +1,17 @@
 import m from 'mithril';
 import cls from 'classies';
-import { state, actions } from './state';
+import { NewtStore, actions } from './store';
 import { getBrightness, debounce } from './util';
 import { storage } from './storage';
 import { Controls, ContextMenu, Box, Modal, Options, About } from './components';
 import * as effect from './effects';
 
-const App = () => ({
-    view: () =>
+const Newt = () => ({
+    view: ({ attrs: { state } }) =>
         m('div.newt.fade-in', { className: cls({ 'overflow-hidden': state.scroll.lock }) },
             state.showOptions &&
                 m(Modal, { closeAction: () => actions.setShowOptions(false) },
-                    m(Options, { options: state.options })
+                    m(Options, { state, options: state.options })
                 )
             ,
 
@@ -78,13 +78,16 @@ const App = () => ({
         )
 });
 
-m.mount(document.getElementById('app'), {
-    oninit: async () => {
-        const config = await storage.getConfig();
+m.mount(document.getElementById('app'), () => {
+    let state;
+    NewtStore.sub((val) => state = val);
 
+    storage.getConfig().then((config) => {
+        // if no config in local storage
         if (!config || Object.keys(config).length == 0) {
-            await actions.resetToDefaults();
-            await storage.setConfig({
+            actions.resetToDefaults();
+
+            return storage.setConfig({
                 autohideMenu: state.autohideMenu,
                 editMode: state.editMode,
                 boxMap: state.boxMap,
@@ -112,7 +115,8 @@ m.mount(document.getElementById('app'), {
             actions.setEditMode(editMode);
             actions.setScroll(scroll);
         }
-
+    }).then(() => {
+        // complete loading
         actions.setState({
             isLoaded: true,
             boxes: Object.values(state.boxMap)
@@ -131,9 +135,11 @@ m.mount(document.getElementById('app'), {
                 }),
             100)
         );
+    }).then(
+        m.redraw
+    );
 
-        m.redraw();
-    },
-
-    view: () => state.isLoaded && m(App)
+    return {
+        view: () => state.isLoaded && m(Newt, { state })
+    };
 });
