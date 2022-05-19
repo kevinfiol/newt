@@ -1,7 +1,6 @@
 import m from 'mithril';
 import merge from 'mergerino';
 import { store } from 'vyce';
-import { klona } from 'klona/json';
 import { generateId } from './util';
 import { storage } from './storage';
 import { defaults } from './defaults';
@@ -41,7 +40,7 @@ export const NewtStore = store({
 
 export const actions = {
     setState: (patch) => {
-        NewtStore.set((prev) => merge(klona(prev), patch));
+        NewtStore.set((prev) => merge(prev, patch));
     },
 
     setEditMode: (editMode) => {

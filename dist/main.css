@@ -66,19 +66,19 @@ body,
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 1;
+    z-index: 9999;
 }
 
 .context-menu {
     display: flex;
     flex-direction: column;
     position: absolute;
-    z-index: 9;
+    z-index: 9999;
 }
 
 /* Components */
 .modal {
-    z-index: 10;
+    z-index: 9998;
     background-color: rgba(0, 0, 0, 0.30);
     position: fixed;
     left: 0;
@@ -108,7 +108,7 @@ body,
 }
 
 .box.-editing {
-    z-index: 2;
+    z-index: 9996;
     transition:
         top 0.2s ease-in-out,
         left 0.2s ease-in-out,
@@ -117,7 +117,7 @@ body,
 }
 
 .box.-expanded {
-    z-index: 4;
+    z-index: 9997;
     position: fixed;
     top: 5% !important;
     left: 5% !important;
@@ -127,7 +127,7 @@ body,
 
 .box > .controls {
     position: absolute;
-    z-index: 6;
+    z-index: 9998;
     right: 0;
     bottom: 0;
 }
@@ -278,7 +278,7 @@ body,
 /* Movable.js Styles */
 .grabbing {
     cursor: grabbing;
-    z-index: 10;
+    z-index: 9998;
     outline: var(--box-outline);
     box-shadow: var(--box-shadow);
 }

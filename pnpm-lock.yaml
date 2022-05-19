@@ -4,23 +4,21 @@ specifiers:
   classies: ^1.0.5
   codemirror: ^5.65.2
   esbuild: ^0.14.28
-  klona: ^2.0.5
   marked: ^4.0.12
   mergerino: ^0.4.0
   mithril: ^2.2.0
   servbot: ^0.2.0
   uid: ^2.0.0
-  vyce: ^0.3.0
+  vyce: ^0.5.0
 
 dependencies:
   classies: 1.0.5
   codemirror: 5.65.2
-  klona: 2.0.5
   marked: 4.0.12
   mergerino: 0.4.0
   mithril: 2.2.0
   uid: 2.0.0
-  vyce: 0.3.0
+  vyce: 0.5.0
 
 devDependencies:
   esbuild: 0.14.28
@@ -290,11 +288,6 @@ packages:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
     dev: false
 
-  /klona/2.0.5:
-    resolution: {integrity: sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==}
-    engines: {node: '>= 8'}
-    dev: false
-
   /marked/4.0.12:
     resolution: {integrity: sha512-hgibXWrEDNBWgGiK18j/4lkS6ihTe9sxtV4Q1OQppb/0zzyPSzoFANBa5MfsG/zgsWklmNnhm0XACZOH/0HBiQ==}
     engines: {node: '>= 12'}
@@ -348,8 +341,8 @@ packages:
       '@lukeed/csprng': 1.0.1
     dev: false
 
-  /vyce/0.3.0:
-    resolution: {integrity: sha512-GwPPSr7uVBo7fdOpum/FVHLChYCeVijP+UkTLnY7s3rDLsrUISA2pyFb4zD5bQmrt6IZEtYLPXSzDl8GupvGhQ==}
+  /vyce/0.5.0:
+    resolution: {integrity: sha512-+GdbZ0jJklBhh1b5cQeMxSFC67fK6Qp51AGPNTSFZexwmsqWU1hpwLsKXFkNZHBnUf03eUsX+KipgtGPti+C+g==}
     engines: {node: '>=12.x'}
     dev: false
 

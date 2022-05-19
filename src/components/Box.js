@@ -75,6 +75,7 @@ export const Box = ({ attrs }) => {
         view: ({ attrs: { config: { id, content }, editMode, isEditing } }) =>
             m('div.box', {
                 className: cls({
+                    [id]: true,
                     'unmovable unresizable': isEditing || !editMode || isCtrl,
                     'movable': editMode && !isEditing,
                     '-editing': isEditing,
