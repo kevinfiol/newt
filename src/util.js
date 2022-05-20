@@ -19,7 +19,7 @@ marked.use({
 
 export const renderMarkdown = (markdown) => marked(markdown);
 
-export const generateId = uid;
+export const generateId = () => 'b' + uid();
 
 export const debounce = (callback, wait = 1000) => {
     let timer;
