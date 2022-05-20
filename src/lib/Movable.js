@@ -26,6 +26,7 @@ class Movable {
             width: DEFAULT_MIN_DIMENSION,
             height: DEFAULT_MIN_DIMENSION,
             onChange: null,
+            onGrab: null,
             ...config
         };
 
@@ -35,6 +36,7 @@ class Movable {
         this.isResizing = false;
         this.hasChangeOccurred = false;
         this.onChange = config.onChange;
+        this.onGrab = config.onGrab;
 
         /** @type {{ x: number, y: number }} **/
         this.position = { x: config.x, y: config.y };
@@ -191,6 +193,10 @@ class Movable {
 
         document.addEventListener('mousemove', mousemove);
         document.addEventListener('mouseup', mouseup);
+
+        if (this.onGrab) {
+            this.onGrab({ position: this.position, size: this.size });
+        }
     }
 
     /**

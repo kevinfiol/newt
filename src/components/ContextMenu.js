@@ -15,7 +15,8 @@ const MenuItems = (mode, props) => {
         case 'box': {
             return [
                 Item('Edit', () => actions.toggleEdit(props.id)),
-                Item('Delete', () => actions.removeBox(props.id))
+                Item('Delete', () => actions.removeBox(props.id)),
+                Item('Copy ID', () => navigator.clipboard.writeText('.' + props.id))
             ];
         }
 

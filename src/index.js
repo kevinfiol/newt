@@ -71,7 +71,8 @@ const Newt = () => ({
                         key: box.id,
                         config: box,
                         editMode: state.editMode,
-                        isEditing: state.editing[box.id]
+                        isEditing: state.editing[box.id],
+                        zIndex: state.boxStackOrder.indexOf(box.id) + 1
                     })
                 )
             )
@@ -100,6 +101,7 @@ m.mount(document.getElementById('app'), () => {
                 autohideMenu,
                 editMode,
                 boxMap,
+                boxStackOrder,
                 options,
                 files,
                 scroll
@@ -108,6 +110,7 @@ m.mount(document.getElementById('app'), () => {
             actions.setState({
                 autohideMenu,
                 boxMap,
+                boxStackOrder,
                 options,
                 files
             });

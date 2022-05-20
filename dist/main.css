@@ -278,7 +278,7 @@ body,
 /* Movable.js Styles */
 .grabbing {
     cursor: grabbing;
-    z-index: 9998;
+    z-index: 9998 !important;
     outline: var(--box-outline);
     box-shadow: var(--box-shadow);
 }

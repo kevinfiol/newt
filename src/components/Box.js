@@ -63,6 +63,9 @@ export const Box = ({ attrs }) => {
                         width: size.width,
                         height: size.height
                     });
+                },
+                onGrab: () => {
+                    actions.moveBoxToTop(id);
                 }
             });
         },
@@ -72,8 +75,9 @@ export const Box = ({ attrs }) => {
             box = undefined;
         },
 
-        view: ({ attrs: { config: { id, content }, editMode, isEditing } }) =>
+        view: ({ attrs: { config: { id, content }, zIndex, editMode, isEditing } }) =>
             m('div.box', {
+                style: { zIndex: zIndex || '1' },
                 className: cls({
                     [id]: true,
                     'unmovable unresizable': isEditing || !editMode || isCtrl,

@@ -30,6 +30,7 @@ export const NewtStore = store({
     },
     boxes: [],
     boxMap: {},
+    boxStackOrder: [],
     files: {},
     scroll: {
         x: 0,
@@ -98,10 +99,23 @@ export const actions = {
             autohideMenu: state.autohideMenu,
             editMode: state.editMode,
             boxMap: state.boxMap,
+            boxStackOrder: state.boxStackOrder,
             options: state.options,
             files: state.files,
             scroll: state.scroll
         })
+    },
+
+    moveBoxToTop: (id) => {
+        actions.setState({
+            boxStackOrder: (prev) => {
+                prev = prev.filter(x => x !== id);
+                prev.push(id);
+                return prev;
+            }
+        });
+
+        actions.saveToStorage();
     },
 
     addBox: (x, y) => {
@@ -116,7 +130,8 @@ export const actions = {
 
         actions.setState({
             boxMap: { [box.id]: box },
-            boxes: (prev) => [...prev, box]
+            boxes: (prev) => [...prev, box],
+            boxStackOrder: (prev) => [...prev, box.id]
         });
 
         actions.saveToStorage();
@@ -126,6 +141,7 @@ export const actions = {
         NewtStore.set((prev) => {
             delete prev.boxMap[id];
             prev.boxes = prev.boxes.filter((box) => box.id !== id);
+            prev.boxStackOrder = prev.boxStackOrder.filter((x) => x !== id);
             return prev;
         });
 
@@ -169,7 +185,8 @@ export const actions = {
         if (isNewBoxes) {
             actions.setState({
                 boxMap: () => ({}),
-                boxes: []
+                boxes: [],
+                boxStackOrder: []
             });
         }
 
@@ -183,7 +200,8 @@ export const actions = {
         setTimeout(() => {
             actions.setState({
                 boxMap: (prev) => obj.boxMap || prev,
-                boxes: (prev) => isNewBoxes ? Object.values(obj.boxMap) : prev
+                boxes: (prev) => isNewBoxes ? Object.values(obj.boxMap) : prev,
+                boxStackOrder: (prev) => isNewBoxes ? Object.keys(obj.boxMap) : prev
             });
 
             actions.saveToStorage().then(m.redraw);
