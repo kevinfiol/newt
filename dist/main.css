@@ -21,7 +21,7 @@ html {
 }
 
 body {
-    background-color: #dadada;
+    background-color: #191919;
 }
 
 html,
@@ -108,7 +108,7 @@ body,
 }
 
 .box.-editing {
-    z-index: 9996;
+    z-index: 9996 !important;
     transition:
         top 0.2s ease-in-out,
         left 0.2s ease-in-out,
@@ -117,7 +117,7 @@ body,
 }
 
 .box.-expanded {
-    z-index: 9997;
+    z-index: 9997 !important;
     position: fixed;
     top: 5% !important;
     left: 5% !important;
@@ -127,7 +127,7 @@ body,
 
 .box > .controls {
     position: absolute;
-    z-index: 9998;
+    z-index: 9998 !important;
     right: 0;
     bottom: 0;
 }
