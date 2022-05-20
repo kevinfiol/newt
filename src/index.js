@@ -110,7 +110,7 @@ m.mount(document.getElementById('app'), () => {
             actions.setState({
                 autohideMenu,
                 boxMap,
-                boxStackOrder,
+                boxStackOrder: boxStackOrder || Object.keys(boxMap),
                 options,
                 files
             });

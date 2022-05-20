@@ -87,6 +87,7 @@ export const Options = ({ attrs: { options } }) => {
                         editMode: state.editMode,
                         options: state.options,
                         boxMap: state.boxMap,
+                        boxStackOrder: state.boxStackOrder,
                         scroll: state.scroll
                     }
                 }),

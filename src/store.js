@@ -201,7 +201,14 @@ export const actions = {
             actions.setState({
                 boxMap: (prev) => obj.boxMap || prev,
                 boxes: (prev) => isNewBoxes ? Object.values(obj.boxMap) : prev,
-                boxStackOrder: (prev) => isNewBoxes ? Object.keys(obj.boxMap) : prev
+                boxStackOrder: (prev) => {
+                    if (isNewBoxes) {
+                        if (obj.boxStackOrder) return obj.boxStackOrder;
+                        else return Object.keys(obj.boxMap);
+                    }
+
+                    return prev;
+                }
             });
 
             actions.saveToStorage().then(m.redraw);
