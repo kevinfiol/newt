@@ -9,7 +9,7 @@ specifiers:
   mithril: ^2.2.0
   servbot: ^0.2.0
   uid: ^2.0.0
-  vyce: ^0.5.0
+  vyce: ^0.6.0
 
 dependencies:
   classies: 1.0.5
@@ -18,7 +18,7 @@ dependencies:
   mergerino: 0.4.0
   mithril: 2.2.0
   uid: 2.0.0
-  vyce: 0.5.0
+  vyce: 0.6.0
 
 devDependencies:
   esbuild: 0.14.28
@@ -341,8 +341,8 @@ packages:
       '@lukeed/csprng': 1.0.1
     dev: false
 
-  /vyce/0.5.0:
-    resolution: {integrity: sha512-+GdbZ0jJklBhh1b5cQeMxSFC67fK6Qp51AGPNTSFZexwmsqWU1hpwLsKXFkNZHBnUf03eUsX+KipgtGPti+C+g==}
+  /vyce/0.6.0:
+    resolution: {integrity: sha512-sLSR7GDYtPWN8RNalchk3HGnb60hwi/cL+i0vmxjPpmkxzqcfnnopvF1dtR/A8uCh6G8nXiMLcJFwUOlb0P1nQ==}
     engines: {node: '>=12.x'}
     dev: false
 
