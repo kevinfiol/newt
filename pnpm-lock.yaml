@@ -7,7 +7,7 @@ specifiers:
   marked: ^4.0.12
   mergerino: ^0.4.0
   mithril: ^2.2.0
-  servbot: ^0.2.0
+  servbot: ^0.2.3
   uid: ^2.0.0
   vyce: ^0.6.0
 
@@ -22,7 +22,7 @@ dependencies:
 
 devDependencies:
   esbuild: 0.14.28
-  servbot: 0.2.0
+  servbot: 0.2.3
 
 packages:
 
@@ -329,9 +329,9 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /servbot/0.2.0:
-    resolution: {integrity: sha512-2lqrOBZhTwp53hGdT3DUCLlh8X+d8aLTyupXmjwvQrdXWTLOkOQ2YKDFTZHHrCjIFafyjLbO1ytKufkQ4UgjuQ==}
-    engines: {node: '>=12.x'}
+  /servbot/0.2.3:
+    resolution: {integrity: sha512-T9ujX5Lgqqcb3wVJ7/XzP5ia04GZaeNrirI3NWWdjgiioNzzbtCvdkaozLS7Als4hpgJM1+JE8T8Cd7bQs9c0A==}
+    engines: {node: '>=12.x', pnpm: 7.5.1}
     dev: true
 
   /uid/2.0.0:
