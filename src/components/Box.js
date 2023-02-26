@@ -1,6 +1,5 @@
 import m from 'mithril';
-import cls from 'classies';
-import { renderMarkdown } from '../util';
+import { renderMarkdown, cls } from '../util';
 import { Editor } from './Editor';
 import Movable from '../lib/Movable';
 import { actions } from '../store';
@@ -29,8 +28,6 @@ export const Box = ({ attrs }) => {
     let temp = '';
     let expanded = false;
 
-    const setCtxMenu = (patch) => actions.setState({ ctxMenu: patch });
-
     const onContextMenu = (ev, editMode, isEditing) => {
         if (!editMode) return;
         ev.stopPropagation();
@@ -38,7 +35,7 @@ export const Box = ({ attrs }) => {
         if (!isEditing) {
             ev.preventDefault();
 
-            setCtxMenu({
+            actions.setCtxMenu({
                 mode: 'box',
                 x: ev.pageX + 1,
                 y: ev.pageY + 1,

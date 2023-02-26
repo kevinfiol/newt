@@ -1,12 +1,11 @@
 import m from 'mithril';
-import merge from 'mergerino';
-import { store } from 'vyce';
 import { generateId } from './util';
 import { storage } from './storage';
 import { defaults } from './defaults';
 import * as effect from './effects';
 
 const MIN_DIMENSION = 200;
+
 const DEFAULT_OPTIONS = {
     color: '#2a2a2a',
     bgColor: '#dadada',
@@ -14,7 +13,7 @@ const DEFAULT_OPTIONS = {
     customCss: ''
 };
 
-export const NewtStore = store({
+export const state = {
     isLoaded: false,
     autohideMenu: false,
     showOptions: false,
@@ -37,64 +36,74 @@ export const NewtStore = store({
         y: 0,
         lock: true
     }
-});
+};
 
-export const actions = {
-    setState: (patch) => {
-        NewtStore.set((prev) => merge(prev, patch));
+export const actions = ($ = {
+    setState: (obj) => {
+        for (let k in obj) {
+            state[k] = obj[k];
+        }
+    },
+
+    setAutohideMenu: (autohideMenu) => {
+        state.autohideMenu = autohideMenu;
     },
 
     setEditMode: (editMode) => {
-        actions.setState({
-            editMode,
-            editing: (prev) => !editMode ? ({}) : prev
-        });
+        state.editMode = editMode;
+        if (!editMode) state.editing = {};
+    },
+
+    setShowAbout: (showAbout) => {
+        state.showAbout = showAbout;
     },
 
     setScroll: (scroll) => {
-        actions.setState({ scroll });
-        actions.saveToStorage();
+        for (let k in scroll) {
+            state.scroll[k] = scroll[k];
+        }
+
+        $.saveToStorage();
         effect.setHtmlOverflow(scroll.lock);
     },
 
     setShowOptions: (showOptions) => {
-        const { scroll } = NewtStore.get();
-        actions.setState({ showOptions });
-        effect.setHtmlOverflow(showOptions || scroll.lock);
+        state.showOptions = showOptions;
+        effect.setHtmlOverflow(showOptions || state.scroll.lock);
     },
 
     setBoxContent: (boxId, content) => {
-        NewtStore.set((prev) => {
-            prev.boxMap[boxId].content = content;
-            prev.boxes = Object.values(prev.boxMap);
-            return prev;
-        });
-
-        actions.saveToStorage();
+        state.boxMap[boxId].content = content;
+        state.boxes = Object.values(state.boxMap);
+        $.saveToStorage();
     },
 
     setLocalFile: (id, file) => {
-        actions.setState({
-            files: { [id]: file }
-        });
+        state.files[id] = file;
     },
 
     removeLocalFile: (id) => {
-        actions.setState({
-            files: (prev) => {
-                delete prev[id];
-                return prev;
-            }
-        });
+        delete state.files[id];
+    },
+
+    setOptions: (options) => {
+        for (let k in options) {
+            state.options[k] = options[k];
+        }
+    },
+
+    setCtxMenu: (ctxMenu) => {
+        for (let k in ctxMenu) {
+            state.ctxMenu[k] = ctxMenu[k];
+        }
     },
 
     clearCtxMenu: () => {
-        actions.setState({ ctxMenu: { mode: '', props: null } });
+        state.ctxMenu.mode = '';
+        state.ctxMenu.props = null
     },
 
     saveToStorage: () => {
-        const state = NewtStore.get();
-
         return storage.setConfig({
             autohideMenu: state.autohideMenu,
             editMode: state.editMode,
@@ -107,15 +116,9 @@ export const actions = {
     },
 
     moveBoxToTop: (id) => {
-        actions.setState({
-            boxStackOrder: (prev) => {
-                prev = prev.filter(x => x !== id);
-                prev.push(id);
-                return prev;
-            }
-        });
-
-        actions.saveToStorage();
+        state.boxStackOrder = state.boxStackOrder.filter(x => x !== id);
+        state.boxStackOrder.push(id);
+        $.saveToStorage();
     },
 
     addBox: (x, y) => {
@@ -128,90 +131,66 @@ export const actions = {
             content: 'Right-Click to Edit...'
         };
 
-        actions.setState({
-            boxMap: { [box.id]: box },
-            boxes: (prev) => [...prev, box],
-            boxStackOrder: (prev) => [...prev, box.id]
-        });
+        state.boxMap[box.id] = box;
+        state.boxes = [...state.boxes, box];
+        state.boxStackOrder = [...state.boxStackOrder, box.id];
 
-        actions.saveToStorage();
+        $.saveToStorage();
     },
 
     removeBox: (id) => {
-        NewtStore.set((prev) => {
-            delete prev.boxMap[id];
-            prev.boxes = prev.boxes.filter((box) => box.id !== id);
-            prev.boxStackOrder = prev.boxStackOrder.filter((x) => x !== id);
-            return prev;
-        });
+        delete state.boxMap[id];
+        state.boxes = state.boxes.filter((box) => box.id !== id);
+        state.boxStackOrder = state.boxStackOrder.filter((x) => x !== id);
 
-        actions.saveToStorage();
+        $.saveToStorage();
     },
 
     toggleEdit: (boxId) => {
-        NewtStore.set((prev) => {
-            if (prev.editing[boxId]) delete prev.editing[boxId];
-            else prev.editing[boxId] = true;
-            return prev;
-        });
+        state.editing[boxId] = !state.editing[boxId];
     },
 
     updateBox: (id, config) => {
-        actions.setState({
-            boxMap: (prev) => {
-                if (prev[id]) prev[id] = { ...prev[id], ...config };
-                return prev;
-            }
-        });
+        if (!state.boxMap[id]) return;
+        state.boxMap[id] = { ...state.boxMap[id], ...config };
 
-        actions.saveToStorage();
+        $.saveToStorage();
     },
 
     resetToDefaults: () => {
-        actions.loadFromObject(defaults);
+        $.loadFromObject(defaults);
     },
 
     loadFromObject: (obj) => {
-        actions.setState({
-            showOptions: false,
-            autohideMenu: obj.autohideMenu || false,
-            editMode: obj.editMode || false,
-            options: obj.options || { ...DEFAULT_OPTIONS },
-            scroll: obj.scroll || { x: 0, y: 0 }
-        });
+        state.showOptions = false,
+        state.autohideMenu = obj.autohideMenu || false,
+        state.editMode = obj.editMode || false,
+        state.options = obj.options || { ...DEFAULT_OPTIONS },
+        state.scroll = obj.scroll || { x: 0, y: 0 }
 
         const isNewBoxes = obj.boxMap && Object.keys(obj.boxMap).length > 0;
 
         if (isNewBoxes) {
-            actions.setState({
-                boxMap: () => ({}),
-                boxes: [],
-                boxStackOrder: []
-            });
+            state.boxMap = {};
+            state.boxes = [];
+            state.boxStackOrder = [];
         }
 
         // apply effects
-        const state = NewtStore.get();
         effect.setStyles(state.options.customCss);
         effect.setScrollbarColor(state.options.bgColor);
         effect.setWindowScroll(state.scroll);
-        actions.saveToStorage().then(m.redraw);
+        $.saveToStorage().finally(m.redraw);
 
         setTimeout(() => {
-            actions.setState({
-                boxMap: (prev) => obj.boxMap || prev,
-                boxes: (prev) => isNewBoxes ? Object.values(obj.boxMap) : prev,
-                boxStackOrder: (prev) => {
-                    if (isNewBoxes) {
-                        if (obj.boxStackOrder) return obj.boxStackOrder;
-                        else return Object.keys(obj.boxMap);
-                    }
+            state.boxMap = obj.boxMap;
 
-                    return prev;
-                }
-            });
+            if (isNewBoxes) {
+                state.boxes = Object.values(obj.boxMap);
+                state.boxStackOrder = obj.boxStackOrder || Object.keys(obj.boxMap);
+            }
 
-            actions.saveToStorage().then(m.redraw);
+            $.saveToStorage().then(m.redraw);
         });
     }
-};
+});

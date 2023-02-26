@@ -20,7 +20,7 @@ export const Controls = () => ({
             }, scrollLock ? 'Unlock' : 'Lock'),
 
             m('button.button', {
-                onclick: () => actions.setState({ showAbout: true })
+                onclick: () => actions.setShowAbout(true)
             }, ' ? ')
         )
 });

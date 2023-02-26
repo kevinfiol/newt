@@ -8,7 +8,6 @@ import * as effect from '../effects';
 
 export const Options = ({ attrs: { options } }) => {
     const persistChanges = debounce(actions.saveToStorage, 1000);
-    const setOptions = (patch) => actions.setState({ options: patch });
 
     return {
         view: ({ attrs: { state } }) =>
@@ -20,7 +19,7 @@ export const Options = ({ attrs: { options } }) => {
                     id: 'autohide-checkbox',
                     checked: state.autohideMenu,
                     onchange: ({ target: { checked } }) => {
-                        actions.setState({ autohideMenu: checked });
+                        actions.setAutohideMenu(checked);
                         persistChanges();
                     }
                 }),
@@ -33,7 +32,7 @@ export const Options = ({ attrs: { options } }) => {
                             type: 'text',
                             oncreate: ({ dom }) => dom.value = options.fontFamily,
                             oninput: ({ target: { value } }) => {
-                                setOptions({ fontFamily: value });
+                                actions.setOptions({ fontFamily: value });
                                 persistChanges();
                             }
                         }),
@@ -44,7 +43,7 @@ export const Options = ({ attrs: { options } }) => {
                         m(ColorPicker, {
                             initialValue: options.color,
                             onChange: (color) => {
-                                setOptions({ color });
+                                actions.setOptions({ color });
                                 persistChanges();
                             }
                         }),
@@ -55,7 +54,7 @@ export const Options = ({ attrs: { options } }) => {
                         m(ColorPicker, {
                             initialValue: options.bgColor,
                             onChange: (color) => {
-                                setOptions({ bgColor: color });
+                                actions.setOptions({ bgColor: color });
                                 persistChanges();
                                 effect.setScrollbarColor(color);
                             }
@@ -70,7 +69,7 @@ export const Options = ({ attrs: { options } }) => {
                     editorContent: options.customCss,
                     syntax: 'css',
                     onInput: (val) => {
-                        setOptions({ customCss: val });
+                        actions.setOptions({ customCss: val });
                         effect.setStyles(val);
                         persistChanges();
                     }

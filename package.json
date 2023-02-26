@@ -4,25 +4,19 @@
 	"description": "firefox new tab for nerds",
 	"repository": "https://github.com/kevinfiol/newt",
 	"author": "kevinfiol <me@kevinfiol.com>",
-	"license": "GPLv3",
-	"engines": {
-		"node": "16.x"
-	},
+	"license": "MIT",
 	"scripts": {
 		"dev": "node ./scripts/dev.js",
 		"build": "node ./scripts/build.js"
 	},
 	"dependencies": {
-		"classies": "^1.0.5",
-		"codemirror": "^5.65.2",
-		"marked": "^4.0.12",
-		"mergerino": "^0.4.0",
-		"mithril": "^2.2.0",
-		"uid": "^2.0.0",
-		"vyce": "^0.6.0"
+		"codemirror": "5.65.2",
+		"marked": "4.0.12",
+		"mithril": "2.2.0",
+		"uid": "2.0.0"
 	},
 	"devDependencies": {
-		"esbuild": "^0.14.28",
-		"servbot": "^0.2.3"
+		"esbuild": "0.14.28",
+		"servbot": "0.2.3"
 	}
 }

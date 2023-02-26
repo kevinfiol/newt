@@ -1,6 +1,6 @@
 import { uid } from 'uid';
 import { marked } from 'marked';
-import { NewtStore } from './store';
+import { state } from './store';
 
 marked.use({
     renderer: {
@@ -8,8 +8,7 @@ marked.use({
             let src = href;
             if (src.slice(0, 6) === 'local_') {
                 const id = src.slice(6);
-                const { files } = NewtStore.get();
-                src = files[id];
+                src = state.files[id];
             }
 
             return `<img src="${src}" title="${title || 'markdown image'}" alt="${text}"></img>`;
@@ -21,7 +20,7 @@ export const renderMarkdown = (markdown) => marked(markdown);
 
 export const generateId = () => 'b' + uid();
 
-export const debounce = (callback, wait = 1000) => {
+export function debounce(callback, wait = 1000) {
     let timer;
 
     return (...args) => {
@@ -30,9 +29,22 @@ export const debounce = (callback, wait = 1000) => {
             callback(...args);
         }, wait);
     };
-};
+}
 
-export const getBrightness = (hexcode) => {
+export function cls(obj, classes) {
+    classes = '';
+
+    for (k in obj) {
+        if (obj[k]) {
+            if (classes) classes += ' ';
+            classes += k;
+        }
+    }
+
+    return classes;
+}
+
+export function getBrightness(hexcode) {
     // https://archive.ph/gCueb
     const color = hexcode.substring(1); // strips #
     const rgb = parseInt(color, 16);

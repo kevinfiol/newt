@@ -1,7 +1,6 @@
 import m from 'mithril';
-import cls from 'classies';
-import { NewtStore, actions } from './store';
-import { getBrightness, debounce } from './util';
+import { state, actions } from './store';
+import { getBrightness, debounce, cls } from './util';
 import { storage } from './storage';
 import { Controls, ContextMenu, Box, Modal, Options, About } from './components';
 import * as effect from './effects';
@@ -16,7 +15,7 @@ const Newt = () => ({
             ,
 
             state.showAbout &&
-                m(Modal, { closeAction: () => actions.setState({ showAbout: false }) },
+                m(Modal, { closeAction: () => actions.setShowAbout(false) },
                     m(About)
                 )
             ,
@@ -56,13 +55,11 @@ const Newt = () => ({
                     const x = ev.pageX + 1;
                     const y = ev.pageY + 1;
 
-                    actions.setState({
-                        ctxMenu: {
-                            mode: 'container',
-                            x,
-                            y,
-                            props: { x, y }
-                        }
+                    actions.setCtxMenu({
+                        mode: 'container',
+                        x,
+                        y,
+                        props: { x, y }
                     });
                 }
             },
@@ -80,9 +77,6 @@ const Newt = () => ({
 });
 
 m.mount(document.getElementById('app'), () => {
-    let state;
-    NewtStore.sub((val) => state = val);
-
     storage.getConfig().then((config) => {
         // if no config in local storage
         if (!config || Object.keys(config).length == 0) {
