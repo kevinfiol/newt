@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { generateId } from './util';
+import { merge, generateId } from './util';
 import { storage } from './storage';
 import { defaults } from './defaults';
 import * as effect from './effects';
@@ -41,12 +41,22 @@ export const state = {
 export const actions = ($ = {
     setState: (obj) => {
         for (let k in obj) {
-            state[k] = obj[k];
+            if (!(k in state)) continue;
+
+            if (typeof state[k] === 'object') {
+                state[k] = merge(state[k], obj[k]);
+            } else {
+                state[k] = obj[k];
+            }
         }
     },
 
-    setAutohideMenu: (autohideMenu) => {
-        state.autohideMenu = autohideMenu;
+    setOptions: (options) => {
+        $.setState({ options });
+    },
+
+    setCtxMenu: (ctxMenu) => {
+        $.setState({ ctxMenu });
     },
 
     setEditMode: (editMode) => {
@@ -54,12 +64,8 @@ export const actions = ($ = {
         if (!editMode) state.editing = {};
     },
 
-    setShowAbout: (showAbout) => {
-        state.showAbout = showAbout;
-    },
-
     setScroll: (scroll) => {
-        for (let k in scroll) {
+        for (let k in state.scroll) {
             state.scroll[k] = scroll[k];
         }
 
@@ -86,18 +92,6 @@ export const actions = ($ = {
         delete state.files[id];
     },
 
-    setOptions: (options) => {
-        for (let k in options) {
-            state.options[k] = options[k];
-        }
-    },
-
-    setCtxMenu: (ctxMenu) => {
-        for (let k in ctxMenu) {
-            state.ctxMenu[k] = ctxMenu[k];
-        }
-    },
-
     clearCtxMenu: () => {
         state.ctxMenu.mode = '';
         state.ctxMenu.props = null
@@ -122,8 +116,10 @@ export const actions = ($ = {
     },
 
     addBox: (x, y) => {
+        const id = generateId();
+
         const box = {
-            id: generateId(),
+            id,
             x: x || 0,
             y: y || 0,
             width: MIN_DIMENSION,

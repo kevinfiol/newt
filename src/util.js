@@ -1,6 +1,5 @@
-import { uid } from 'uid';
 import { marked } from 'marked';
-import { state } from './store';
+import { state } from './state';
 
 marked.use({
     renderer: {
@@ -16,9 +15,20 @@ marked.use({
     }
 });
 
-export const renderMarkdown = (markdown) => marked(markdown);
+let ID = 1;
+export function generateId() {
+    let id;
 
-export const generateId = () => 'b' + uid();
+    do {
+        id = 'box-' + ID++;
+    } while (id in state.boxMap);
+
+    return id;
+}
+
+const isObj = x => x && Object.getPrototypeOf(x) === Object.prototype;
+
+export const renderMarkdown = (markdown) => marked(markdown);
 
 export function debounce(callback, wait = 1000) {
     let timer;
@@ -42,6 +52,23 @@ export function cls(obj, classes) {
     }
 
     return classes;
+}
+
+// deep merge with structural sharing
+export function merge(obj, ...patches) {
+  obj = Array.isArray(obj) ? [ ...obj ] : { ...obj };
+
+  for (let patch of patches) {
+    for (let k in patch) {
+      let v = patch[k];
+      if (typeof v === 'function') obj[k] = v(obj[k]);
+      else if (isObj(v) && isObj(obj[k])) obj[k] = merge(obj[k], v);
+      else if (v === void 0) delete obj[k];
+      else obj[k] = v;
+    }
+  }
+
+  return obj;
 }
 
 export function getBrightness(hexcode) {

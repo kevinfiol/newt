@@ -2,7 +2,7 @@ import m from 'mithril';
 import { renderMarkdown, cls } from '../util';
 import { Editor } from './Editor';
 import Movable from '../lib/Movable';
-import { actions } from '../store';
+import { actions } from '../state';
 import * as effect from '../effects';
 
 let isCtrl = false;

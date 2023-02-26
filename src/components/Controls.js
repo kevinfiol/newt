@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { actions } from '../store';
+import { actions } from '../state';
 
 export const Controls = () => ({
     view: ({ attrs: { autohideMenu, editMode, scrollLock } }) =>
@@ -20,7 +20,7 @@ export const Controls = () => ({
             }, scrollLock ? 'Unlock' : 'Lock'),
 
             m('button.button', {
-                onclick: () => actions.setShowAbout(true)
+                onclick: () => actions.setState({ showAbout: true })
             }, ' ? ')
         )
 });

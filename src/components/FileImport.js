@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { actions } from '../store';
+import { actions } from '../state';
 import { FileInput } from './FileInput';
 
 export const FileImport = ({ attrs: { userConfig } }) => {

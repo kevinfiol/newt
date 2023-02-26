@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { actions } from '../store';
+import { actions } from '../state';
 
 const Item = (name, action) => (
     m('button.button', {

@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { state, actions } from './store';
+import { state, actions } from './state';
 import { getBrightness, debounce, cls } from './util';
 import { storage } from './storage';
 import { Controls, ContextMenu, Box, Modal, Options, About } from './components';
@@ -15,7 +15,7 @@ const Newt = () => ({
             ,
 
             state.showAbout &&
-                m(Modal, { closeAction: () => actions.setShowAbout(false) },
+                m(Modal, { closeAction: () => actions.setState({ showAbout: false }) },
                     m(About)
                 )
             ,

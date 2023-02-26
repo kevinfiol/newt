@@ -12,8 +12,7 @@
 	"dependencies": {
 		"codemirror": "5.65.2",
 		"marked": "4.0.12",
-		"mithril": "2.2.0",
-		"uid": "2.0.0"
+		"mithril": "2.2.0"
 	},
 	"devDependencies": {
 		"esbuild": "0.14.28",

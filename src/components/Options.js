@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { actions } from '../store';
+import { actions } from '../state';
 import { storage } from '../storage';
 import { debounce } from '../util';
 import { ColorPicker, Editor, LocalImages, FileImport } from './index';
@@ -19,7 +19,7 @@ export const Options = ({ attrs: { options } }) => {
                     id: 'autohide-checkbox',
                     checked: state.autohideMenu,
                     onchange: ({ target: { checked } }) => {
-                        actions.setAutohideMenu(checked);
+                        actions.setState({ autohideMenu: checked });
                         persistChanges();
                     }
                 }),
