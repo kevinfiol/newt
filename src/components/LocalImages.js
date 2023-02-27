@@ -51,7 +51,7 @@ export const LocalImages = () => {
                                 let stored = false;
 
                                 while (!stored) {
-                                    let id = generateId();
+                                    let id = generateId(files, 'img');
                                     if (!(id in files)) {
                                         actions.setLocalFile(id, fileToStore);
                                         fileToStore = null;

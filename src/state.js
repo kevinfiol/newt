@@ -116,7 +116,7 @@ export const actions = ($ = {
     },
 
     addBox: (x, y) => {
-        const id = generateId();
+        const id = generateId(state.boxMap, 'box');
 
         const box = {
             id,

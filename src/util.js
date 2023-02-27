@@ -15,13 +15,13 @@ marked.use({
     }
 });
 
-let ID = 1;
-export function generateId() {
+export function generateId(map = {}, prefix = '') {
+    let count = 1;
     let id;
 
     do {
-        id = 'box-' + ID++;
-    } while (id in state.boxMap);
+        id = prefix + '-' + count++;
+    } while (id in map);
 
     return id;
 }
